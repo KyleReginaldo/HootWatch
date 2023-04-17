@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "981639097067",
+    "project_id": "funime-1ffb1",
+    "storage_bucket": "funime-1ffb1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:981639097067:android:55db2de26fa9b810146cae",
+        "android_client_info": {
+          "package_name": "com.example.yoyo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "981639097067-c31h1dbivrjvcshm14m7l0qt42bd9gmd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlibqc2tuGKhHUh-EAPKfbs14dyX5K1Qg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "981639097067-c31h1dbivrjvcshm14m7l0qt42bd9gmd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
