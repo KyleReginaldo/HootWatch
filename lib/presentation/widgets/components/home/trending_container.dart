@@ -72,11 +72,11 @@ class TrendingContainer extends StatelessWidget {
           );
         } else if (state is TrendingLoading) {
           return Shimmer.fromColors(
-            highlightColor: kLightGrey1Color,
-            baseColor: kLightGrey2Color,
+            highlightColor: kDarkGrey1Color,
+            baseColor: kDarkGrey2Color,
             child: Container(
               decoration: BoxDecoration(
-                color: kLightGrey2Color,
+                color: kDarkGrey2Color,
                 borderRadius: BorderRadius.circular(kMinRadius),
               ),
               padding: EdgeInsets.all(2.h),

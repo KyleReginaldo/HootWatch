@@ -9,12 +9,13 @@ import 'package:yoyo/presentation/cubits/auth/usercheck/usercheck_cubit.dart';
 import 'package:yoyo/presentation/cubits/common/bnb_cubit.dart';
 import 'package:yoyo/presentation/cubits/common/episodes/episodes_cubit.dart';
 import 'package:yoyo/presentation/cubits/common/fullscreen_cubit.dart';
-import 'package:yoyo/presentation/cubits/common/playing/playing_cubit.dart';
+import 'package:yoyo/presentation/cubits/common/playing_cubit.dart';
 import 'package:yoyo/presentation/cubits/common/searchbar_cubit.dart';
-import 'package:yoyo/presentation/cubits/cubit/image_cubit.dart';
+import 'package:yoyo/presentation/cubits/image/image_cubit.dart';
 import 'package:yoyo/presentation/cubits/firebase_storage/storage_cubit.dart';
 import 'package:yoyo/presentation/cubits/info/info_cubit.dart';
 import 'package:yoyo/presentation/cubits/recent/recent_cubit.dart';
+import 'package:yoyo/presentation/cubits/search/search_cubit.dart';
 import 'package:yoyo/presentation/cubits/streamlink/streamlink_cubit.dart';
 import 'package:yoyo/presentation/cubits/trending/trending_cubit.dart';
 import 'package:yoyo/presentation/cubits/upcoming/upcoming_cubit.dart';
@@ -71,6 +72,9 @@ class MyApp extends StatelessWidget {
           create: (context) => sl<StorageCubit>(),
         ),
         BlocProvider(
+          create: (context) => sl<SearchCubit>(),
+        ),
+        BlocProvider(
           create: (context) => SearchbarCubit(),
         ),
         BlocProvider(
@@ -94,7 +98,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           routerDelegate: appRouter.delegate(),
           routeInformationParser: appRouter.defaultRouteParser(),
-          title: 'YoYo Anime',
+          title: 'Funime',
           theme: ThemeData(
             appBarTheme: const AppBarTheme(
               backgroundColor: kTransparentColor,

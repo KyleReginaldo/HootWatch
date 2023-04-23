@@ -12,6 +12,7 @@ import 'package:yoyo/data/datasource/remote/remote_datasource.dart';
 import 'package:yoyo/data/model/user_model.dart';
 import 'package:yoyo/domain/entity/info_entity.dart';
 import 'package:yoyo/domain/entity/recent_release_entity.dart';
+import 'package:yoyo/domain/entity/search_entity.dart';
 import 'package:yoyo/domain/entity/streamlink_entity.dart';
 import 'package:yoyo/domain/entity/trending_entity.dart';
 import 'package:yoyo/domain/entity/upcoming_entity.dart';
@@ -128,6 +129,18 @@ class RepositoryImpl implements Repository {
       await remote.uploadImage(path: path, file: file);
     } catch (e) {
       print('download URL: $e');
+    }
+  }
+
+  @override
+  Future<Either<Failure, SearchEntity>> searchAnime({
+    required String query,
+    required int limit,
+  }) async {
+    try {
+      return Right(await remote.searchAnime(query: query, limit: limit));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(msg: e.msg));
     }
   }
 }

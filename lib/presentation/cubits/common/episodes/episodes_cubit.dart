@@ -11,7 +11,7 @@ class EpisodesCubit extends Cubit<EpisodesState> {
     emit(state.copyWith(
       episodes: episodes,
       dropdowns: episodes,
-      initial: episodes.first,
+      initial: episodes.isNotEmpty ? episodes.first : null,
     ));
   }
 

@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:yoyo/core/error/failure.dart';
 import 'package:yoyo/domain/entity/info_entity.dart';
 import 'package:yoyo/domain/entity/recent_release_entity.dart';
+import 'package:yoyo/domain/entity/search_entity.dart';
 import 'package:yoyo/domain/entity/streamlink_entity.dart';
 import 'package:yoyo/domain/entity/trending_entity.dart';
 import 'package:yoyo/domain/entity/upcoming_entity.dart';
@@ -26,4 +27,8 @@ abstract class Repository {
       {required UserEntity user, String? dlUrl});
   Future<void> uploadImage({required String path, required File file});
   Future<String> getDownloadUrl({required String path});
+  Future<Either<Failure, SearchEntity>> searchAnime({
+    required String query,
+    required int limit,
+  });
 }

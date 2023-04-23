@@ -87,7 +87,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
               BottomNavigationBarItem(
                 icon: const Iconify(
-                  Ri.search_line,
+                  Ri.search_eye_line,
                   color: kWhiteColor,
                 ),
                 activeIcon: Iconify(

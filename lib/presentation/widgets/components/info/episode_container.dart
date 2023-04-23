@@ -13,11 +13,13 @@ class EpisodeContainer extends StatelessWidget {
   final EpisodeEntity episode;
   final VoidCallback? onTap;
   final String? subtitle;
+  final bool? haveDesc;
   const EpisodeContainer({
     Key? key,
     required this.episode,
     this.onTap,
     this.subtitle,
+    this.haveDesc = true,
   }) : super(key: key);
 
   @override
@@ -77,7 +79,7 @@ class EpisodeContainer extends StatelessWidget {
                       size: 16.sp,
                       color: kWhiteColor,
                     ),
-                  if (episode.description != null)
+                  if (episode.description != null && (haveDesc ?? true))
                     CustomText(
                       episode.description,
                       overflow: TextOverflow.ellipsis,

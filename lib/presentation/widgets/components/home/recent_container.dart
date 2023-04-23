@@ -64,11 +64,11 @@ class RecentContainer extends StatelessWidget {
                     return Padding(
                       padding: EdgeInsets.only(right: 1.h),
                       child: Shimmer.fromColors(
-                        highlightColor: kLightGrey1Color,
-                        baseColor: kLightGrey2Color,
+                        highlightColor: kDarkGrey1Color,
+                        baseColor: kDarkGrey2Color,
                         child: Container(
                           decoration: BoxDecoration(
-                            color: kLightGrey2Color,
+                            color: kDarkGrey2Color,
                             borderRadius: BorderRadius.circular(kMinRadius),
                           ),
                           padding: EdgeInsets.all(2.h),

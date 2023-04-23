@@ -7,6 +7,7 @@ import 'package:yoyo/presentation/widgets/customs/text.dart';
 import 'package:yoyo/presentation/widgets/customs/textfield.dart';
 
 import '../../../core/constants/constant.dart';
+import '../../../core/constants/string.dart';
 import '../../../core/dtos/auth_dto.dart';
 import '../../cubits/auth/authentication/authentication_cubit.dart';
 
@@ -33,13 +34,13 @@ class _SignupScreenState extends State<SignupScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  'assets/image/MAIN_LOGO.png',
+                  lgLogo,
                   width: 8.h,
                   height: 8.h,
                   fit: BoxFit.fill,
                 ).animate().fadeIn(),
                 Image.asset(
-                  'assets/image/WORD_LOGO.png',
+                  lgWord,
                   width: 45.w,
                   height: 18.h,
                   fit: BoxFit.fill,
@@ -49,7 +50,7 @@ class _SignupScreenState extends State<SignupScreen> {
             CustomTextField(
               hint: 'Email',
               controller: email,
-              fontColor: Theme.of(context).secondaryHeaderColor,
+              fontColor: Theme.of(context).primaryColor,
               width: 70.w,
               validator: (value) {
                 if (value!.isEmpty) {
@@ -63,8 +64,9 @@ class _SignupScreenState extends State<SignupScreen> {
             SizedBox(height: 2.h),
             CustomTextField(
                 hint: 'Password',
-                fontColor: Theme.of(context).secondaryHeaderColor,
+                fontColor: Theme.of(context).primaryColor,
                 width: 70.w,
+                isObscure: true,
                 controller: password,
                 validator: (value) {
                   String missings = "";
@@ -124,7 +126,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     width: state is SigningUp ? 6.h : 70.w,
                     height: 6.h,
                     decoration: BoxDecoration(
-                      color: Theme.of(context).secondaryHeaderColor,
+                      color: Theme.of(context).primaryColor,
                       borderRadius: BorderRadius.circular(
                         state is SigningUp ? 100 : kMinRadius,
                       ),
@@ -155,7 +157,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   },
                   child: CustomText(
                     'Login',
-                    color: Theme.of(context).secondaryHeaderColor,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
               ],

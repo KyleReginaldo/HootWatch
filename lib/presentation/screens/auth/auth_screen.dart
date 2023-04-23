@@ -12,7 +12,7 @@ class AuthScreen extends StatelessWidget {
     return BlocBuilder<UsercheckCubit, UsercheckState>(
       builder: (context, state) {
         if (state is Authenticated) {
-          return MainScreen();
+          return const MainScreen();
         } else if (state is UnAuthenticated) {
           return const LoginScreen();
         } else {

@@ -896,6 +896,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.2"
+  pull_to_refresh:
+    dependency: "direct main"
+    description:
+      name: pull_to_refresh
+      sha256: bbadd5a931837b57739cf08736bea63167e284e71fb23b218c8c9a6e042aad12
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   readmore:
     dependency: "direct main"
     description:
@@ -949,14 +957,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
-  sliver_app_bar_builder:
-    dependency: "direct main"
-    description:
-      name: sliver_app_bar_builder
-      sha256: "4242df7d4304b7a8a7df6b78ccaf6666b09663d38d44a1a08185aec5a73baaed"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.4"
   smooth_page_indicator:
     dependency: "direct main"
     description:

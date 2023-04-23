@@ -132,7 +132,8 @@ class _InfoScreenState extends State<InfoScreen> {
                             ),
                           ),
                         SizedBox(height: 2.h),
-                        const CustomText('EPISODES'),
+                        if (state.Info.episodes.isNotEmpty)
+                          const CustomText('EPISODES'),
                         SizedBox(height: 1.h),
                         Column(
                           children: state.Info.episodes.toSet().map((e) {

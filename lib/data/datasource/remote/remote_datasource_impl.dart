@@ -9,6 +9,7 @@ import 'package:yoyo/core/error/exception.dart';
 import 'package:yoyo/data/datasource/remote/remote_datasource.dart';
 import 'package:yoyo/data/model/info_model.dart';
 import 'package:yoyo/data/model/recent_release_model.dart';
+import 'package:yoyo/data/model/search_model.dart';
 import 'package:yoyo/data/model/streamlink_model.dart';
 import 'package:yoyo/data/model/trending_model.dart';
 import 'package:http/http.dart' as http;
@@ -127,5 +128,26 @@ class RemoteDsatasourceImpl implements RemoteDatasource {
   @override
   Future<void> uploadImage({required String path, required File file}) async {
     await storage.ref(path).putFile(file);
+  }
+
+  @override
+  Future<SearchModel> searchAnime({
+    required String query,
+    required int limit,
+  }) async {
+    String urlLoaded =
+        "${MetaAnilist.BASE_URL}/meta/anilist/advanced-search?query=$query";
+    String urlEmpty = "${MetaAnilist.BASE_URL}/meta/anilist/advanced-search";
+    final response =
+        await http.get(Uri.parse(query.isEmpty ? urlEmpty : urlLoaded));
+    if (response.statusCode == 200) {
+      final rawBody = jsonDecode(response.body);
+      if (rawBody['results'] != null) {
+        return SearchModel.fromMap(rawBody);
+      }
+      throw ServerException(msg: 'server is down');
+    } else {
+      throw ServerException(msg: 'server is down');
+    }
   }
 }

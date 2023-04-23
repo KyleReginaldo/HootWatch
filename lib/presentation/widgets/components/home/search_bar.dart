@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:yoyo/core/constants/constant.dart';
 
 class SearchBar extends StatelessWidget {
   final TextEditingController? controller;
@@ -9,6 +8,9 @@ class SearchBar extends StatelessWidget {
   final double? width;
   final double? height;
   final Color? borderColor;
+  final Color? bgColor;
+  final Function(String)? onChange;
+  final Function(String)? onSubmitted;
   const SearchBar({
     Key? key,
     this.controller,
@@ -17,6 +19,9 @@ class SearchBar extends StatelessWidget {
     this.width,
     this.height,
     this.borderColor,
+    this.bgColor,
+    this.onChange,
+    this.onSubmitted,
   }) : super(key: key);
 
   @override
@@ -26,6 +31,8 @@ class SearchBar extends StatelessWidget {
       height: height,
       child: TextField(
         enabled: enable,
+        onChanged: onChange,
+        onSubmitted: onSubmitted,
         controller: controller,
         style: const TextStyle(
           color: Colors.white,
@@ -34,8 +41,8 @@ class SearchBar extends StatelessWidget {
           prefixIconColor: Colors.grey,
           suffixIcon: suffix,
           filled: true,
-          fillColor: kTransparentColor,
-          prefixIcon: const Icon(Icons.search_rounded),
+          fillColor: bgColor,
+          prefixIcon: const Icon(Icons.search_outlined),
           hintText: 'Search',
           hintStyle: const TextStyle(
             color: Colors.grey,

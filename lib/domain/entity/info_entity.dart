@@ -20,7 +20,7 @@ class InfoEntity {
     required this.releaseDate,
     required this.startDate,
     required this.endDate,
-    required this.nextAiringEpisode,
+    this.nextAiringEpisode,
     required this.totalEpisodes,
     required this.currentEpisode,
     this.rating,
@@ -54,7 +54,7 @@ class InfoEntity {
   final int releaseDate;
   final DateEntity startDate;
   final DateEntity endDate;
-  final NextAiringEpisodeEntity nextAiringEpisode;
+  final NextAiringEpisodeEntity? nextAiringEpisode;
   final int totalEpisodes;
   final int currentEpisode;
   final int? rating;
@@ -89,14 +89,14 @@ class CharacterEntity {
 
 class NameEntity {
   NameEntity({
-    required this.first,
+    this.first,
     this.last,
     required this.full,
     this.native,
     required this.userPreferred,
   });
 
-  final String first;
+  final String? first;
   final String? last;
   final String full;
   final String? native;

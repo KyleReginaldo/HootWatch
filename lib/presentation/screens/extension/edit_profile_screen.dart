@@ -10,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'package:yoyo/domain/entity/user_entity.dart';
-import 'package:yoyo/presentation/cubits/cubit/image_cubit.dart';
+import 'package:yoyo/presentation/cubits/image/image_cubit.dart';
 import 'package:yoyo/presentation/cubits/firebase_storage/storage_cubit.dart';
 import 'package:yoyo/presentation/widgets/customs/textfield.dart';
 

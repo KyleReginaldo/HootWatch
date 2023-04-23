@@ -11,6 +11,8 @@ const Color kWhiteColor = Colors.white;
 const Color kGreyColor = Colors.grey;
 Color kLightGrey1Color = Colors.grey.shade300;
 Color kLightGrey2Color = Colors.grey.shade200;
+Color kDarkGrey1Color = Colors.grey.shade700;
+Color kDarkGrey2Color = Colors.grey.shade800;
 
 //*double
 const double kMinRadius = 8;

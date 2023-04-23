@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:yoyo/domain/entity/info_entity.dart';
 
 class CustomFunctions {
   static int convertHexToInt(String hex) {
@@ -20,5 +21,10 @@ class CustomFunctions {
 
   static User? getUser() {
     return FirebaseAuth.instance.currentUser;
+  }
+
+  static EpisodeEntity getPlayingEpisode(
+      String id, List<EpisodeEntity> episodes) {
+    return episodes.singleWhere((element) => element.id == id);
   }
 }

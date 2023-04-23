@@ -21,7 +21,7 @@ class InfoModel extends InfoEntity {
     required super.releaseDate,
     required super.startDate,
     required super.endDate,
-    required super.nextAiringEpisode,
+    super.nextAiringEpisode,
     required super.totalEpisodes,
     required super.currentEpisode,
     super.rating,
@@ -58,8 +58,9 @@ class InfoModel extends InfoEntity {
         releaseDate: json["releaseDate"],
         startDate: DateModel.fromMap(json["startDate"]),
         endDate: DateModel.fromMap(json["endDate"]),
-        nextAiringEpisode:
-            NextAiringEpisodeModel.fromMap(json["nextAiringEpisode"]),
+        nextAiringEpisode: json["nextAiringEpisode"] != null
+            ? NextAiringEpisodeModel.fromMap(json["nextAiringEpisode"])
+            : null,
         totalEpisodes: json["totalEpisodes"],
         currentEpisode: json["currentEpisode"],
         rating: json["rating"],
@@ -102,7 +103,7 @@ class CharacterModel extends CharacterEntity {
 
 class NameModel extends NameEntity {
   NameModel({
-    required super.first,
+    super.first,
     super.last,
     required super.full,
     super.native,

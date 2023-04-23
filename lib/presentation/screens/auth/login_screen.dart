@@ -10,6 +10,7 @@ import 'package:yoyo/presentation/widgets/customs/text.dart';
 import 'package:yoyo/presentation/widgets/customs/textfield.dart';
 
 import '../../../core/constants/constant.dart';
+import '../../../core/constants/string.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -34,13 +35,13 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  'assets/image/MAIN_LOGO.png',
+                  lgLogo,
                   width: 8.h,
                   height: 8.h,
                   fit: BoxFit.fill,
                 ).animate().fadeIn(),
                 Image.asset(
-                  'assets/image/WORD_LOGO.png',
+                  lgWord,
                   width: 45.w,
                   height: 18.h,
                   fit: BoxFit.fill,
@@ -50,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
             CustomTextField(
               controller: email,
               hint: 'Email',
-              fontColor: Theme.of(context).secondaryHeaderColor,
+              fontColor: Theme.of(context).primaryColor,
               width: 70.w,
               validator: (v) {
                 if (v!.isEmpty) {
@@ -63,8 +64,9 @@ class _LoginScreenState extends State<LoginScreen> {
             CustomTextField(
               controller: password,
               hint: 'Password',
-              fontColor: Theme.of(context).secondaryHeaderColor,
+              fontColor: Theme.of(context).primaryColor,
               width: 70.w,
+              isObscure: true,
               validator: (v) {
                 if (v!.isEmpty) {
                   return 'please enter your password';
@@ -97,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: state is LoggingIn ? 6.h : 70.w,
                     height: 6.h,
                     decoration: BoxDecoration(
-                      color: Theme.of(context).secondaryHeaderColor,
+                      color: Theme.of(context).primaryColor,
                       borderRadius: BorderRadius.circular(
                         state is LoggingIn ? 100 : kMinRadius,
                       ),
@@ -128,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   child: CustomText(
                     'Signup',
-                    color: Theme.of(context).secondaryHeaderColor,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
               ],
