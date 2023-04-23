@@ -24,9 +24,12 @@ class RecentContainer extends StatelessWidget {
             children: [
               SizedBox(height: 2.h),
               CustomText(
-                'Latest',
-                size: 18.sp,
+                'Recent',
+                size: 16.sp,
+                weight: FontWeight.bold,
               ),
+              SizedBox(height: 1.h),
+
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -52,11 +55,7 @@ class RecentContainer extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 2.h),
-              CustomText(
-                'Latest',
-                size: 18.sp,
-              ),
+              SizedBox(height: 2.h),         
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -72,8 +71,8 @@ class RecentContainer extends StatelessWidget {
                             borderRadius: BorderRadius.circular(kMinRadius),
                           ),
                           padding: EdgeInsets.all(2.h),
-                          width: 40.w,
-                          height: 30.h,
+                          width: 32.w,
+                          height: 20.h,
                         ),
                       ),
                     );

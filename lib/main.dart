@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:yoyo/core/router/custom_router.dart';
 import 'package:yoyo/dependency.dart';
+import 'package:yoyo/presentation/blocs/search/search_bloc.dart';
 import 'package:yoyo/presentation/cubits/auth/authentication/authentication_cubit.dart';
 import 'package:yoyo/presentation/cubits/auth/usercheck/usercheck_cubit.dart';
 import 'package:yoyo/presentation/cubits/common/bnb_cubit.dart';
@@ -15,7 +16,6 @@ import 'package:yoyo/presentation/cubits/image/image_cubit.dart';
 import 'package:yoyo/presentation/cubits/firebase_storage/storage_cubit.dart';
 import 'package:yoyo/presentation/cubits/info/info_cubit.dart';
 import 'package:yoyo/presentation/cubits/recent/recent_cubit.dart';
-import 'package:yoyo/presentation/cubits/search/search_cubit.dart';
 import 'package:yoyo/presentation/cubits/streamlink/streamlink_cubit.dart';
 import 'package:yoyo/presentation/cubits/trending/trending_cubit.dart';
 import 'package:yoyo/presentation/cubits/upcoming/upcoming_cubit.dart';
@@ -72,7 +72,7 @@ class MyApp extends StatelessWidget {
           create: (context) => sl<StorageCubit>(),
         ),
         BlocProvider(
-          create: (context) => sl<SearchCubit>(),
+          create: (context) => sl<SearchBloc>(),
         ),
         BlocProvider(
           create: (context) => SearchbarCubit(),
@@ -103,6 +103,7 @@ class MyApp extends StatelessWidget {
             appBarTheme: const AppBarTheme(
               backgroundColor: kTransparentColor,
             ),
+            scaffoldBackgroundColor: kScaffoldBgColor,
             textTheme: kTextTheme,
             brightness: Brightness.dark,
             useMaterial3: true,

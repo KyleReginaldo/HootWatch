@@ -9,6 +9,7 @@ const Color kTransparentColor = Colors.transparent;
 const Color kBlackColor = Colors.black;
 const Color kWhiteColor = Colors.white;
 const Color kGreyColor = Colors.grey;
+const Color kScaffoldBgColor = Color(0xFF040B1C);
 Color kLightGrey1Color = Colors.grey.shade300;
 Color kLightGrey2Color = Colors.grey.shade200;
 Color kDarkGrey1Color = Colors.grey.shade700;

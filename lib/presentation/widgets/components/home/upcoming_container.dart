@@ -24,8 +24,10 @@ class UpcomingContainer extends StatelessWidget {
               SizedBox(height: 2.h),
               CustomText(
                 'Upcoming',
-                size: 18.sp,
+                size: 16.sp,
+                weight: FontWeight.bold,
               ),
+              SizedBox(height: 1.h),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -52,10 +54,6 @@ class UpcomingContainer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 2.h),
-              CustomText(
-                'Upcoming',
-                size: 18.sp,
-              ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -71,8 +69,8 @@ class UpcomingContainer extends StatelessWidget {
                             borderRadius: BorderRadius.circular(kMinRadius),
                           ),
                           padding: EdgeInsets.all(2.h),
-                          width: 40.w,
-                          height: 30.h,
+                          width: 32.w,
+                          height: 20.h,
                         ),
                       ),
                     );

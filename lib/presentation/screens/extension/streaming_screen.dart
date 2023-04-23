@@ -68,9 +68,6 @@ class _StreamingScreenState extends State<StreamingScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         YoYoPlayer(
-                          // onVideoInitCompleted: (controller) {
-                          //   controller.seekTo(const Duration(minutes: 5));
-                          // },
                           allowCacheFile: true,
                           url: state.streamLink
                               .sources[state.streamLink.sources.length - 2].url,

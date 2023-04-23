@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:iconify_flutter/icons/ic.dart';
 import 'package:iconify_flutter/icons/ri.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:yoyo/core/constants/constant.dart';
 import 'package:yoyo/core/constants/string.dart';
+import 'package:yoyo/domain/entity/search_entity.dart';
 import 'package:yoyo/presentation/cubits/common/bnb_cubit.dart';
 import 'package:yoyo/presentation/screens/main/account_screen.dart';
-import 'package:yoyo/presentation/screens/main/search_screen.dart';
 
 import '../../core/global/global.dart';
+import '../blocs/search/search_bloc.dart';
 import '../cubits/recent/recent_cubit.dart';
 import '../cubits/trending/trending_cubit.dart';
 import '../cubits/upcoming/upcoming_cubit.dart';
+import '../widgets/components/search/custom_search_delegate.dart';
 import '../widgets/customs/text.dart';
 import 'main/home_screen.dart';
 
@@ -50,15 +53,30 @@ class _MainScreenState extends State<MainScreen> {
                           weight: FontWeight.w600,
                         )
                       : null,
+                  actions: [
+                    IconButton(
+                      onPressed: () async {
+                        await showSearch<SearchEntity>(
+                          context: context,
+                          delegate: SearchPageDelegate(
+                              searchBloc: BlocProvider.of<SearchBloc>(context)),
+                        );
+                      },
+                      icon: const Iconify(
+                        Ri.search_eye_line,
+                        color: kWhiteColor,
+                      ),
+                    ),
+                  ],
                 )
               : null,
           body: PageView(
             physics: const NeverScrollableScrollPhysics(),
             controller: pageController,
-            children: const [
-              HomeScreen(),
-              SearchScreen(),
-              AccountScreen(),
+            children: [
+              const HomeScreen(),
+              Container(),
+              const AccountScreen(),
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(
@@ -87,11 +105,11 @@ class _MainScreenState extends State<MainScreen> {
               ),
               BottomNavigationBarItem(
                 icon: const Iconify(
-                  Ri.search_eye_line,
+                  Ic.twotone_travel_explore,
                   color: kWhiteColor,
                 ),
                 activeIcon: Iconify(
-                  Ri.search_eye_fill,
+                  Ic.twotone_travel_explore,
                   color: Theme.of(context).primaryColor,
                 ),
                 label: 'Search',

@@ -36,6 +36,7 @@ class _InfoScreenState extends State<InfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         leading: CustomIconButton(
           onTap: () {
@@ -58,27 +59,53 @@ class _InfoScreenState extends State<InfoScreen> {
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  CachedNetworkImage(
-                    imageUrl: state.Info.cover,
-                    fit: BoxFit.cover,
-                    height: 35.h,
-                    width: 100.w,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 1.h),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomText(
+                  Stack(
+                    children: [
+                      CachedNetworkImage(
+                        imageUrl: state.Info.cover,
+                        fit: BoxFit.cover,
+                        height: 35.h,
+                        width: 100.w,
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          padding: EdgeInsets.only(left: 1.h),
+                          alignment: Alignment.bottomLeft,
+                          width: 100.w,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                kScaffoldBgColor.withOpacity(0),
+                                kScaffoldBgColor.withOpacity(0.2),
+                                kScaffoldBgColor,
+                                kScaffoldBgColor,
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                          ),
+                          child: CustomText(
                           state.Info.title.userPreferred ??
                               state.Info.title.english ??
                               state.Info.title.romaji,
                           size: 20.sp,
                           weight: FontWeight.w600,
                         ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 1.h),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         SizedBox(height: 1.h),
                         Wrap(
-                          runSpacing: 4,
+                          runSpacing: 8,
                           spacing: 8,
                           children: state.Info.genres.map((e) {
                             return Container(
@@ -103,12 +130,6 @@ class _InfoScreenState extends State<InfoScreen> {
                         ),
                         if (state.Info.description != null)
                           SizedBox(height: 2.h),
-                        if (state.Info.description != null)
-                          CustomText(
-                            'Synopsis',
-                            size: 16.sp,
-                            weight: FontWeight.w600,
-                          ),
                         if (state.Info.description != null)
                           SizedBox(height: 1.h),
                         if (state.Info.description != null)
