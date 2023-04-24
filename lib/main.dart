@@ -109,6 +109,15 @@ class MyApp extends StatelessWidget {
             appBarTheme: const AppBarTheme(
               backgroundColor: Colors.transparent,
             ),
+            elevatedButtonTheme: const ElevatedButtonThemeData(
+              style: ButtonStyle(
+                iconColor: MaterialStatePropertyAll(AppTheme.systemRed),
+              ),
+            ),
+            progressIndicatorTheme: const ProgressIndicatorThemeData(
+              color: AppTheme.systemRed,
+              
+            ),
             textTheme: kTextTheme,
             brightness: Brightness.dark,
             useMaterial3: true,

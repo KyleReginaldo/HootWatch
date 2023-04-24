@@ -73,24 +73,28 @@ class _StreamingScreenState extends State<StreamingScreen> {
                               .sources[state.streamLink.sources.length - 2].url,
                           aspectRatio: 16 / 9,
                           videoStyle: VideoStyle(
+                            qualityButtonAndFullScrIcoSpace: 1.h,
+                            fullScreenIconSize: 5.h,
+                            playButtonIconSize: 5.h,
+                            forwardAndBackwardBtSize: 4.h,
                             videoQualityBgColor:
-                                Theme.of(context).secondaryHeaderColor,
+                                Theme.of(context).primaryColor,
                             backwardIconColor:
-                                Theme.of(context).secondaryHeaderColor,
+                                Theme.of(context).primaryColor,
                             forwardIconColor:
-                                Theme.of(context).secondaryHeaderColor,
+                                Theme.of(context).primaryColor,
                             playButtonIconColor:
-                                Theme.of(context).secondaryHeaderColor,
+                                Theme.of(context).primaryColor,
                             fullscreenIcon: Icon(
                               Icons.fullscreen_rounded,
-                              color: Theme.of(context).secondaryHeaderColor,
+                              color: Theme.of(context).primaryColor,
+                              size: 4.h,
                             ),
                           ),
-                          videoLoadingStyle: VideoLoadingStyle(
+                          videoLoadingStyle: const VideoLoadingStyle(
                             loading: Center(
                               child: CircularProgressIndicator(
                                 backgroundColor: Colors.white,
-                                color: Theme.of(context).secondaryHeaderColor,
                               ),
                             ),
                           ),

@@ -22,98 +22,111 @@ class TrendingContainer extends StatelessWidget {
         if (state is TrendingLoaded) {
           return CarouselSlider(
             items: state.trending.results.map((e) {
-              return GestureDetector(
-                onTap: () {
-                  AutoRouter.of(context).push(
-                    InfoRoute(id: e.id),
-                  );
-                },
-                child: Stack(
-                  children: [
-                    CachedNetworkImage(
-                      imageUrl: e.image,
-                      width: 100.w,
-                      fit: BoxFit.cover,
-                    ),
-                    Positioned(
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        height: 16.h,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              AppTheme.black,
-                              AppTheme.black,
-                              AppTheme.black,
-                              AppTheme.black.withOpacity(0.9),
-                              AppTheme.black.withOpacity(0.8),
-                              AppTheme.black.withOpacity(0.6),
-                              AppTheme.black.withOpacity(0.3),
-                              AppTheme.black.withOpacity(0),
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        alignment: Alignment.bottomCenter,
-                        height: 8.h,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              AppTheme.black.withOpacity(0),
-                              AppTheme.black.withOpacity(0.1),
-                              AppTheme.black.withOpacity(0.2),
-                              AppTheme.black.withOpacity(0.3),
-                              AppTheme.black.withOpacity(0.4),
-                              AppTheme.black.withOpacity(0.5),
-                              AppTheme.black.withOpacity(0.7),
-                              AppTheme.black.withOpacity(0.8),
-                              AppTheme.black.withOpacity(0.9),
-                              AppTheme.black,
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            Wrap(
-                              children: e.genres.map((genre) {
-                                return CustomText(
-                                    "$genre ${genre == e.genres.last ? "" : "·"}");
-                              }).toList(),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ElevatedButton.icon(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.add_rounded),
-                                  label: const CustomText('My List'),
-                                ),
-                                SizedBox(width: 1.h),
-                                ElevatedButton.icon(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.info_outline_rounded),
-                                  label: const CustomText('Info'),
-                                ),
-                              ],
-                            ),
+              return Stack(
+                children: [
+                  CachedNetworkImage(
+                    imageUrl: e.image,
+                    width: 100.w,
+                    fit: BoxFit.cover,
+                  ),
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      height: 16.h,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            AppTheme.black,
+                            AppTheme.black,
+                            AppTheme.black,
+                            AppTheme.black.withOpacity(0.9),
+                            AppTheme.black.withOpacity(0.8),
+                            AppTheme.black.withOpacity(0.6),
+                            AppTheme.black.withOpacity(0.3),
+                            AppTheme.black.withOpacity(0),
                           ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      alignment: Alignment.bottomCenter,
+                      height: 8.h,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            AppTheme.black.withOpacity(0),
+                            AppTheme.black.withOpacity(0.1),
+                            AppTheme.black.withOpacity(0.2),
+                            AppTheme.black.withOpacity(0.3),
+                            AppTheme.black.withOpacity(0.4),
+                            AppTheme.black.withOpacity(0.5),
+                            AppTheme.black.withOpacity(0.7),
+                            AppTheme.black.withOpacity(0.8),
+                            AppTheme.black.withOpacity(0.9),
+                            AppTheme.black,
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Wrap(
+                            children: e.genres.map((genre) {
+                              return CustomText(
+                                  "$genre ${genre == e.genres.last ? "" : "·"}");
+                            }).toList(),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ElevatedButton.icon(
+                                onPressed: () {},
+                                icon: const Icon(Icons.add_rounded),
+                                label: const CustomText('My List'),
+                                style: const ButtonStyle(
+                                  iconColor: MaterialStatePropertyAll(
+                                    AppTheme.systemRed,
+                                  ),
+                                  backgroundColor: MaterialStatePropertyAll(
+                                    Colors.transparent,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 1.h),
+                              ElevatedButton.icon(
+                                onPressed: () {
+                                  AutoRouter.of(context).push(
+                                    InfoRoute(id: e.id),
+                                  );
+                                },
+                                icon: const Icon(Icons.info_outline_rounded),
+                                label: const CustomText('Info'),
+                                style: const ButtonStyle(
+                                  iconColor: MaterialStatePropertyAll(
+                                    AppTheme.systemRed,
+                                  ),
+                                  backgroundColor: MaterialStatePropertyAll(
+                                    Colors.transparent,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               );
             }).toList(),
             options: CarouselOptions(
