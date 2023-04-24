@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import '../../../../core/constants/app_theme.dart';
 import '../../../../core/constants/constant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
@@ -24,10 +25,11 @@ class UpcomingContainer extends StatelessWidget {
               SizedBox(height: 2.h),
               CustomText(
                 'Upcoming',
-                size: 16.sp,
+                size: 18.sp,
                 weight: FontWeight.bold,
+                color: AppTheme.greyLight3,
               ),
-              SizedBox(height: 1.h),
+              SizedBox(height: 0.5.h),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(

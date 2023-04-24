@@ -4,8 +4,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:yoyo/core/constants/app_theme.dart';
 import 'package:yoyo/core/utils/custom_functions.dart';
 import 'package:yoyo/presentation/cubits/common/episodes/episodes_cubit.dart';
+import 'package:yoyo/presentation/cubits/common/infoswitch_cubit.dart';
 import 'package:yoyo/presentation/cubits/info/info_cubit.dart';
 import 'package:yoyo/presentation/widgets/customs/text.dart';
 import 'package:readmore/readmore.dart';
@@ -26,38 +28,43 @@ class InfoScreen extends StatefulWidget {
   State<InfoScreen> createState() => _InfoScreenState();
 }
 
-class _InfoScreenState extends State<InfoScreen> {
+class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
+  late TabController tabController;
+
   @override
   void initState() {
     context.read<InfoCubit>().onFetchAnimeInfo(widget.id);
+    tabController = TabController(length: 2, vsync: this, initialIndex: 0);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        leading: CustomIconButton(
-          onTap: () {
-            AutoRouter.of(context).pop();
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios_rounded,
-            color: kWhiteColor,
+    return Builder(builder: (context) {
+      final selectedTab = context.select((InfoswitchCubit sw) => sw.state);
+      return Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          leading: CustomIconButton(
+            onTap: () {
+              AutoRouter.of(context).pop();
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios_rounded,
+              color: kWhiteColor,
+            ),
           ),
         ),
-      ),
-      body: BlocConsumer<InfoCubit, InfoState>(
-        listener: (context, state) {
-          if (state is InfoLoaded) {
-            context.read<EpisodesCubit>().addEpisodes(state.Info.episodes);
-          }
-        },
-        builder: (context, state) {
-          if (state is InfoLoaded) {
-            return SingleChildScrollView(
-              child: Column(
+        body: BlocConsumer<InfoCubit, InfoState>(
+          listener: (context, state) {
+            if (state is InfoLoaded) {
+              context.read<EpisodesCubit>().addEpisodes(state.Info.episodes);
+            }
+          },
+          builder: (context, state) {
+            if (state is InfoLoaded) {
+              return ListView(
+                padding: EdgeInsets.zero,
                 children: [
                   Stack(
                     children: [
@@ -88,12 +95,12 @@ class _InfoScreenState extends State<InfoScreen> {
                             ),
                           ),
                           child: CustomText(
-                          state.Info.title.userPreferred ??
-                              state.Info.title.english ??
-                              state.Info.title.romaji,
-                          size: 20.sp,
-                          weight: FontWeight.w600,
-                        ),
+                            state.Info.title.userPreferred ??
+                                state.Info.title.english ??
+                                state.Info.title.romaji,
+                            size: 20.sp,
+                            weight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ],
@@ -115,10 +122,10 @@ class _InfoScreenState extends State<InfoScreen> {
                               ),
                               decoration: BoxDecoration(
                                 color: Theme.of(context)
-                                    .secondaryHeaderColor
+                                    .primaryColor
                                     .withOpacity(0.3),
                                 border: Border.all(
-                                  color: Theme.of(context).secondaryHeaderColor,
+                                  color: AppTheme.redDark1,
                                 ),
                                 borderRadius: BorderRadius.circular(
                                   kMidRadius,
@@ -135,7 +142,7 @@ class _InfoScreenState extends State<InfoScreen> {
                         if (state.Info.description != null)
                           ReadMoreText(
                             CustomFunctions.removeTags(state.Info.description!),
-                            trimLines: 4,
+                            trimLines: 3,
                             style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w500,
@@ -152,33 +159,69 @@ class _InfoScreenState extends State<InfoScreen> {
                               color: Theme.of(context).secondaryHeaderColor,
                             ),
                           ),
-                        SizedBox(height: 2.h),
-                        if (state.Info.episodes.isNotEmpty)
-                          const CustomText('EPISODES'),
-                        SizedBox(height: 1.h),
-                        Column(
+                      ],
+                    ),
+                  ),
+                  TabBar(
+                    controller: tabController,
+                    physics: const NeverScrollableScrollPhysics(),
+                    indicatorColor: Theme.of(context).primaryColor,
+                    labelColor: Theme.of(context).primaryColor,
+                    tabs: const [
+                      Tab(
+                        text: 'Episodes',
+                      ),
+                      Tab(
+                        text: 'Related',
+                      )
+                    ],
+                    onTap: (index) {
+                      context.read<InfoswitchCubit>().switchTab(index);
+                      tabController.animateTo(index);
+                    },
+                  ),
+                  IndexedStack(
+                    index: selectedTab,
+                    children: [
+                      Visibility(
+                        maintainState: true,
+                        visible: selectedTab == 0,
+                        child: Column(
+                          // padding: EdgeInsets.symmetric(horizontal: 1.h),
                           children: state.Info.episodes.toSet().map((e) {
                             return EpisodeContainer(
                               episode: e,
                               onTap: () {
-                                AutoRouter.of(context).push(StreamingRoute(
-                                    id: e.id, episodes: state.Info.episodes));
+                                AutoRouter.of(context).push(
+                                  StreamingRoute(
+                                    id: e.id,
+                                    episodes: state.Info.episodes,
+                                  ),
+                                );
                               },
                             );
                           }).toList(),
                         ),
-                      ],
-                    ),
+                      ),
+                      Visibility(
+                        maintainState: true,
+                        visible: selectedTab == 1,
+                        child: Container(
+                          color: Colors.blue,
+                          height: 300,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
-              ),
-            );
-          } else if (state is InfoLoading) {
-            return const Center(child: CircularProgressIndicator.adaptive());
-          }
-          return const SizedBox.shrink();
-        },
-      ),
-    );
+              );
+            } else if (state is InfoLoading) {
+              return const Center(child: CircularProgressIndicator.adaptive());
+            }
+            return const SizedBox.shrink();
+          },
+        ),
+      );
+    });
   }
 }

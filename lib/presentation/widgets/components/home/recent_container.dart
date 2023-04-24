@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:yoyo/core/constants/app_theme.dart';
 import '../../../../core/constants/constant.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,11 +26,11 @@ class RecentContainer extends StatelessWidget {
               SizedBox(height: 2.h),
               CustomText(
                 'Recent',
-                size: 16.sp,
+                size: 18.sp,
                 weight: FontWeight.bold,
+                color: AppTheme.greyLight3,
               ),
-              SizedBox(height: 1.h),
-
+              SizedBox(height: 0.5.h),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -55,7 +56,7 @@ class RecentContainer extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 2.h),         
+              SizedBox(height: 2.h),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(

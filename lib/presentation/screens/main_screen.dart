@@ -4,6 +4,7 @@ import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/ic.dart';
 import 'package:iconify_flutter/icons/ri.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:yoyo/core/constants/app_theme.dart';
 import 'package:yoyo/core/constants/constant.dart';
 import 'package:yoyo/core/constants/string.dart';
 import 'package:yoyo/domain/entity/search_entity.dart';
@@ -42,9 +43,9 @@ class _MainScreenState extends State<MainScreen> {
       builder: (context) {
         final selectedIndex = context.select((BnbCubit bnb) => bnb.state);
         return Scaffold(
+          extendBodyBehindAppBar: selectedIndex == 0,
           appBar: selectedIndex == 0 || selectedIndex == 2
               ? AppBar(
-                  backgroundColor: kTransparentColor,
                   leading: selectedIndex == 0 ? Image.asset(lgLogo) : null,
                   title: selectedIndex == 2
                       ? CustomText(
@@ -81,8 +82,6 @@ class _MainScreenState extends State<MainScreen> {
           ),
           bottomNavigationBar: BottomNavigationBar(
             key: globalNavigationKey,
-            unselectedItemColor: kWhiteColor,
-            selectedItemColor: Theme.of(context).primaryColor,
             backgroundColor: kTransparentColor,
             elevation: 0,
             currentIndex: selectedIndex,
@@ -91,37 +90,37 @@ class _MainScreenState extends State<MainScreen> {
               pageController.jumpToPage(value);
             },
             type: BottomNavigationBarType.fixed,
-            items: [
+            items: const [
               BottomNavigationBarItem(
-                icon: const Iconify(
+                icon: Iconify(
                   Ri.home_6_line,
-                  color: kWhiteColor,
+                  color: AppTheme.grey,
                 ),
                 activeIcon: Iconify(
                   Ri.home_6_fill,
-                  color: Theme.of(context).primaryColor,
+                  color: AppTheme.greyLight2,
                 ),
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: const Iconify(
+                icon: Iconify(
                   Ic.twotone_travel_explore,
-                  color: kWhiteColor,
+                  color: AppTheme.grey,
                 ),
                 activeIcon: Iconify(
                   Ic.twotone_travel_explore,
-                  color: Theme.of(context).primaryColor,
+                  color: AppTheme.greyLight2,
                 ),
-                label: 'Search',
+                label: 'Browse',
               ),
               BottomNavigationBarItem(
-                icon: const Iconify(
+                icon: Iconify(
                   Ri.user_line,
-                  color: kWhiteColor,
+                  color: AppTheme.grey,
                 ),
                 activeIcon: Iconify(
                   Ri.user_fill,
-                  color: Theme.of(context).primaryColor,
+                  color: AppTheme.greyLight2,
                 ),
                 label: 'Account',
               ),

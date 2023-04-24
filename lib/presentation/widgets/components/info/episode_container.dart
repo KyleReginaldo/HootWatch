@@ -2,6 +2,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:yoyo/core/constants/app_theme.dart';
 
 import 'package:yoyo/core/constants/constant.dart';
 import 'package:yoyo/domain/entity/info_entity.dart';
@@ -53,9 +54,9 @@ class EpisodeContainer extends StatelessWidget {
                   bottom: 0,
                   child: CustomIconButton(
                     onTap: onTap,
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.play_arrow,
-                      color: Theme.of(context).primaryColor,
+                      color: AppTheme.white,
                     ),
                   ),
                 ),

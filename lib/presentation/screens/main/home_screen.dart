@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:yoyo/presentation/cubits/recent/recent_cubit.dart';
 import 'package:yoyo/presentation/widgets/components/home/recent_container.dart';
 import 'package:yoyo/presentation/widgets/components/home/trending_container.dart';
@@ -24,15 +23,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(0.4.h),
-      child: RefreshIndicator(
-        onRefresh: () async {
-          context.read<RecentCubit>().onFetchRecentAnime();
-          context.read<UpcomingCubit>().onFetchUpcomingAnime();
-          context.read<TrendingCubit>().onFetchTrendingAnime();
-        },
-        child: ListView(
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<RecentCubit>().onFetchRecentAnime();
+        context.read<UpcomingCubit>().onFetchUpcomingAnime();
+        context.read<TrendingCubit>().onFetchTrendingAnime();
+      },
+      child: SingleChildScrollView(
+        child: Column(
           children: const [
             TrendingContainer(),
             RecentContainer(),

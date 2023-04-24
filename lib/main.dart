@@ -10,6 +10,7 @@ import 'package:yoyo/presentation/cubits/auth/usercheck/usercheck_cubit.dart';
 import 'package:yoyo/presentation/cubits/common/bnb_cubit.dart';
 import 'package:yoyo/presentation/cubits/common/episodes/episodes_cubit.dart';
 import 'package:yoyo/presentation/cubits/common/fullscreen_cubit.dart';
+import 'package:yoyo/presentation/cubits/common/infoswitch_cubit.dart';
 import 'package:yoyo/presentation/cubits/common/playing_cubit.dart';
 import 'package:yoyo/presentation/cubits/common/searchbar_cubit.dart';
 import 'package:yoyo/presentation/cubits/image/image_cubit.dart';
@@ -22,6 +23,7 @@ import 'package:yoyo/presentation/cubits/upcoming/upcoming_cubit.dart';
 import 'package:yoyo/presentation/cubits/user/user_cubit.dart';
 import 'package:yoyo/presentation/cubits/user/user_fn/user_fn_cubit.dart';
 
+import 'core/constants/app_theme.dart';
 import 'core/constants/constant.dart';
 import 'firebase_options.dart';
 
@@ -92,6 +94,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => PlayingCubit(),
         ),
+        BlocProvider(
+          create: (context) => InfoswitchCubit(),
+        ),
       ],
       child: ResponsiveSizer(builder: (p0, p1, p2) {
         return MaterialApp.router(
@@ -100,15 +105,15 @@ class MyApp extends StatelessWidget {
           routeInformationParser: appRouter.defaultRouteParser(),
           title: 'Funime',
           theme: ThemeData(
+            scaffoldBackgroundColor: AppTheme.black,
             appBarTheme: const AppBarTheme(
-              backgroundColor: kTransparentColor,
+              backgroundColor: Colors.transparent,
             ),
-            scaffoldBackgroundColor: kScaffoldBgColor,
             textTheme: kTextTheme,
             brightness: Brightness.dark,
             useMaterial3: true,
-            primaryColor: kPrimaryColor,
-            fontFamily: 'Lato',
+            primaryColor: AppTheme.systemRed,
+            fontFamily: 'NetflixSans',
             secondaryHeaderColor: kSecondaryColor,
             listTileTheme: const ListTileThemeData(
               iconColor: kGreyColor,

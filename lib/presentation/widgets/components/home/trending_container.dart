@@ -1,16 +1,16 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:yoyo/core/constants/constant.dart';
-import 'package:yoyo/core/utils/custom_functions.dart';
+import 'package:yoyo/presentation/widgets/customs/text.dart';
 
+import '../../../../core/constants/app_theme.dart';
 import '../../../../core/router/custom_router.dart';
 import '../../../cubits/trending/trending_cubit.dart';
-import '../../customs/text.dart';
 
 class TrendingContainer extends StatelessWidget {
   const TrendingContainer({super.key});
@@ -28,46 +28,88 @@ class TrendingContainer extends StatelessWidget {
                     InfoRoute(id: e.id),
                   );
                 },
-                child: Container(
-                  width: 100.w - 2.h,
-                  padding: EdgeInsets.all(2.h),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).secondaryHeaderColor,
-                    image: DecorationImage(
-                      image: NetworkImage(e.cover),
+                child: Stack(
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: e.image,
+                      width: 100.w,
                       fit: BoxFit.cover,
-                      opacity: 0.8,
                     ),
-                    borderRadius: BorderRadius.circular(kMinRadius),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomText(
-                        e.title.userPreferred,
-                        size: 16.sp,
-                        weight: FontWeight.w600,
-                      ).animate().fadeIn(duration: 500.ms),
-                      CustomText(
-                        CustomFunctions.removeTags(e.description),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ).animate().fadeIn(duration: 1000.ms),
-                      const Divider(),
-                      CustomText('${e.releaseDate} | E${e.totalEpisodes}'),
-                    ],
-                  ),
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        height: 12.h,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              AppTheme.black,
+                              AppTheme.black,
+                              AppTheme.black,
+                              AppTheme.black,
+                              AppTheme.black,
+                              AppTheme.black.withOpacity(0.6),
+                              AppTheme.black.withOpacity(0.3),
+                              AppTheme.black.withOpacity(0),
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        height: 6.h,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              AppTheme.black.withOpacity(0),
+                              AppTheme.black.withOpacity(0.2),
+                              AppTheme.black.withOpacity(0.2),
+                              AppTheme.black.withOpacity(0.3),
+                              AppTheme.black.withOpacity(0.6),
+                              AppTheme.black.withOpacity(0.8),
+                              AppTheme.black.withOpacity(0.9),
+                              AppTheme.black,
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton.icon(
+                              onPressed: () {},
+                              icon: const Icon(Icons.add_rounded),
+                              label: const CustomText('My List'),
+                            ),
+                            SizedBox(width: 1.h),
+                            ElevatedButton.icon(
+                              onPressed: () {},
+                              icon: const Icon(Icons.info_outline_rounded),
+                              label: const CustomText('Info'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               );
             }).toList(),
             options: CarouselOptions(
               viewportFraction: 1,
-              height: 25.h,
+              height: 60.h,
               autoPlay: true,
-              autoPlayInterval: const Duration(seconds: 4),
+              autoPlayInterval: const Duration(seconds: 16),
               enlargeCenterPage: true,
-              // scrollPhysics: const NeverScrollableScrollPhysics(),
+              scrollPhysics: const NeverScrollableScrollPhysics(),
             ),
           );
         } else if (state is TrendingLoading) {
