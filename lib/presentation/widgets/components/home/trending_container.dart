@@ -40,15 +40,15 @@ class TrendingContainer extends StatelessWidget {
                       left: 0,
                       right: 0,
                       child: Container(
-                        height: 12.h,
+                        height: 16.h,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
                               AppTheme.black,
                               AppTheme.black,
                               AppTheme.black,
-                              AppTheme.black,
-                              AppTheme.black,
+                              AppTheme.black.withOpacity(0.9),
+                              AppTheme.black.withOpacity(0.8),
                               AppTheme.black.withOpacity(0.6),
                               AppTheme.black.withOpacity(0.3),
                               AppTheme.black.withOpacity(0),
@@ -64,15 +64,18 @@ class TrendingContainer extends StatelessWidget {
                       left: 0,
                       right: 0,
                       child: Container(
-                        height: 6.h,
+                        alignment: Alignment.bottomCenter,
+                        height: 8.h,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
                               AppTheme.black.withOpacity(0),
-                              AppTheme.black.withOpacity(0.2),
+                              AppTheme.black.withOpacity(0.1),
                               AppTheme.black.withOpacity(0.2),
                               AppTheme.black.withOpacity(0.3),
-                              AppTheme.black.withOpacity(0.6),
+                              AppTheme.black.withOpacity(0.4),
+                              AppTheme.black.withOpacity(0.5),
+                              AppTheme.black.withOpacity(0.7),
                               AppTheme.black.withOpacity(0.8),
                               AppTheme.black.withOpacity(0.9),
                               AppTheme.black,
@@ -81,19 +84,29 @@ class TrendingContainer extends StatelessWidget {
                             end: Alignment.bottomCenter,
                           ),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        child: Column(
                           children: [
-                            ElevatedButton.icon(
-                              onPressed: () {},
-                              icon: const Icon(Icons.add_rounded),
-                              label: const CustomText('My List'),
+                            Wrap(
+                              children: e.genres.map((genre) {
+                                return CustomText(
+                                    "$genre ${genre == e.genres.last ? "" : "·"}");
+                              }).toList(),
                             ),
-                            SizedBox(width: 1.h),
-                            ElevatedButton.icon(
-                              onPressed: () {},
-                              icon: const Icon(Icons.info_outline_rounded),
-                              label: const CustomText('Info'),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ElevatedButton.icon(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.add_rounded),
+                                  label: const CustomText('My List'),
+                                ),
+                                SizedBox(width: 1.h),
+                                ElevatedButton.icon(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.info_outline_rounded),
+                                  label: const CustomText('Info'),
+                                ),
+                              ],
                             ),
                           ],
                         ),

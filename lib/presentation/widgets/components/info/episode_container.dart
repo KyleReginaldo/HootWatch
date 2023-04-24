@@ -55,9 +55,11 @@ class EpisodeContainer extends StatelessWidget {
                   child: CustomIconButton(
                     onTap: onTap,
                     icon: const Icon(
-                      Icons.play_arrow,
+                      Icons.play_arrow_rounded,
                       color: AppTheme.white,
                     ),
+                    bgColor: AppTheme.white,
+                    radius: kMaxRadius,
                   ),
                 ),
               ],
@@ -68,7 +70,9 @@ class EpisodeContainer extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomText(
-                    episode.title ?? 'episode ${episode.number}',
+                    episode.title != null
+                        ? '${episode.number}. ${episode.title}'
+                        : 'episode ${episode.number}',
                     size: 16.sp,
                     weight: FontWeight.w600,
                   ),

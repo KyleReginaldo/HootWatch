@@ -19,9 +19,11 @@ import '../../widgets/customs/icons/icon_button.dart';
 
 class InfoScreen extends StatefulWidget {
   final String id;
+  final int? tab;
   const InfoScreen({
     Key? key,
     required this.id,
+    this.tab,
   }) : super(key: key);
 
   @override
@@ -35,6 +37,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
   void initState() {
     context.read<InfoCubit>().onFetchAnimeInfo(widget.id);
     tabController = TabController(length: 2, vsync: this, initialIndex: 0);
+    context.read<InfoswitchCubit>().switchTab(0);
     super.initState();
   }
 
@@ -79,16 +82,17 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                         left: 0,
                         right: 0,
                         child: Container(
-                          padding: EdgeInsets.only(left: 1.h),
+
+                          padding: EdgeInsets.only(left: 1.h, top: 4.h),
                           alignment: Alignment.bottomLeft,
                           width: 100.w,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
-                                kScaffoldBgColor.withOpacity(0),
-                                kScaffoldBgColor.withOpacity(0.2),
-                                kScaffoldBgColor,
-                                kScaffoldBgColor,
+                                AppTheme.black.withOpacity(0),
+                                AppTheme.black.withOpacity(0.2),
+                                AppTheme.black,
+                                AppTheme.black,
                               ],
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
@@ -172,12 +176,12 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                         text: 'Episodes',
                       ),
                       Tab(
-                        text: 'Related',
+                        text: 'Recommendations',
                       )
                     ],
                     onTap: (index) {
-                      context.read<InfoswitchCubit>().switchTab(index);
                       tabController.animateTo(index);
+                      context.read<InfoswitchCubit>().switchTab(index);
                     },
                   ),
                   IndexedStack(
@@ -186,29 +190,62 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                       Visibility(
                         maintainState: true,
                         visible: selectedTab == 0,
-                        child: Column(
-                          // padding: EdgeInsets.symmetric(horizontal: 1.h),
-                          children: state.Info.episodes.toSet().map((e) {
-                            return EpisodeContainer(
-                              episode: e,
-                              onTap: () {
-                                AutoRouter.of(context).push(
-                                  StreamingRoute(
-                                    id: e.id,
-                                    episodes: state.Info.episodes,
-                                  ),
-                                );
-                              },
-                            );
-                          }).toList(),
+                        child: Padding(
+                          padding: EdgeInsets.all(1.h),
+                          child: Column(
+                            children: state.Info.episodes.toSet().map((e) {
+                              return EpisodeContainer(
+                                episode: e,
+                                onTap: () {
+                                  AutoRouter.of(context).push(
+                                    StreamingRoute(
+                                      id: e.id,
+                                      episodes: state.Info.episodes,
+                                    ),
+                                  );
+                                },
+                              );
+                            }).toList(),
+                          ),
                         ),
                       ),
                       Visibility(
                         maintainState: true,
                         visible: selectedTab == 1,
-                        child: Container(
-                          color: Colors.blue,
-                          height: 300,
+                        child: Padding(
+                          padding: EdgeInsets.all(1.h),
+                          child: Wrap(
+                            spacing: 2.h,
+                            runSpacing: 2.h,
+                            alignment: WrapAlignment.start,
+                            children: state.Info.recommendations.map((e) {
+                              return InkWell(
+                                onTap: () {
+                                  context
+                                      .read<InfoCubit>()
+                                      .onFetchAnimeInfo(e.id.toString());
+                                },
+                                child: Container(
+                                  height: 24.h,
+                                  width: 45.w,
+                                  clipBehavior: Clip.hardEdge,
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.circular(kMinRadius),
+                                    color: Color(
+                                      CustomFunctions.convertHexToInt(
+                                        e.color ?? '#FE0202',
+                                      ),
+                                    ),
+                                  ),
+                                  child: CachedNetworkImage(
+                                    imageUrl: e.image,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
                         ),
                       ),
                     ],

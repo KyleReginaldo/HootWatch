@@ -36,7 +36,7 @@ class CustomElevatedButton extends StatelessWidget {
       onPressed: onPressed,
       style: ButtonStyle(
         foregroundColor: MaterialStatePropertyAll(color ?? kWhiteColor),
-        fixedSize: MaterialStatePropertyAll(Size(width ?? 100.w, 6.h)),
+        fixedSize: MaterialStatePropertyAll(Size(width ?? 60.w, 5.h)),
         backgroundColor: MaterialStatePropertyAll(
             bgColor ?? Theme.of(context).secondaryHeaderColor),
         shape: MaterialStatePropertyAll(RoundedRectangleBorder(

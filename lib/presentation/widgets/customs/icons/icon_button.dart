@@ -8,10 +8,14 @@ import '../../../../core/constants/constant.dart';
 class CustomIconButton extends StatelessWidget {
   final VoidCallback? onTap;
   final Widget? icon;
+  final Color? bgColor;
+  final double? radius;
   const CustomIconButton({
     Key? key,
     this.onTap,
     this.icon,
+    this.bgColor,
+    this.radius,
   }) : super(key: key);
 
   @override
@@ -22,10 +26,12 @@ class CustomIconButton extends StatelessWidget {
         height: 5.h,
         width: 5.h,
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor.withOpacity(0.3),
-          borderRadius: BorderRadius.circular(kMinRadius),
+          color: bgColor != null
+              ? bgColor?.withOpacity(0.3)
+              : Theme.of(context).primaryColor.withOpacity(0.3),
+          borderRadius: BorderRadius.circular(radius ?? kMinRadius),
           border: Border.all(
-            color: AppTheme.redDark1,
+            color: bgColor ?? AppTheme.redDark1,
           ),
         ),
         child: icon,

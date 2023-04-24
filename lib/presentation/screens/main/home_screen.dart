@@ -29,14 +29,13 @@ class _HomeScreenState extends State<HomeScreen> {
         context.read<UpcomingCubit>().onFetchUpcomingAnime();
         context.read<TrendingCubit>().onFetchTrendingAnime();
       },
-      child: SingleChildScrollView(
-        child: Column(
-          children: const [
-            TrendingContainer(),
-            RecentContainer(),
-            UpcomingContainer(),
-          ],
-        ),
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: const [
+          TrendingContainer(),
+          RecentContainer(),
+          UpcomingContainer(),
+        ],
       ),
     );
   }

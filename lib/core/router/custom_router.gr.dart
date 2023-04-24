@@ -33,6 +33,7 @@ class _$AppRouter extends RootStackRouter {
         child: InfoScreen(
           key: args.key,
           id: args.id,
+          tab: args.tab,
         ),
         transitionsBuilder: TransitionsBuilders.fadeIn,
         opaque: true,
@@ -147,12 +148,14 @@ class InfoRoute extends PageRouteInfo<InfoRouteArgs> {
   InfoRoute({
     Key? key,
     required String id,
+    int? tab,
   }) : super(
           InfoRoute.name,
           path: '/info-screen',
           args: InfoRouteArgs(
             key: key,
             id: id,
+            tab: tab,
           ),
         );
 
@@ -163,15 +166,18 @@ class InfoRouteArgs {
   const InfoRouteArgs({
     this.key,
     required this.id,
+    this.tab,
   });
 
   final Key? key;
 
   final String id;
 
+  final int? tab;
+
   @override
   String toString() {
-    return 'InfoRouteArgs{key: $key, id: $id}';
+    return 'InfoRouteArgs{key: $key, id: $id, tab: $tab}';
   }
 }
 
