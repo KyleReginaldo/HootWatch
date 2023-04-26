@@ -1,7 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../core/constants/constant.dart';
+import 'package:yoyo/core/constants/app_theme.dart';
+import 'package:yoyo/core/constants/constant.dart';
+import 'package:yoyo/presentation/widgets/customs/text.dart';
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController? controller;
@@ -21,6 +24,7 @@ class CustomTextField extends StatelessWidget {
   final String? initialValue;
   final Color? fontColor;
   final double? width;
+  final String label;
   const CustomTextField({
     Key? key,
     this.controller,
@@ -40,6 +44,7 @@ class CustomTextField extends StatelessWidget {
     this.initialValue,
     this.fontColor,
     this.width,
+    required this.label,
   }) : super(key: key);
 
   @override
@@ -65,40 +70,30 @@ class CustomTextField extends StatelessWidget {
             node.nextFocus();
           }
         },
-        style: TextStyle(color: fontColor),
+        style: TextStyle(color: fontColor, fontSize: 16.sp),
         decoration: InputDecoration(
+          label: CustomText(
+            label,
+            size: 16.sp,
+          ),
           hintText: hint,
           suffixIcon: suffix,
           prefixIcon: prefix,
           counterText: '',
-          fillColor: bgColor,
+          fillColor: AppTheme.grey,
           border: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: borderColor ?? Theme.of(context).primaryColor,
-            ),
-            borderRadius: BorderRadius.circular(radius ?? kMinRadius),
-          ),
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(radius ?? kMinRadius)),
+          filled: true,
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: borderColor ?? Theme.of(context).primaryColor,
-            ),
-            borderRadius: BorderRadius.circular(radius ?? kMinRadius),
-          ),
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(radius ?? kMinRadius)),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: borderColor ?? Theme.of(context).primaryColor,
-            ),
-            borderRadius: BorderRadius.circular(radius ?? kMinRadius),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.error,
-            ),
-            borderRadius: BorderRadius.circular(radius ?? kMinRadius),
-          ),
-          hintStyle: const TextStyle(
-            color: Color(0xffC0C0C0),
-            fontSize: 12,
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(radius ?? kMinRadius)),
+          hintStyle: TextStyle(
+            color: AppTheme.greyLight1,
+            fontSize: 16.sp,
             fontWeight: FontWeight.w500,
             letterSpacing: 1,
           ),

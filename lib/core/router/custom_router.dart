@@ -7,6 +7,7 @@ import 'package:yoyo/presentation/screens/extension/streaming_screen.dart';
 import 'package:yoyo/presentation/screens/main_screen.dart';
 
 import '../../domain/entity/info_entity.dart';
+import '../../domain/entity/last_watched_entity.dart';
 import '../../domain/entity/user_entity.dart';
 import '../../presentation/screens/auth/auth_screen.dart';
 import '../../presentation/screens/auth/signup_screen.dart';
@@ -18,31 +19,31 @@ part 'custom_router.gr.dart';
     CustomRoute(
       page: AuthScreen,
       initial: true,
-      transitionsBuilder: TransitionsBuilders.fadeIn,
+      transitionsBuilder: TransitionsBuilders.slideLeft,
     ),
     CustomRoute(
       page: InfoScreen,
-      transitionsBuilder: TransitionsBuilders.fadeIn,
+      transitionsBuilder: TransitionsBuilders.slideLeft,
     ),
     CustomRoute(
       page: MainScreen,
-      transitionsBuilder: TransitionsBuilders.fadeIn,
+      transitionsBuilder: TransitionsBuilders.slideLeft,
     ),
     CustomRoute(
       page: StreamingScreen,
-      transitionsBuilder: TransitionsBuilders.fadeIn,
+      transitionsBuilder: TransitionsBuilders.slideLeft,
     ),
     CustomRoute(
       page: SignupScreen,
-      transitionsBuilder: TransitionsBuilders.fadeIn,
+      transitionsBuilder: TransitionsBuilders.slideLeft,
     ),
     CustomRoute(
       page: LoginScreen,
-      transitionsBuilder: TransitionsBuilders.fadeIn,
+      transitionsBuilder: TransitionsBuilders.slideLeft,
     ),
     CustomRoute(
       page: EditProfileScreen,
-      transitionsBuilder: TransitionsBuilders.fadeIn,
+      transitionsBuilder: TransitionsBuilders.slideLeft,
     ),
   ],
 )

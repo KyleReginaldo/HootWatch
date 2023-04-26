@@ -4,8 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:yoyo/core/constants/constant.dart';
+import 'package:yoyo/presentation/widgets/customs/button/elevated_icon_button.dart';
 import 'package:yoyo/presentation/widgets/customs/text.dart';
 
 import '../../../../core/constants/app_theme.dart';
@@ -59,7 +58,6 @@ class TrendingContainer extends StatelessWidget {
                     right: 0,
                     child: Container(
                       alignment: Alignment.bottomCenter,
-                      height: 8.h,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
@@ -80,6 +78,14 @@ class TrendingContainer extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
+                          CustomText(
+                            e.title.english ??
+                                e.title.userPreferred ??
+                                e.title.romaji,
+                            size: 20.sp,
+                            weight: FontWeight.w900,
+                            textAlign: TextAlign.center,
+                          ),
                           Wrap(
                             children: e.genres.map((genre) {
                               return CustomText(
@@ -89,36 +95,19 @@ class TrendingContainer extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              ElevatedButton.icon(
-                                onPressed: () {},
+                              CustomElevatedIconButton(
+                                title: 'My List',
+                                onTap: () {},
                                 icon: const Icon(Icons.add_rounded),
-                                label: const CustomText('My List'),
-                                style: const ButtonStyle(
-                                  iconColor: MaterialStatePropertyAll(
-                                    AppTheme.systemRed,
-                                  ),
-                                  backgroundColor: MaterialStatePropertyAll(
-                                    Colors.transparent,
-                                  ),
-                                ),
                               ),
                               SizedBox(width: 1.h),
-                              ElevatedButton.icon(
-                                onPressed: () {
-                                  AutoRouter.of(context).push(
-                                    InfoRoute(id: e.id),
-                                  );
+                              CustomElevatedIconButton(
+                                title: 'Info',
+                                onTap: () {
+                                  AutoRouter.of(context)
+                                      .push(InfoRoute(id: e.id));
                                 },
                                 icon: const Icon(Icons.info_outline_rounded),
-                                label: const CustomText('Info'),
-                                style: const ButtonStyle(
-                                  iconColor: MaterialStatePropertyAll(
-                                    AppTheme.systemRed,
-                                  ),
-                                  backgroundColor: MaterialStatePropertyAll(
-                                    Colors.transparent,
-                                  ),
-                                ),
                               ),
                             ],
                           ),
@@ -139,18 +128,13 @@ class TrendingContainer extends StatelessWidget {
             ),
           );
         } else if (state is TrendingLoading) {
-          return Shimmer.fromColors(
-            highlightColor: kDarkGrey1Color,
-            baseColor: kDarkGrey2Color,
-            child: Container(
-              decoration: BoxDecoration(
-                color: kDarkGrey2Color,
-                borderRadius: BorderRadius.circular(kMinRadius),
-              ),
-              padding: EdgeInsets.all(2.h),
-              height: 25.h,
-              width: 100.w - 2,
+          return Container(
+            decoration: const BoxDecoration(
+              color: AppTheme.black,
             ),
+            padding: EdgeInsets.all(2.h),
+            height: 60.h,
+            width: 100.w,
           );
         }
         return const SizedBox.shrink();

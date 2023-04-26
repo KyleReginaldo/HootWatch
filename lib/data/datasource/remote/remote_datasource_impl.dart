@@ -17,6 +17,7 @@ import 'package:yoyo/data/model/upcoming_model.dart';
 import 'package:yoyo/data/model/user_model.dart';
 
 import '../../../core/constants/meta_anilist.dart';
+import '../../model/last_watched_model.dart';
 
 class RemoteDsatasourceImpl implements RemoteDatasource {
   final auth = FirebaseAuth.instance;
@@ -149,5 +150,43 @@ class RemoteDsatasourceImpl implements RemoteDatasource {
     } else {
       throw ServerException(msg: 'server is down');
     }
+  }
+
+  @override
+  Future<void> saveLastWatched({
+    required String userId,
+    required LastWatchedModel info,
+  }) async {
+    final ref = await db
+        .collection('user')
+        .doc(userId)
+        .collection('lastWatched')
+        .doc(info.animeId)
+        .get();
+    if (ref.data() != null) {
+      await db
+          .collection('user')
+          .doc(userId)
+          .collection('lastWatched')
+          .doc(info.animeId)
+          .update(info.toMap());
+    } else {
+      await db
+          .collection('user')
+          .doc(userId)
+          .collection('lastWatched')
+          .doc(info.animeId)
+          .set(info.toMap());
+    }
+  }
+
+  @override
+  Future<List<LastWatchedModel>> fetchLastWatched(
+      {required String userId}) async {
+    final colRef = db.collection('user').doc(userId).collection('lastWatched');
+    final querySnap = await colRef.orderBy('updatedAt', descending: true).get();
+    return querySnap.docs
+        .map((e) => LastWatchedModel.fromMap(e.data()))
+        .toList();
   }
 }

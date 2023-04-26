@@ -9,6 +9,7 @@ import 'package:yoyo/core/error/exception.dart';
 
 import 'package:yoyo/core/error/failure.dart';
 import 'package:yoyo/data/datasource/remote/remote_datasource.dart';
+import 'package:yoyo/data/model/last_watched_model.dart';
 import 'package:yoyo/data/model/user_model.dart';
 import 'package:yoyo/domain/entity/info_entity.dart';
 import 'package:yoyo/domain/entity/recent_release_entity.dart';
@@ -18,6 +19,8 @@ import 'package:yoyo/domain/entity/trending_entity.dart';
 import 'package:yoyo/domain/entity/upcoming_entity.dart';
 import 'package:yoyo/domain/entity/user_entity.dart';
 import 'package:yoyo/domain/repository/repository.dart';
+
+import '../../domain/entity/last_watched_entity.dart';
 
 class RepositoryImpl implements Repository {
   final RemoteDatasource remote;
@@ -141,6 +144,29 @@ class RepositoryImpl implements Repository {
       return Right(await remote.searchAnime(query: query, limit: limit));
     } on ServerException catch (e) {
       return Left(ServerFailure(msg: e.msg));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> saveLastWatched(
+      {required String userId, required LastWatchedEntity info}) async {
+    try {
+      await remote.saveLastWatched(
+          userId: userId, info: LastWatchedModel.fromE(info));
+      return const Right(null);
+    } catch (e) {
+      return Left(DefaultFailure(msg: '$e'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<LastWatchedEntity>>> fetchLastWatched(
+      {required String userId}) async {
+    try {
+      return Right(await remote.fetchLastWatched(userId: userId));
+    } catch (e) {
+      print("ERRROROOR: $e");
+      return Left(DefaultFailure(msg: '$e'));
     }
   }
 }

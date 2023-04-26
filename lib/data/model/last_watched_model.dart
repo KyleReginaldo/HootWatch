@@ -1,0 +1,72 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:yoyo/data/model/info_model.dart';
+import 'package:yoyo/domain/entity/last_watched_entity.dart';
+
+class LastWatchedModel extends LastWatchedEntity {
+  LastWatchedModel({
+    required super.episodeId,
+    required super.episodes,
+    required super.animeId,
+    required super.image,
+    required super.updatedAt,
+    required super.continueAt,
+  });
+
+  factory LastWatchedModel.fromMap(Map<String, dynamic> map) {
+    return LastWatchedModel(
+      episodeId: map['episodeId'],
+      animeId: map['animeId'],
+      image: map['image'],
+      episodes: List<EpisodeModel>.from(
+          map["episodes"].map((x) => EpisodeModel.fromMap(x))),
+      updatedAt: map['updatedAt'],
+      continueAt: ContinueAtModel.fromMap(map['continueAt']),
+    );
+  }
+  factory LastWatchedModel.fromE(LastWatchedEntity lastWatched) {
+    return LastWatchedModel(
+      episodeId: lastWatched.episodeId,
+      image: lastWatched.image,
+      animeId: lastWatched.animeId,
+      episodes: lastWatched.episodes,
+      updatedAt: lastWatched.updatedAt,
+      continueAt: lastWatched.continueAt,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      "episodeId": episodeId,
+      "animeId": animeId,
+      "image": image,
+      "episodes": List<dynamic>.from(
+          episodes.map((x) => EpisodeModel.fromE(x).toMap())),
+      "updatedAt": updatedAt,
+      "continueAt": ContinueAtModel.fromE(continueAt).toMap(),
+    };
+  }
+}
+
+class ContinueAtModel extends ContinueAtEntity {
+  ContinueAtModel({required super.id, required super.willContinueAt});
+
+  factory ContinueAtModel.fromMap(Map<String, dynamic> map) {
+    return ContinueAtModel(
+      id: map['id'],
+      willContinueAt: map['willContinueAt'],
+    );
+  }
+  factory ContinueAtModel.fromE(ContinueAtEntity continueAt) {
+    return ContinueAtModel(
+      id: continueAt.id,
+      willContinueAt: continueAt.willContinueAt,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'willContinueAt': willContinueAt,
+    };
+  }
+}

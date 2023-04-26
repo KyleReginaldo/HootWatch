@@ -21,11 +21,12 @@ class SearchPageDelegate extends SearchDelegate<SearchEntity> {
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
-      IconButton(
-          onPressed: () {
-            query = '';
-          },
-          icon: const Icon(Icons.clear))
+      if (query.isNotEmpty)
+        IconButton(
+            onPressed: () {
+              query = '';
+            },
+            icon: const Icon(Icons.clear)),
     ];
   }
 
@@ -144,26 +145,6 @@ class SearchPageDelegate extends SearchDelegate<SearchEntity> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CustomText(
-            'What you are\nlooking for?',
-            color: const Color(0xFF9fa1a2),
-            size: 24.sp,
-            textAlign: TextAlign.center,
-            weight: FontWeight.w600,
-          ),
-          CustomText(
-            'Find your favorite Anime Between more\nThan 10,000 Anime',
-            color: const Color(0xFF9fa1a2),
-            size: 14.sp,
-            textAlign: TextAlign.center,
-            weight: FontWeight.w600,
-          ),
-        ],
-      ),
-    );
+    return Container();
   }
 }

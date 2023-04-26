@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:yoyo/core/error/failure.dart';
 import 'package:yoyo/domain/entity/info_entity.dart';
+import 'package:yoyo/domain/entity/last_watched_entity.dart';
 import 'package:yoyo/domain/entity/recent_release_entity.dart';
 import 'package:yoyo/domain/entity/search_entity.dart';
 import 'package:yoyo/domain/entity/streamlink_entity.dart';
@@ -31,4 +32,8 @@ abstract class Repository {
     required String query,
     required int limit,
   });
+  Future<Either<Failure, void>> saveLastWatched(
+      {required String userId, required LastWatchedEntity info});
+  Future<Either<Failure, List<LastWatchedEntity>>> fetchLastWatched(
+      {required String userId});
 }

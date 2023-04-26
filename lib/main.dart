@@ -16,6 +16,7 @@ import 'package:yoyo/presentation/cubits/common/searchbar_cubit.dart';
 import 'package:yoyo/presentation/cubits/image/image_cubit.dart';
 import 'package:yoyo/presentation/cubits/firebase_storage/storage_cubit.dart';
 import 'package:yoyo/presentation/cubits/info/info_cubit.dart';
+import 'package:yoyo/presentation/cubits/lastWatched/last_watched_cubit.dart';
 import 'package:yoyo/presentation/cubits/recent/recent_cubit.dart';
 import 'package:yoyo/presentation/cubits/streamlink/streamlink_cubit.dart';
 import 'package:yoyo/presentation/cubits/trending/trending_cubit.dart';
@@ -77,6 +78,9 @@ class MyApp extends StatelessWidget {
           create: (context) => sl<SearchBloc>(),
         ),
         BlocProvider(
+          create: (context) => sl<LastWatchedCubit>(),
+        ),
+        BlocProvider(
           create: (context) => SearchbarCubit(),
         ),
         BlocProvider(
@@ -116,7 +120,6 @@ class MyApp extends StatelessWidget {
             ),
             progressIndicatorTheme: const ProgressIndicatorThemeData(
               color: AppTheme.systemRed,
-              
             ),
             textTheme: kTextTheme,
             brightness: Brightness.dark,

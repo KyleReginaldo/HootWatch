@@ -15,4 +15,18 @@ class TitleModel extends TitleEntity {
       userPreferred: json["userPreferred"],
     );
   }
+  factory TitleModel.fromE(TitleEntity title) {
+    return TitleModel(
+      romaji: title.romaji,
+      english: title.english,
+      native: title.native,
+      userPreferred: title.userPreferred,
+    );
+  }
+  Map<String, dynamic> toMap() => {
+        "romaji": romaji,
+        "english": english,
+        "native": native,
+        "userPreferred": userPreferred,
+      };
 }

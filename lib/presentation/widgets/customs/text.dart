@@ -50,6 +50,7 @@ class CustomText extends StatelessWidget {
             fontWeight: weight,
             wordSpacing: spacing,
             color: color,
+            fontFamily: 'NetflixSans',
           ),
     );
   }

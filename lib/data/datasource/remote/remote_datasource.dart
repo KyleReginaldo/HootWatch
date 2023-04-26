@@ -9,6 +9,7 @@ import 'package:yoyo/data/model/upcoming_model.dart';
 import 'package:yoyo/data/model/user_model.dart';
 
 import '../../model/info_model.dart';
+import '../../model/last_watched_model.dart';
 import '../../model/streamlink_model.dart';
 
 abstract class RemoteDatasource {
@@ -28,4 +29,9 @@ abstract class RemoteDatasource {
     required String query,
     required int limit,
   });
+  Future<void> saveLastWatched({
+    required String userId,
+    required LastWatchedModel info,
+  });
+  Future<List<LastWatchedModel>> fetchLastWatched({required String userId});
 }

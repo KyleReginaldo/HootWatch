@@ -82,7 +82,6 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                         left: 0,
                         right: 0,
                         child: Container(
-
                           padding: EdgeInsets.only(left: 1.h, top: 4.h),
                           alignment: Alignment.bottomLeft,
                           width: 100.w,
@@ -99,8 +98,8 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                             ),
                           ),
                           child: CustomText(
-                            state.Info.title.userPreferred ??
-                                state.Info.title.english ??
+                            state.Info.title.english ??
+                                state.Info.title.userPreferred ??
                                 state.Info.title.romaji,
                             size: 20.sp,
                             weight: FontWeight.w600,
@@ -114,35 +113,45 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 1.h),
+                        SizedBox(height: 2.h),
+                        const CustomText('Genre'),
                         Wrap(
-                          runSpacing: 8,
-                          spacing: 8,
-                          children: state.Info.genres.map((e) {
-                            return Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 2.h,
-                                vertical: 0.5.h,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Theme.of(context)
-                                    .primaryColor
-                                    .withOpacity(0.3),
-                                border: Border.all(
-                                  color: AppTheme.redDark1,
-                                ),
-                                borderRadius: BorderRadius.circular(
-                                  kMidRadius,
-                                ),
-                              ),
-                              child: CustomText(e),
-                            );
+                          children: state.Info.genres.map((genre) {
+                            return CustomText(
+                                "$genre ${genre == state.Info.genres.last ? "" : "·"}");
                           }).toList(),
                         ),
-                        if (state.Info.description != null)
-                          SizedBox(height: 2.h),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            height: 6.h,
+                            width: 100.w,
+                            margin: EdgeInsets.only(top: 1.h),
+                            decoration: BoxDecoration(
+                              color: AppTheme.white,
+                              borderRadius: BorderRadius.circular(kMinRadius),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.play_arrow,
+                                  color: AppTheme.greyDark1,
+                                ),
+                                SizedBox(width: 2.w),
+                                CustomText(
+                                  'Play',
+                                  color: AppTheme.greyDark1,
+                                  size: 16.sp,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                         if (state.Info.description != null)
                           SizedBox(height: 1.h),
+                        if (state.Info.description != null)
+                          const CustomText('Synopsis'),
                         if (state.Info.description != null)
                           ReadMoreText(
                             CustomFunctions.removeTags(state.Info.description!),
@@ -155,12 +164,12 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                             moreStyle: TextStyle(
                               fontSize: 15.sp,
                               fontWeight: FontWeight.bold,
-                              color: Theme.of(context).secondaryHeaderColor,
+                              color: AppTheme.white,
                             ),
                             lessStyle: TextStyle(
                               fontSize: 15.sp,
                               fontWeight: FontWeight.bold,
-                              color: Theme.of(context).secondaryHeaderColor,
+                              color: AppTheme.white,
                             ),
                           ),
                       ],
@@ -199,8 +208,10 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                                 onTap: () {
                                   AutoRouter.of(context).push(
                                     StreamingRoute(
-                                      id: e.id,
+                                      episodeId: e.id,
                                       episodes: state.Info.episodes,
+                                      image: state.Info.image,
+                                      animeId: state.Info.id,
                                     ),
                                   );
                                 },

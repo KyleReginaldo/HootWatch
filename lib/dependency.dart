@@ -9,7 +9,9 @@ import 'package:yoyo/domain/usecases/fetch_recent_anime.dart';
 import 'package:yoyo/domain/usecases/fetch_stream_links.dart';
 import 'package:yoyo/domain/usecases/fetch_trending_anime.dart';
 import 'package:yoyo/domain/usecases/fetch_upcoming_anime.dart';
+import 'package:yoyo/domain/usecases/firestore/fetch_last_watched.dart';
 import 'package:yoyo/domain/usecases/firestore/fetch_user.dart';
+import 'package:yoyo/domain/usecases/firestore/save_last_watched.dart';
 import 'package:yoyo/domain/usecases/search_anime.dart';
 import 'package:yoyo/domain/usecases/storage/get_download_url.dart';
 import 'package:yoyo/domain/usecases/storage/upload_image.dart';
@@ -18,6 +20,7 @@ import 'package:yoyo/presentation/cubits/auth/authentication/authentication_cubi
 import 'package:yoyo/presentation/cubits/auth/usercheck/usercheck_cubit.dart';
 import 'package:yoyo/presentation/cubits/firebase_storage/storage_cubit.dart';
 import 'package:yoyo/presentation/cubits/info/info_cubit.dart';
+import 'package:yoyo/presentation/cubits/lastWatched/last_watched_cubit.dart';
 import 'package:yoyo/presentation/cubits/recent/recent_cubit.dart';
 import 'package:yoyo/presentation/cubits/streamlink/streamlink_cubit.dart';
 import 'package:yoyo/presentation/cubits/trending/trending_cubit.dart';
@@ -43,6 +46,7 @@ Future init() async {
   sl.registerFactory(() => UserFnCubit(sl(), sl()));
   sl.registerFactory(() => StorageCubit(sl()));
   sl.registerFactory(() => SearchBloc(sl()));
+  sl.registerFactory(() => LastWatchedCubit(sl(), sl()));
 
   sl.registerLazySingleton(() => FetchTrendingAnime(repo: sl()));
   sl.registerLazySingleton(() => FetchRecentAnime(repo: sl()));
@@ -57,6 +61,8 @@ Future init() async {
   sl.registerLazySingleton(() => UploadImage(repo: sl()));
   sl.registerLazySingleton(() => GetDownloadUrl(repo: sl()));
   sl.registerLazySingleton(() => SearchAnime(repo: sl()));
+  sl.registerLazySingleton(() => SaveLastWatched(repo: sl()));
+  sl.registerLazySingleton(() => FetchLastWatched(repo: sl()));
 
   sl.registerLazySingleton<Repository>(() => RepositoryImpl(remote: sl()));
   sl.registerLazySingleton<RemoteDatasource>(() => RemoteDsatasourceImpl());

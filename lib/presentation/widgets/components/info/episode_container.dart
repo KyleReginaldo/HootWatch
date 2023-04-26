@@ -28,11 +28,8 @@ class EpisodeContainer extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: 1.h),
       child: Container(
-        decoration: BoxDecoration(
-            color: subtitle != null
-                ? Theme.of(context).primaryColor.withOpacity(0.6)
-                : null,
-            borderRadius: BorderRadius.circular(kMinRadius)),
+        decoration:
+            BoxDecoration(borderRadius: BorderRadius.circular(kMinRadius)),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -72,23 +69,21 @@ class EpisodeContainer extends StatelessWidget {
                   CustomText(
                     episode.title != null
                         ? '${episode.number}. ${episode.title}'
-                        : 'episode ${episode.number}',
+                        : '${episode.number}. Episode ${episode.number}',
                     size: 16.sp,
                     weight: FontWeight.w600,
                   ),
                   if (subtitle != null)
                     CustomText(
                       subtitle,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 5,
-                      size: 16.sp,
-                      color: kWhiteColor,
+                      size: 15.sp,
+                      color: Theme.of(context).primaryColor,
                     ),
                   if (episode.description != null && (haveDesc ?? true))
                     CustomText(
                       episode.description,
                       overflow: TextOverflow.ellipsis,
-                      maxLines: 5,
+                      maxLines: 4,
                       size: 14.sp,
                     ),
                 ],

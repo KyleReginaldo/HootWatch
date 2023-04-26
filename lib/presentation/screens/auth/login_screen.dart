@@ -1,16 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:yoyo/core/constants/app_theme.dart';
 import 'package:yoyo/core/dtos/auth_dto.dart';
 import 'package:yoyo/core/router/custom_router.dart';
 import 'package:yoyo/presentation/cubits/auth/authentication/authentication_cubit.dart';
 import 'package:yoyo/presentation/widgets/customs/text.dart';
 import 'package:yoyo/presentation/widgets/customs/textfield.dart';
+import 'package:yoyo/core/constants/string.dart';
 
 import '../../../core/constants/constant.dart';
-import '../../../core/constants/string.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -31,28 +31,32 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  lgLogo,
-                  width: 8.h,
-                  height: 8.h,
-                  fit: BoxFit.fill,
-                ).animate().fadeIn(),
-                Image.asset(
-                  lgWord,
-                  width: 45.w,
-                  height: 18.h,
-                  fit: BoxFit.fill,
-                ).animate().fadeIn(),
-              ],
+            Image.asset(
+              aniflixWord,
+              height: 6.h,
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 10.w),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: CustomText(
+                  'Sign In',
+                  size: 16.sp,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 1.h,
             ),
             CustomTextField(
+              label: 'Email',
               controller: email,
-              hint: 'Email',
-              fontColor: Theme.of(context).primaryColor,
-              width: 70.w,
+              hint: 'enter your email',
+              width: 80.w,
+              bgColor: AppTheme.grey,
               validator: (v) {
                 if (v!.isEmpty) {
                   return 'please provide an email';
@@ -63,9 +67,10 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: 2.h),
             CustomTextField(
               controller: password,
-              hint: 'Password',
-              fontColor: Theme.of(context).primaryColor,
-              width: 70.w,
+              hint: 'enter your password',
+              label: 'Password',
+              width: 80.w,
+              bgColor: AppTheme.grey,
               isObscure: true,
               validator: (v) {
                 if (v!.isEmpty) {
@@ -96,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           }
                         },
                   child: AnimatedContainer(
-                    width: state is LoggingIn ? 6.h : 70.w,
+                    width: state is LoggingIn ? 6.h : 80.w,
                     height: 6.h,
                     decoration: BoxDecoration(
                       color: Theme.of(context).primaryColor,
@@ -112,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: Colors.white,
                           )
                         : const CustomText(
-                            'Login',
+                            'Sign In',
                             color: Colors.white,
                           ),
                   ),

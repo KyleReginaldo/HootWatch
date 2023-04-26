@@ -82,6 +82,79 @@ class InfoModel extends InfoEntity {
         episodes: List<EpisodeModel>.from(
             json["episodes"].map((x) => EpisodeModel.fromMap(x))),
       );
+  factory InfoModel.fromE(InfoEntity info) => InfoModel(
+        id: info.id,
+        title: info.title,
+        malId: info.malId,
+        synonyms: info.synonyms,
+        isLicensed: info.isLicensed,
+        isAdult: info.isAdult,
+        countryOfOrigin: info.countryOfOrigin,
+        trailer: info.trailer,
+        image: info.image,
+        popularity: info.popularity,
+        color: info.color,
+        cover: info.cover,
+        description: info.description,
+        status: info.status,
+        releaseDate: info.releaseDate,
+        startDate: info.startDate,
+        endDate: info.endDate,
+        nextAiringEpisode: info.nextAiringEpisode,
+        totalEpisodes: info.totalEpisodes,
+        currentEpisode: info.currentEpisode,
+        rating: info.rating,
+        duration: info.duration,
+        genres: info.genres,
+        season: info.season,
+        studios: info.studios,
+        subOrDub: info.subOrDub,
+        type: info.type,
+        recommendations: info.recommendations,
+        characters: info.characters,
+        relations: info.relations,
+        mappings: info.mappings,
+        episodes: info.episodes,
+      );
+  Map<String, dynamic> toMap() => {
+        "id": id,
+        "title": TitleModel.fromE(title).toMap(),
+        "malId": malId,
+        "synonyms": List<dynamic>.from(synonyms.map((x) => x)),
+        "isLicensed": isLicensed,
+        "isAdult": isAdult,
+        "countryOfOrigin": countryOfOrigin,
+        "trailer":
+            trailer != null ? TrailerModel.fromE(trailer!).toMap() : null,
+        "image": image,
+        "popularity": popularity,
+        "color": color,
+        "cover": cover,
+        "description": description,
+        "status": statusValues.reverse[status],
+        "releaseDate": releaseDate,
+        "startDate": DateModel.fromE(startDate).toMap(),
+        "endDate": DateModel.fromE(endDate).toMap(),
+        "totalEpisodes": totalEpisodes,
+        "currentEpisode": currentEpisode,
+        "rating": rating,
+        "duration": duration,
+        "genres": List<dynamic>.from(genres.map((x) => x)),
+        "season": season,
+        "studios": List<dynamic>.from(studios.map((x) => x)),
+        "subOrDub": subOrDub,
+        "type": typeValues.reverse[type],
+        "recommendations": List<AtionEntity>.from(
+            recommendations.map((x) => AtionModel.fromE(x).toMap())),
+        "characters": List<CharacterEntity>.from(
+            characters.map((x) => CharacterModel.fromE(x).toMap())),
+        "relations": List<AtionEntity>.from(
+            relations.map((x) => AtionModel.fromE(x).toMap())),
+        "mappings":
+            mappings != null ? MappingsModel.fromE(mappings!).toMap() : null,
+        "episodes": List<EpisodeEntity>.from(
+            episodes.map((x) => EpisodeModel.fromE(x).toMap())),
+      };
 }
 
 class CharacterModel extends CharacterEntity {
@@ -99,6 +172,21 @@ class CharacterModel extends CharacterEntity {
         voiceActors: List<VoiceActorModel>.from(
             json["voiceActors"].map((x) => VoiceActorModel.fromMap(x))),
       );
+  factory CharacterModel.fromE(CharacterEntity character) => CharacterModel(
+        id: character.id,
+        role: character.role,
+        name: character.name,
+        image: character.image,
+        voiceActors: character.voiceActors,
+      );
+  Map<String, dynamic> toMap() => {
+        "id": id,
+        "role": roleValues.reverse[role],
+        "name": NameModel.fromE(name).toMap(),
+        "image": image,
+        "voiceActors": List<VoiceActorEntity>.from(
+            voiceActors.map((x) => VoiceActorModel.fromE(x).toMap())),
+      };
 }
 
 class NameModel extends NameEntity {
@@ -116,6 +204,22 @@ class NameModel extends NameEntity {
         native: json["native"],
         userPreferred: json["userPreferred"],
       );
+  factory NameModel.fromE(NameEntity name) {
+    return NameModel(
+      first: name.first,
+      last: name.last,
+      full: name.full,
+      native: name.native,
+      userPreferred: name.userPreferred,
+    );
+  }
+  Map<String, dynamic> toMap() => {
+        "first": first,
+        "last": last,
+        "full": full,
+        "native": native,
+        "userPreferred": userPreferred,
+      };
 }
 
 enum Role { MAIN, SUPPORTING, UNKNOWN }
@@ -139,14 +243,41 @@ class VoiceActorModel extends VoiceActorEntity {
         name: NameModel.fromMap(json["name"]),
         image: json["image"],
       );
+  factory VoiceActorModel.fromE(VoiceActorEntity voiceActor) => VoiceActorModel(
+        id: voiceActor.id,
+        language: voiceActor.language,
+        name: voiceActor.name,
+        image: voiceActor.image,
+      );
+  Map<String, dynamic> toMap() => {
+        "id": id,
+        "language": languageValues.reverse[language],
+        "name": NameModel.fromE(name).toMap(),
+        "image": image,
+      };
 }
 
-enum Language { JAPANESE, PORTUGUESE, ENGLISH, UNKNOWN }
+enum Language {
+  JAPANESE,
+  ENGLISH,
+  KOREAN,
+  ITALIAN,
+  SPANISH,
+  PORTUGUESE,
+  FRENCH,
+  GERMAN,
+  UNKNOWN
+}
 
 final languageValues = EnumValues({
   "English": Language.ENGLISH,
+  "French": Language.FRENCH,
+  "German": Language.GERMAN,
+  "Italian": Language.ITALIAN,
   "Japanese": Language.JAPANESE,
+  "Korean": Language.KOREAN,
   "Portuguese": Language.PORTUGUESE,
+  "Spanish": Language.SPANISH,
   "UNKNOWN": Language.UNKNOWN,
 });
 
@@ -161,6 +292,16 @@ class DateModel extends DateEntity {
         month: json["month"],
         day: json["day"],
       );
+  factory DateModel.fromE(DateEntity date) => DateModel(
+        year: date.year,
+        month: date.month,
+        day: date.day,
+      );
+  Map<String, dynamic> toMap() => {
+        "year": year,
+        "month": month,
+        "day": day,
+      };
 }
 
 class EpisodeModel extends EpisodeEntity {
@@ -181,6 +322,21 @@ class EpisodeModel extends EpisodeEntity {
         airDate:
             json["airDate"] != null ? DateTime.parse(json["airDate"]) : null,
       );
+  factory EpisodeModel.fromE(EpisodeEntity episode) => EpisodeModel(
+        id: episode.id,
+        title: episode.title,
+        description: episode.description,
+        number: episode.number,
+        image: episode.image,
+        airDate: episode.airDate,
+      );
+  Map<String, dynamic> toMap() => {
+        "id": id,
+        "title": title,
+        "description": description,
+        "number": number,
+        "image": image,
+      };
 }
 
 class MappingsModel extends MappingsEntity {
@@ -206,6 +362,28 @@ class MappingsModel extends MappingsEntity {
         notifyMoe: json["notify.moe"],
         animePlanet: json["anime-planet"],
       );
+  factory MappingsModel.fromE(MappingsEntity mappings) => MappingsModel(
+        mal: mappings.mal,
+        anidb: mappings.anidb,
+        kitsu: mappings.kitsu,
+        anilist: mappings.anilist,
+        thetvdb: mappings.thetvdb,
+        anisearch: mappings.anisearch,
+        livechart: mappings.livechart,
+        notifyMoe: mappings.notifyMoe,
+        animePlanet: mappings.animePlanet,
+      );
+  Map<String, dynamic> toMap() => {
+        "mal": mal,
+        "anidb": anidb,
+        "kitsu": kitsu,
+        "anilist": anilist,
+        "thetvdb": thetvdb,
+        "anisearch": anisearch,
+        "livechart": livechart,
+        "notify.moe": notifyMoe,
+        "anime-planet": animePlanet,
+      };
 }
 
 class NextAiringEpisodeModel extends NextAiringEpisodeEntity {
@@ -249,6 +427,30 @@ class AtionModel extends AtionEntity {
         relationType: json["relationType"],
         color: json["color"],
       );
+  factory AtionModel.fromE(AtionEntity ation) => AtionModel(
+        id: ation.id,
+        malId: ation.malId,
+        title: ation.title,
+        status: ation.status,
+        episodes: ation.episodes,
+        image: ation.image,
+        cover: ation.cover,
+        rating: ation.rating,
+        type: ation.type,
+        relationType: ation.relationType,
+        color: ation.color,
+      );
+  Map<String, dynamic> toMap() => {
+        "id": id,
+        "malId": malId,
+        "title": title != null ? TitleModel.fromE(title!).toMap() : null,
+        "status": statusValues.reverse[status],
+        "episodes": episodes,
+        "image": image,
+        "cover": cover,
+        "rating": rating,
+        "type": typeValues.reverse[type],
+      };
 }
 
 enum Status { COMPLETED }
@@ -277,7 +479,11 @@ class TrailerModel extends TrailerEntity {
         site: json["site"],
         thumbnail: json["thumbnail"],
       );
-
+  factory TrailerModel.fromE(TrailerEntity trailer) => TrailerModel(
+        id: trailer.id,
+        site: trailer.site,
+        thumbnail: trailer.thumbnail,
+      );
   Map<String, dynamic> toMap() => {
         "id": id,
         "site": site,

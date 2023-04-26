@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:yoyo/presentation/widgets/customs/text.dart';
@@ -30,28 +29,31 @@ class _SignupScreenState extends State<SignupScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  lgLogo,
-                  width: 8.h,
-                  height: 8.h,
-                  fit: BoxFit.fill,
-                ).animate().fadeIn(),
-                Image.asset(
-                  lgWord,
-                  width: 45.w,
-                  height: 18.h,
-                  fit: BoxFit.fill,
-                ).animate().fadeIn(),
-              ],
+            Image.asset(
+              aniflixWord,
+              height: 6.h,
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 10.w),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: CustomText(
+                  'Sign Up',
+                  size: 16.sp,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 1.h,
             ),
             CustomTextField(
-              hint: 'Email',
+              hint: 'enter an email',
               controller: email,
-              fontColor: Theme.of(context).primaryColor,
-              width: 70.w,
+              label: 'Email',
+              width: 80.w,
               validator: (value) {
                 if (value!.isEmpty) {
                   return "Please Enter Email";
@@ -63,9 +65,9 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
             SizedBox(height: 2.h),
             CustomTextField(
-                hint: 'Password',
-                fontColor: Theme.of(context).primaryColor,
-                width: 70.w,
+                label: 'Password',
+                hint: 'enter an password',
+                width: 80.w,
                 isObscure: true,
                 controller: password,
                 validator: (value) {
@@ -123,7 +125,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           }
                         },
                   child: AnimatedContainer(
-                    width: state is SigningUp ? 6.h : 70.w,
+                    width: state is SigningUp ? 6.h : 80.w,
                     height: 6.h,
                     decoration: BoxDecoration(
                       color: Theme.of(context).primaryColor,
@@ -139,7 +141,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             color: Colors.white,
                           )
                         : const CustomText(
-                            'Signup',
+                            'Sign Up',
                             color: Colors.white,
                           ),
                   ),
@@ -156,7 +158,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     AutoRouter.of(context).pop();
                   },
                   child: CustomText(
-                    'Login',
+                    'Sign In',
                     color: Theme.of(context).primaryColor,
                   ),
                 ),

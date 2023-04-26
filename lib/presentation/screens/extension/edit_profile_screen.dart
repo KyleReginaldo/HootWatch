@@ -135,7 +135,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               SizedBox(height: 2.h),
               CustomTextField(
-                hint: 'username',
+                hint: 'Username',
+                label: 'Username',
                 controller: username,
                 fontColor: Colors.white,
               ),

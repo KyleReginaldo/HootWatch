@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
@@ -9,6 +10,7 @@ import 'package:yoyo/core/constants/constant.dart';
 import 'package:yoyo/core/constants/string.dart';
 import 'package:yoyo/domain/entity/search_entity.dart';
 import 'package:yoyo/presentation/cubits/common/bnb_cubit.dart';
+import 'package:yoyo/presentation/cubits/lastWatched/last_watched_cubit.dart';
 import 'package:yoyo/presentation/screens/main/account_screen.dart';
 
 import '../../core/global/global.dart';
@@ -34,6 +36,8 @@ class _MainScreenState extends State<MainScreen> {
     context.read<RecentCubit>().onFetchRecentAnime();
     context.read<UpcomingCubit>().onFetchUpcomingAnime();
     context.read<TrendingCubit>().onFetchTrendingAnime();
+    context.read<LastWatchedCubit>().onFetchLastWatched(
+        userId: FirebaseAuth.instance.currentUser?.uid ?? "");
     super.initState();
   }
 
@@ -46,7 +50,7 @@ class _MainScreenState extends State<MainScreen> {
           extendBodyBehindAppBar: selectedIndex == 0,
           appBar: selectedIndex == 0 || selectedIndex == 2
               ? AppBar(
-                  leading: selectedIndex == 0 ? Image.asset(lgLogo) : null,
+                  leading: selectedIndex == 0 ? Image.asset(aniflixLogo) : null,
                   title: selectedIndex == 2
                       ? CustomText(
                           'My Account',

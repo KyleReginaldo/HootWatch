@@ -21,7 +21,7 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
         routeData: routeData,
         child: const AuthScreen(),
-        transitionsBuilder: TransitionsBuilders.fadeIn,
+        transitionsBuilder: TransitionsBuilders.slideLeft,
         opaque: true,
         barrierDismissible: false,
       );
@@ -35,7 +35,7 @@ class _$AppRouter extends RootStackRouter {
           id: args.id,
           tab: args.tab,
         ),
-        transitionsBuilder: TransitionsBuilders.fadeIn,
+        transitionsBuilder: TransitionsBuilders.slideLeft,
         opaque: true,
         barrierDismissible: false,
       );
@@ -44,7 +44,7 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
         routeData: routeData,
         child: const MainScreen(),
-        transitionsBuilder: TransitionsBuilders.fadeIn,
+        transitionsBuilder: TransitionsBuilders.slideLeft,
         opaque: true,
         barrierDismissible: false,
       );
@@ -55,10 +55,13 @@ class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: StreamingScreen(
           key: args.key,
-          id: args.id,
+          animeId: args.animeId,
+          episodeId: args.episodeId,
+          image: args.image,
           episodes: args.episodes,
+          willContinueAt: args.willContinueAt,
         ),
-        transitionsBuilder: TransitionsBuilders.fadeIn,
+        transitionsBuilder: TransitionsBuilders.slideLeft,
         opaque: true,
         barrierDismissible: false,
       );
@@ -67,7 +70,7 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
         routeData: routeData,
         child: const SignupScreen(),
-        transitionsBuilder: TransitionsBuilders.fadeIn,
+        transitionsBuilder: TransitionsBuilders.slideLeft,
         opaque: true,
         barrierDismissible: false,
       );
@@ -76,7 +79,7 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
         routeData: routeData,
         child: const LoginScreen(),
-        transitionsBuilder: TransitionsBuilders.fadeIn,
+        transitionsBuilder: TransitionsBuilders.slideLeft,
         opaque: true,
         barrierDismissible: false,
       );
@@ -90,7 +93,7 @@ class _$AppRouter extends RootStackRouter {
           key: args.key,
           user: args.user,
         ),
-        transitionsBuilder: TransitionsBuilders.fadeIn,
+        transitionsBuilder: TransitionsBuilders.slideLeft,
         opaque: true,
         barrierDismissible: false,
       );
@@ -198,15 +201,21 @@ class MainRoute extends PageRouteInfo<void> {
 class StreamingRoute extends PageRouteInfo<StreamingRouteArgs> {
   StreamingRoute({
     Key? key,
-    required String id,
+    required String animeId,
+    required String episodeId,
+    required String image,
     required List<EpisodeEntity> episodes,
+    ContinueAtEntity? willContinueAt,
   }) : super(
           StreamingRoute.name,
           path: '/streaming-screen',
           args: StreamingRouteArgs(
             key: key,
-            id: id,
+            animeId: animeId,
+            episodeId: episodeId,
+            image: image,
             episodes: episodes,
+            willContinueAt: willContinueAt,
           ),
         );
 
@@ -216,19 +225,28 @@ class StreamingRoute extends PageRouteInfo<StreamingRouteArgs> {
 class StreamingRouteArgs {
   const StreamingRouteArgs({
     this.key,
-    required this.id,
+    required this.animeId,
+    required this.episodeId,
+    required this.image,
     required this.episodes,
+    this.willContinueAt,
   });
 
   final Key? key;
 
-  final String id;
+  final String animeId;
+
+  final String episodeId;
+
+  final String image;
 
   final List<EpisodeEntity> episodes;
 
+  final ContinueAtEntity? willContinueAt;
+
   @override
   String toString() {
-    return 'StreamingRouteArgs{key: $key, id: $id, episodes: $episodes}';
+    return 'StreamingRouteArgs{key: $key, animeId: $animeId, episodeId: $episodeId, image: $image, episodes: $episodes, willContinueAt: $willContinueAt}';
   }
 }
 
