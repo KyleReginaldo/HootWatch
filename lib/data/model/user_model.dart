@@ -7,6 +7,8 @@ class UserModel extends UserEntity {
     super.imageLink,
     super.isVerified,
     required super.uid,
+    required super.password,
+    super.bio,
   });
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
@@ -16,6 +18,8 @@ class UserModel extends UserEntity {
       uid: map['uid'],
       imageLink: map['imageLink'],
       isVerified: map['isVerified'],
+      password: map['password'],
+      bio: map['bio'],
     );
   }
 
@@ -26,6 +30,8 @@ class UserModel extends UserEntity {
       uid: user.uid,
       imageLink: user.imageLink,
       isVerified: user.isVerified,
+      password: user.password,
+      bio: user.bio,
     );
   }
 
@@ -36,6 +42,8 @@ class UserModel extends UserEntity {
       'uid': uid,
       'imageLink': imageLink,
       'isVerified': isVerified,
+      "password": password,
+      "bio": bio,
     };
   }
 }

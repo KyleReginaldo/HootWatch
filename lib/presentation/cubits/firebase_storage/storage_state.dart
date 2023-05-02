@@ -13,8 +13,8 @@ class StorageInitial extends StorageState {}
 class StorageLoading extends StorageState {}
 
 class StorageDone extends StorageState {
-  final String path;
+  final String? path;
   const StorageDone({
-    required this.path,
+    this.path,
   });
 }

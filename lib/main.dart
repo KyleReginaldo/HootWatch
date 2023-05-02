@@ -1,32 +1,27 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:yoyo/core/router/custom_router.dart';
+import 'package:yoyo/data/model/popular_model.dart';
+import 'package:yoyo/data/model/random_model.dart';
+import 'package:yoyo/data/model/title_model.dart';
+import 'package:yoyo/data/model/trending_model.dart';
+import 'package:yoyo/data/model/upcoming_model.dart';
 import 'package:yoyo/dependency.dart';
-import 'package:yoyo/presentation/blocs/search/search_bloc.dart';
-import 'package:yoyo/presentation/cubits/auth/authentication/authentication_cubit.dart';
-import 'package:yoyo/presentation/cubits/auth/usercheck/usercheck_cubit.dart';
-import 'package:yoyo/presentation/cubits/common/bnb_cubit.dart';
-import 'package:yoyo/presentation/cubits/common/episodes/episodes_cubit.dart';
-import 'package:yoyo/presentation/cubits/common/fullscreen_cubit.dart';
-import 'package:yoyo/presentation/cubits/common/infoswitch_cubit.dart';
-import 'package:yoyo/presentation/cubits/common/playing_cubit.dart';
-import 'package:yoyo/presentation/cubits/common/searchbar_cubit.dart';
-import 'package:yoyo/presentation/cubits/image/image_cubit.dart';
-import 'package:yoyo/presentation/cubits/firebase_storage/storage_cubit.dart';
-import 'package:yoyo/presentation/cubits/info/info_cubit.dart';
-import 'package:yoyo/presentation/cubits/lastWatched/last_watched_cubit.dart';
-import 'package:yoyo/presentation/cubits/recent/recent_cubit.dart';
-import 'package:yoyo/presentation/cubits/streamlink/streamlink_cubit.dart';
-import 'package:yoyo/presentation/cubits/trending/trending_cubit.dart';
-import 'package:yoyo/presentation/cubits/upcoming/upcoming_cubit.dart';
-import 'package:yoyo/presentation/cubits/user/user_cubit.dart';
-import 'package:yoyo/presentation/cubits/user/user_fn/user_fn_cubit.dart';
+import 'package:yoyo/presentation/cubits/common/carousel_title_cubit.dart';
+import 'package:yoyo/presentation/cubits/common/color_cubit.dart';
+import 'package:yoyo/presentation/cubits/common/scroll_cubit.dart';
+import 'package:yoyo/presentation/cubits/favorite/favorite_cubit.dart';
+import 'package:yoyo/presentation/cubits/favorite/is_favorite_cubit.dart';
+import 'package:yoyo/presentation/cubits/popular/popular_cubit.dart';
 
 import 'core/constants/app_theme.dart';
 import 'core/constants/constant.dart';
+import 'data/model/recent_release_model.dart';
 import 'firebase_options.dart';
+import 'presentation/cubits/state.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +29,23 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await init();
+  await Hive.initFlutter();
+  Hive.registerAdapter(RandomModelAdapter());
+  Hive.registerAdapter(TitleModelAdapter());
+  Hive.registerAdapter(TrendingModelAdapter());
+  Hive.registerAdapter(TrendingResultModelAdapter());
+  Hive.registerAdapter(RecentReleaseModelAdapter());
+  Hive.registerAdapter(RecentResultModelAdapter());
+  Hive.registerAdapter(UpcomingModelAdapter());
+  Hive.registerAdapter(UpcomingResultModelAdapter());
+  Hive.registerAdapter(PopularModelAdapter());
+  Hive.registerAdapter(PopularResultModelAdapter());
+  await Hive.openBox('random_test');
+  await Hive.openBox('trending_test');
+  await Hive.openBox('recent_test');
+  await Hive.openBox('upcoming_test');
+  await Hive.openBox('popular_test');
+
   runApp(MyApp());
 }
 
@@ -45,61 +57,88 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => sl<TrendingCubit>(),
+          create: (ctx) => sl<TrendingCubit>(),
         ),
         BlocProvider(
-          create: (context) => sl<RecentCubit>(),
+          create: (ctx) => sl<RecentCubit>(),
         ),
         BlocProvider(
-          create: (context) => sl<InfoCubit>(),
+          create: (ctx) => sl<InfoCubit>(),
         ),
         BlocProvider(
-          create: (context) => sl<StreamlinkCubit>(),
+          create: (ctx) => sl<StreamlinkCubit>(),
         ),
         BlocProvider(
-          create: (context) => sl<UsercheckCubit>()..checkUserchanges(),
+          create: (ctx) => sl<UsercheckCubit>()..checkUserchanges(),
         ),
         BlocProvider(
-          create: (context) => sl<AuthenticationCubit>(),
+          create: (ctx) => sl<AuthenticationCubit>(),
         ),
         BlocProvider(
-          create: (context) => sl<UpcomingCubit>(),
+          create: (ctx) => sl<UpcomingCubit>(),
         ),
         BlocProvider(
-          create: (context) => sl<UserCubit>(),
+          create: (ctx) => sl<UserCubit>(),
         ),
         BlocProvider(
-          create: (context) => sl<UserFnCubit>(),
+          create: (ctx) => sl<UserFnCubit>(),
         ),
         BlocProvider(
-          create: (context) => sl<StorageCubit>(),
+          create: (ctx) => sl<StorageCubit>(),
         ),
         BlocProvider(
-          create: (context) => sl<SearchBloc>(),
+          create: (ctx) => sl<SearchBloc>(),
         ),
         BlocProvider(
-          create: (context) => sl<LastWatchedCubit>(),
+          create: (ctx) => sl<LastWatchedCubit>(),
         ),
         BlocProvider(
-          create: (context) => SearchbarCubit(),
+          create: (ctx) => sl<RandomCubit>(),
         ),
         BlocProvider(
-          create: (context) => BnbCubit(),
+          create: (ctx) => sl<CurrentUserCubit>(),
         ),
         BlocProvider(
-          create: (context) => FullscreenCubit(),
+          create: (ctx) => sl<FavoriteCubit>(),
         ),
         BlocProvider(
-          create: (context) => EpisodesCubit(),
+          create: (ctx) => sl<LastwatchCubit>(),
         ),
         BlocProvider(
-          create: (context) => ImageCubit(),
+          create: (ctx) => sl<PopularCubit>(),
         ),
         BlocProvider(
-          create: (context) => PlayingCubit(),
+          create: (ctx) => IsFavoriteCubit(),
         ),
         BlocProvider(
-          create: (context) => InfoswitchCubit(),
+          create: (ctx) => SearchbarCubit(),
+        ),
+        BlocProvider(
+          create: (ctx) => BnbCubit(),
+        ),
+        BlocProvider(
+          create: (ctx) => FullscreenCubit(),
+        ),
+        BlocProvider(
+          create: (ctx) => EpisodesCubit(),
+        ),
+        BlocProvider(
+          create: (ctx) => ImageCubit(),
+        ),
+        BlocProvider(
+          create: (ctx) => PlayingCubit(),
+        ),
+        BlocProvider(
+          create: (ctx) => InfoswitchCubit(),
+        ),
+        BlocProvider(
+          create: (ctx) => CarouselTitleCubit(),
+        ),
+        BlocProvider(
+          create: (ctx) => ScrollCubit(),
+        ),
+        BlocProvider(
+          create: (ctx) => ColorCubit(),
         ),
       ],
       child: ResponsiveSizer(builder: (p0, p1, p2) {
@@ -107,8 +146,9 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           routerDelegate: appRouter.delegate(),
           routeInformationParser: appRouter.defaultRouteParser(),
-          title: 'Funime',
+          title: 'AN1ZONE',
           theme: ThemeData(
+            platform: TargetPlatform.android,
             scaffoldBackgroundColor: AppTheme.black,
             appBarTheme: const AppBarTheme(
               backgroundColor: Colors.transparent,
@@ -121,15 +161,11 @@ class MyApp extends StatelessWidget {
             progressIndicatorTheme: const ProgressIndicatorThemeData(
               color: AppTheme.systemRed,
             ),
-            textTheme: kTextTheme,
+            textTheme: AppTheme.textTheme,
             brightness: Brightness.dark,
             useMaterial3: true,
             primaryColor: AppTheme.systemRed,
             fontFamily: 'NetflixSans',
-            secondaryHeaderColor: kSecondaryColor,
-            listTileTheme: const ListTileThemeData(
-              iconColor: kGreyColor,
-            ),
           ),
         );
       }),

@@ -14,16 +14,12 @@ class LastWatchedCubit extends Cubit<LastWatchedState> {
   final SaveLastWatched saveLastWatched;
   final FetchLastWatched fetchLastWatched;
 
-  void onSaveLastWatched(
+  Future<void> onSaveLastWatched(
       {required String userId, required LastWatchedEntity info}) async {
-    print('before function');
     final either = await saveLastWatched(userId: userId, info: info);
-    print('after function');
     either.fold((l) {
-      print('error nananaman  ${l.msg}');
       emit(LastWatchedError());
-    }, (r) => print('success[[[-0dsadek4k1234210-]]]'));
-    print('after2 function');
+    }, (r) => null);
   }
 
   void onFetchLastWatched({required String userId}) async {

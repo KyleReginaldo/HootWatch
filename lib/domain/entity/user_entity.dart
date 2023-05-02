@@ -5,11 +5,15 @@ class UserEntity {
   final String email;
   String? imageLink;
   final bool? isVerified;
+  final String password;
+  final String? bio;
   UserEntity({
     required this.uid,
     required this.username,
     required this.email,
     this.imageLink,
     this.isVerified,
+    required this.password,
+    this.bio,
   });
 }

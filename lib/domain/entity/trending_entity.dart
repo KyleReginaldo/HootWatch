@@ -1,4 +1,3 @@
-import '../../data/model/trending_model.dart';
 import 'title_entity.dart';
 
 class TrendingEntity {
@@ -10,18 +9,16 @@ class TrendingEntity {
 
   final int currentPage;
   final bool hasNextPage;
-  final List<ResultEntity> results;
+  final List<TrendingResultEntity> results;
 }
 
-class ResultEntity {
-  ResultEntity({
+class TrendingResultEntity {
+  TrendingResultEntity({
     required this.id,
     this.malId,
     required this.title,
     required this.image,
-    required this.trailer,
     required this.description,
-    required this.status,
     required this.cover,
     this.rating,
     this.releaseDate,
@@ -29,16 +26,13 @@ class ResultEntity {
     required this.genres,
     this.totalEpisodes,
     this.duration,
-    required this.type,
   });
 
   final String id;
   final int? malId;
   final TitleEntity title;
   final String image;
-  final TrailerEntity trailer;
   final String description;
-  final Status status;
   final String cover;
   final int? rating;
   final int? releaseDate;
@@ -46,17 +40,4 @@ class ResultEntity {
   final List<String> genres;
   final int? totalEpisodes;
   final int? duration;
-  final Type type;
-}
-
-class TrailerEntity {
-  TrailerEntity({
-    this.id,
-    this.site,
-    this.thumbnail,
-  });
-
-  final String? id;
-  final String? site;
-  final String? thumbnail;
 }

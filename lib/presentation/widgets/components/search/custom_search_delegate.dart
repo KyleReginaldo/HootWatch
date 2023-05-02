@@ -1,22 +1,30 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fade_shimmer/fade_shimmer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:yoyo/core/constants/constant.dart';
+import 'package:yoyo/core/router/custom_router.dart';
 import 'package:yoyo/presentation/blocs/search/search_bloc.dart';
-
-import '../../../../core/constants/constant.dart';
-import '../../../../core/router/custom_router.dart';
 import '../../../../core/utils/custom_functions.dart';
 import '../../../../domain/entity/search_entity.dart';
 import '../../customs/text.dart';
+import 'package:substring_highlight/substring_highlight.dart';
 
 class SearchPageDelegate extends SearchDelegate<SearchEntity> {
   final Bloc<SearchEvent, SearchState> searchBloc;
 
   SearchPageDelegate({required this.searchBloc});
+
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    return Theme.of(context).copyWith(
+      inputDecorationTheme: const InputDecorationTheme(
+        border: InputBorder.none,
+      ),
+    );
+  }
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -62,26 +70,38 @@ class SearchPageDelegate extends SearchDelegate<SearchEntity> {
                       SizedBox(width: 4.w),
                       Expanded(
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomText(
-                              e.title.userPreferred ??
-                                  e.title.english ??
-                                  e.title.native ??
-                                  e.title.romaji ??
-                                  '',
-                              size: 16.sp,
-                              textAlign: TextAlign.start,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                            ).animate().fadeIn(duration: 500.ms),
+                            Directionality(
+                              textDirection: TextDirection.ltr,
+                              child: SubstringHighlight(
+                                text: e.title.english ??
+                                    e.title.userPreferred ??
+                                    e.title.native ??
+                                    e.title.romaji ??
+                                    '',
+                                term: query,
+                                textStyle: TextStyle(
+                                  fontSize: 17.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppTheme.greyLight2,
+                                ),
+                                textStyleHighlight: TextStyle(
+                                  fontSize: 17.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppTheme.white,
+                                ),
+                              ),
+                            ),
                             CustomText(
                               CustomFunctions.removeTags(e.description ?? ''),
                               size: 14.sp,
                               textAlign: TextAlign.start,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 6,
-                            ).animate().fadeIn(duration: 500.ms),
+                              color: AppTheme.greyLight1,
+                            ),
                           ],
                         ),
                       ),
@@ -96,17 +116,13 @@ class SearchPageDelegate extends SearchDelegate<SearchEntity> {
           return ListView(
             children: List.generate(
               6,
-              (index) => Shimmer.fromColors(
-                highlightColor: kDarkGrey1Color,
-                baseColor: kDarkGrey2Color,
-                child: Container(
-                  margin: EdgeInsets.all(0.5.h),
+              (index) => Padding(
+                padding: EdgeInsets.all(0.5.h),
+                child: FadeShimmer(
                   height: 16.h,
                   width: 100.w,
-                  decoration: BoxDecoration(
-                    color: kDarkGrey2Color,
-                    borderRadius: BorderRadius.circular(kMinRadius),
-                  ),
+                  highlightColor: AppTheme.greyDark1,
+                  baseColor: AppTheme.greyDark2,
                 ),
               ),
             ),
@@ -117,7 +133,7 @@ class SearchPageDelegate extends SearchDelegate<SearchEntity> {
             size: 18.sp,
             textAlign: TextAlign.center,
             weight: FontWeight.w600,
-            color: kDarkGrey1Color,
+            color: AppTheme.greyLight1,
           );
         }
         return Column(

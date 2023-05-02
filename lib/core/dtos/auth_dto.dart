@@ -4,9 +4,15 @@ import 'package:equatable/equatable.dart';
 class AuthDto extends Equatable {
   final String email;
   final String password;
+  final String? imageLink;
+  final String? isVerified;
+  final String? username;
   const AuthDto({
     required this.email,
     required this.password,
+    this.imageLink,
+    this.isVerified,
+    this.username,
   });
 
   @override

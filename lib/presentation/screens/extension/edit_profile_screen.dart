@@ -8,22 +8,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:yoyo/core/constants/app_dimens.dart';
+import 'package:yoyo/core/dtos/update_user_dto.dart';
+import 'package:yoyo/core/utils/custom_functions.dart';
 
 import 'package:yoyo/domain/entity/user_entity.dart';
-import 'package:yoyo/presentation/cubits/image/image_cubit.dart';
-import 'package:yoyo/presentation/cubits/firebase_storage/storage_cubit.dart';
+import 'package:yoyo/presentation/cubits/state.dart';
+import 'package:yoyo/presentation/widgets/customs/button/elevated_button.dart';
 import 'package:yoyo/presentation/widgets/customs/textfield.dart';
 
-import '../../../core/constants/constant.dart';
-import '../../cubits/user/user_cubit.dart';
-import '../../cubits/user/user_fn/user_fn_cubit.dart';
+import '../../../core/constants/app_theme.dart';
+import '../../widgets/customs/icons/icon_button.dart';
 import '../../widgets/customs/text.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  final UserEntity? user;
+  final UserEntity user;
   const EditProfileScreen({
     Key? key,
-    this.user,
+    required this.user,
   }) : super(key: key);
 
   @override
@@ -32,183 +34,194 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final username = TextEditingController();
+  final bio = TextEditingController();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
-    if (widget.user?.username != null) username.text = widget.user!.username;
+    username.text = widget.user.username;
+    bio.text = widget.user.bio ?? '';
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      appBar: AppBar(),
-      body: Builder(builder: (context) {
-        final imageFile = context.select((ImageCubit image) => image.state);
-        return Padding(
-          padding: EdgeInsets.all(1.h),
-          child: Column(
-            children: [
-              Stack(
-                clipBehavior: Clip.none,
+    return Builder(
+      builder: (context) {
+        final image = context.select((ImageCubit img) => img.state);
+        return WillPopScope(
+          onWillPop: () async {
+            context
+                .read<UserCubit>()
+                .onFetchUser(uid: FirebaseAuth.instance.currentUser?.uid ?? '');
+            return true;
+          },
+          child: Scaffold(
+            key: scaffoldKey,
+            appBar: AppBar(
+              leading: CustomIconButton(
+                onTap: () {
+                  AutoRouter.of(context).pop();
+                },
+                glow: true,
+                icon: const Icon(
+                  Icons.arrow_back_ios_rounded,
+                  color: AppTheme.white,
+                ),
+              ),
+            ),
+            body: SingleChildScrollView(
+              child: Column(
                 children: [
-                  Container(
-                    clipBehavior: Clip.hardEdge,
-                    height: 12.h,
-                    width: 12.h,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).secondaryHeaderColor,
-                      borderRadius: BorderRadius.circular(kMaxRadius),
-                    ),
-                    child: imageFile != null
-                        ? Image.file(
-                            File(imageFile.path),
-                            fit: BoxFit.cover,
-                          )
-                        : widget.user?.imageLink != null
-                            ? CachedNetworkImage(
-                                imageUrl: widget.user!.imageLink!,
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      ClipOval(
+                        child: image != null
+                            ? Image.file(
+                                File(image.path),
+                                height: 12.h,
+                                width: 12.h,
                                 fit: BoxFit.cover,
                               )
-                            : Image.asset(
-                                'assets/image/MAIN_LOGO.png',
-                              ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: -2.h,
-                    child: GestureDetector(
-                      onTap: () {
-                        scaffoldKey.currentState?.showBottomSheet(
-                          (context) {
-                            return Column(
-                              children: [
-                                ListTile(
-                                  onTap: () {
-                                    context
-                                        .read<ImageCubit>()
-                                        .pickImage(source: ImageSource.gallery)
-                                        .then(
-                                            (value) => Navigator.pop(context));
-                                  },
-                                  iconColor: Colors.white,
-                                  leading: const Icon(Icons.image_rounded),
-                                  title: const CustomText('Gallery'),
-                                ),
-                                ListTile(
-                                  onTap: () {
-                                    context
-                                        .read<ImageCubit>()
-                                        .pickImage(source: ImageSource.camera)
-                                        .then(
-                                            (value) => Navigator.pop(context));
-                                  },
-                                  iconColor: Colors.white,
-                                  leading:
-                                      const Icon(Icons.camera_enhance_rounded),
-                                  title: const CustomText('Camera'),
-                                ),
-                              ],
+                            : widget.user.imageLink != null
+                                ? CachedNetworkImage(
+                                    imageUrl: widget.user.imageLink!,
+                                    height: 12.h,
+                                    width: 12.h,
+                                    fit: BoxFit.cover,
+                                  )
+                                : ClipOval(
+                                    child: Image.asset(
+                                      'assets/image/person.png',
+                                      height: 12.h,
+                                      width: 12.h,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: -2.h,
+                        child: CustomIconButton(
+                          icon: const Icon(
+                            Icons.edit,
+                            color: AppTheme.black,
+                          ),
+                          bgColor: AppTheme.white,
+                          radius: AppDimens.maxRadius,
+                          onTap: () {
+                            scaffoldKey.currentState?.showBottomSheet(
+                              (context) {
+                                return Column(
+                                  children: [
+                                    ListTile(
+                                      onTap: () {
+                                        context
+                                            .read<ImageCubit>()
+                                            .pickImage(
+                                                source: ImageSource.gallery)
+                                            .then((value) =>
+                                                Navigator.pop(context));
+                                      },
+                                      iconColor: Colors.white,
+                                      leading: const Icon(Icons.image_rounded),
+                                      title: const CustomText('Gallery'),
+                                    ),
+                                    ListTile(
+                                      onTap: () {
+                                        context
+                                            .read<ImageCubit>()
+                                            .pickImage(
+                                                source: ImageSource.camera)
+                                            .then((value) =>
+                                                Navigator.pop(context));
+                                      },
+                                      iconColor: Colors.white,
+                                      leading: const Icon(
+                                          Icons.camera_enhance_rounded),
+                                      title: const CustomText('Camera'),
+                                    ),
+                                  ],
+                                );
+                              },
                             );
                           },
-                          backgroundColor:
-                              Theme.of(context).secondaryHeaderColor,
-                        );
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 4.h,
-                        width: 4.h,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade800,
-                          borderRadius: BorderRadius.circular(kMaxRadius),
-                        ),
-                        child: const Icon(
-                          Icons.edit,
-                          color: Colors.white,
                         ),
                       ),
-                    ),
+                    ],
                   ),
+                  SizedBox(height: 2.h),
+                  CustomTextField(
+                    hint: 'Username',
+                    label: 'Username',
+                    controller: username,
+                  ),
+                  SizedBox(height: 2.h),
+                  CustomTextField(
+                    hint: 'Enter your bio',
+                    label: 'Bio',
+                    controller: bio,
+                    descType: true,
+                  ),
+                  SizedBox(height: 2.h),
+                  BlocConsumer<StorageCubit, StorageState>(
+                      listener: (context, state) {
+                    if (state is StorageLoading) {
+                      showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (_) {
+                            return const Center(
+                              child: CircularProgressIndicator.adaptive(),
+                            );
+                          });
+                    } else if (state is StorageDone) {
+                      if (AutoRouter.of(context).canPop()) {
+                        AutoRouter.of(context).pop();
+                      }
+                      context
+                          .read<UserCubit>()
+                          .onUpdateUser(
+                            updateUserDto: UpdateUserDto(
+                              username: username.text,
+                              bio: bio.text,
+                              uid: widget.user.uid,
+                              imageLink: state.path ?? widget.user.imageLink,
+                            ),
+                            path: state.path,
+                          )
+                          .then((value) async {
+                        CustomFunctions.showSnackBar(
+                                context, 'Successfuly updated your account.')
+                            .then((value) {
+                          if (AutoRouter.of(context).canPop()) {
+                            AutoRouter.of(context).pop();
+                          }
+                        });
+                      });
+                    }
+                  }, builder: (context, state) {
+                    return CustomElevatedButton(
+                      'Update',
+                      onPressed: () {
+                        if (image != null) {
+                          context.read<StorageCubit>().onUploadImage(
+                                path:
+                                    'user/${FirebaseAuth.instance.currentUser?.uid}',
+                                file: File(image.path),
+                              );
+                        } else {
+                          context.read<StorageCubit>().onUploadImage();
+                        }
+                      },
+                    );
+                  }),
                 ],
               ),
-              SizedBox(height: 2.h),
-              CustomTextField(
-                hint: 'Username',
-                label: 'Username',
-                controller: username,
-                fontColor: Colors.white,
-              ),
-              SizedBox(height: 2.h),
-              BlocConsumer<StorageCubit, StorageState>(
-                listener: (context, state) {
-                  if (state is StorageDone) {
-                    final user = UserEntity(
-                      uid: FirebaseAuth.instance.currentUser?.uid ?? '',
-                      username: username.text,
-                      email: FirebaseAuth.instance.currentUser?.email ?? '',
-                    );
-                    context
-                        .read<UserFnCubit>()
-                        .onSetupUser(user: user, path: state.path);
-                  }
-                },
-                builder: (context, state) {
-                  return GestureDetector(
-                    onTap: state is StorageLoading
-                        ? null
-                        : () async {
-                            context.read<StorageCubit>().onUploadImage(
-                                  path:
-                                      'user/${FirebaseAuth.instance.currentUser?.uid}',
-                                  file: File(imageFile!.path),
-                                );
-                          },
-                    child: AnimatedContainer(
-                      width: state is StorageLoading ? 6.h : 100.w,
-                      height: 6.h,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).secondaryHeaderColor,
-                        borderRadius: BorderRadius.circular(
-                          state is StorageLoading ? 100 : kMinRadius,
-                        ),
-                      ),
-                      alignment: Alignment.center,
-                      duration: const Duration(milliseconds: 400),
-                      curve: Curves.ease,
-                      child: state is StorageLoading
-                          ? const CircularProgressIndicator(
-                              color: Colors.white,
-                            )
-                          : const CustomText(
-                              'Update',
-                              color: Colors.white,
-                            ),
-                    ),
-                  );
-                },
-              ),
-              BlocListener<UserFnCubit, UserFnState>(
-                listener: (context, state) {
-                  if (state is UpdateError) {
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: CustomText(state.msg)));
-                  } else if (state is UpdateDone) {
-                    Future.delayed(const Duration(seconds: 1), () async {
-                      AutoRouter.of(context).pop();
-                      context.read<UserCubit>().onFetchUser(
-                            uid: FirebaseAuth.instance.currentUser?.uid ?? '',
-                          );
-                    });
-                  }
-                },
-                child: const SizedBox.shrink(),
-              ),
-            ],
+            ),
           ),
         );
-      }),
+      },
     );
   }
 }

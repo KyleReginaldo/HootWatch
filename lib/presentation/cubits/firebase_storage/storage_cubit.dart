@@ -12,10 +12,17 @@ class StorageCubit extends Cubit<StorageState> {
 
   final UploadImage uploadImage;
 
-  void onUploadImage({required String path, required File file}) async {
+  void onUploadImage({String? path, File? file}) async {
     emit(StorageLoading());
-    await uploadImage(path: path, file: file).then((value) {
-      emit(StorageDone(path: path));
-    });
+    if (path != null && file != null) {
+      await uploadImage(path: path, file: file).then((value) {
+        emit(StorageDone(path: path));
+      });
+    } else {
+      emit(StorageLoading());
+      Future.delayed(const Duration(seconds: 1), () {
+        emit(const StorageDone(path: null));
+      });
+    }
   }
 }

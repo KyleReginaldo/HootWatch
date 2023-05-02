@@ -8,9 +8,11 @@ class StreamlinkInitial extends StreamlinkState {}
 class StreamlinkLoaded extends StreamlinkState {
   final StreamLinkEntity streamLink;
   final String id;
+  final int episodeNumber;
   StreamlinkLoaded({
     required this.streamLink,
     required this.id,
+    required this.episodeNumber,
   });
 }
 

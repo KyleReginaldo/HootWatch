@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:yoyo/core/constants/app_theme.dart';
 import 'package:yoyo/presentation/widgets/customs/text.dart';
 
 import '../../../../core/constants/constant.dart';
@@ -36,11 +35,12 @@ class CustomElevatedButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ButtonStyle(
-        foregroundColor: MaterialStatePropertyAll(color ?? kWhiteColor),
+        foregroundColor: MaterialStatePropertyAll(color ?? AppTheme.white),
         fixedSize: MaterialStatePropertyAll(Size(width ?? 60.w, 5.h)),
         backgroundColor: MaterialStatePropertyAll(bgColor ?? AppTheme.grey),
         shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(radius ?? kMinRadius))),
+            borderRadius:
+                BorderRadius.circular(radius ?? AppDimens.minRadius))),
       ),
       child: CustomText(
         text,

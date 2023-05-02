@@ -2,7 +2,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:yoyo/core/constants/app_theme.dart';
 
 import 'package:yoyo/core/constants/constant.dart';
 import 'package:yoyo/domain/entity/info_entity.dart';
@@ -28,15 +27,15 @@ class EpisodeContainer extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: 1.h),
       child: Container(
-        decoration:
-            BoxDecoration(borderRadius: BorderRadius.circular(kMinRadius)),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(AppDimens.minRadius)),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(kMinRadius),
+                  borderRadius: BorderRadius.circular(AppDimens.minRadius),
                   child: CachedNetworkImage(
                     imageUrl: episode.image,
                     height: 12.h,
@@ -56,7 +55,7 @@ class EpisodeContainer extends StatelessWidget {
                       color: AppTheme.white,
                     ),
                     bgColor: AppTheme.white,
-                    radius: kMaxRadius,
+                    radius: AppDimens.maxRadius,
                   ),
                 ),
               ],
@@ -65,6 +64,7 @@ class EpisodeContainer extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CustomText(
                     episode.title != null

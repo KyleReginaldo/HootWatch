@@ -1,46 +1,129 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:hive_flutter/hive_flutter.dart';
+
 import 'package:yoyo/domain/entity/trending_entity.dart';
 
 import 'title_model.dart';
 
+part 'trending_model.g.dart';
+
+class LocalTrending {
+  final DateTime date;
+  final TrendingModel trending;
+  LocalTrending({
+    required this.date,
+    required this.trending,
+  });
+  factory LocalTrending.fromMap(Map<dynamic, dynamic> map) {
+    return LocalTrending(
+      date: map.keys.first,
+      trending: map.values.first,
+    );
+  }
+}
+
+@HiveType(typeId: 2)
 class TrendingModel extends TrendingEntity {
-  TrendingModel(
-      {required super.currentPage,
-      required super.hasNextPage,
-      required super.results});
+  @override
+  @HiveField(0)
+  final int currentPage;
+  @override
+  @HiveField(1)
+  final bool hasNextPage;
+  @override
+  @HiveField(2)
+  final List<TrendingResultEntity> results;
+  TrendingModel({
+    required this.currentPage,
+    required this.hasNextPage,
+    required this.results,
+  }) : super(
+          currentPage: currentPage,
+          hasNextPage: hasNextPage,
+          results: results,
+        );
   factory TrendingModel.fromMap(Map<String, dynamic> json) => TrendingModel(
         currentPage: json["currentPage"],
         hasNextPage: json["hasNextPage"],
-        results: List<ResultModel>.from(
-            json["results"].map((x) => ResultModel.fromMap(x))),
+        results: List<TrendingResultModel>.from(
+            json["results"].map((x) => TrendingResultModel.fromMap(x))),
       );
 }
 
-class ResultModel extends ResultEntity {
-  ResultModel({
-    required super.id,
-    super.malId,
-    required super.title,
-    required super.image,
-    required super.trailer,
-    required super.description,
-    required super.status,
-    required super.cover,
-    super.rating,
-    super.releaseDate,
-    super.color,
-    required super.genres,
-    super.totalEpisodes,
-    super.duration,
-    required super.type,
-  });
-  factory ResultModel.fromMap(Map<String, dynamic> json) => ResultModel(
+@HiveType(typeId: 3)
+class TrendingResultModel extends TrendingResultEntity {
+  @override
+  @HiveField(0)
+  final String id;
+  @override
+  @HiveField(1)
+  final int? malId;
+  @override
+  @HiveField(2)
+  final TitleModel title;
+  @override
+  @HiveField(3)
+  final String image;
+  @override
+  @HiveField(4)
+  final String description;
+
+  @override
+  @HiveField(5)
+  final String cover;
+  @override
+  @HiveField(6)
+  final int? rating;
+  @override
+  @HiveField(7)
+  final int? releaseDate;
+  @override
+  @HiveField(8)
+  final String? color;
+  @override
+  @HiveField(9)
+  final List<String> genres;
+  @override
+  @HiveField(10)
+  final int? totalEpisodes;
+  @override
+  @HiveField(11)
+  final int? duration;
+
+  TrendingResultModel({
+    required this.id,
+    this.malId,
+    required this.title,
+    required this.image,
+    required this.description,
+    required this.cover,
+    this.rating,
+    this.releaseDate,
+    this.color,
+    required this.genres,
+    this.totalEpisodes,
+    this.duration,
+  }) : super(
+          id: id,
+          malId: malId,
+          title: title,
+          image: image,
+          description: description,
+          cover: cover,
+          rating: rating,
+          releaseDate: releaseDate,
+          color: color,
+          genres: genres,
+          totalEpisodes: totalEpisodes,
+          duration: duration,
+        );
+  factory TrendingResultModel.fromMap(Map<String, dynamic> json) =>
+      TrendingResultModel(
         id: json["id"],
         malId: json["malId"],
         title: TitleModel.fromMap(json["title"]),
         image: json["image"],
-        trailer: TrailerModel.fromMap(json["trailer"]),
         description: json["description"],
-        status: statusValues.map[json["status"]] ?? Status.UNKNOWN,
         cover: json["cover"],
         rating: json["rating"],
         releaseDate: json["releaseDate"],
@@ -48,43 +131,5 @@ class ResultModel extends ResultEntity {
         genres: List<String>.from(json["genres"].map((x) => x)),
         totalEpisodes: json["totalEpisodes"],
         duration: json["duration"] ?? 0,
-        type: typeValues.map[json["type"]] ?? Type.UNKNOWN,
       );
-}
-
-enum Status { ONGOING, NOT_YET_AIRED, UNKNOWN }
-
-final statusValues = EnumValues({
-  "Not yet aired": Status.NOT_YET_AIRED,
-  "Ongoing": Status.ONGOING,
-  "UNKNOWN": Status.UNKNOWN,
-});
-
-class TrailerModel extends TrailerEntity {
-  TrailerModel({
-    super.id,
-    super.site,
-    super.thumbnail,
-  });
-  factory TrailerModel.fromMap(Map<String, dynamic> json) => TrailerModel(
-        id: json["id"],
-        site: json["site"],
-        thumbnail: json["thumbnail"],
-      );
-}
-
-enum Type { TV, UNKNOWN }
-
-final typeValues = EnumValues({"TV": Type.TV, "UNKNOWN": Type.UNKNOWN});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }

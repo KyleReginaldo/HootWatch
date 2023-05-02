@@ -1,7 +1,5 @@
 import 'package:yoyo/domain/entity/title_entity.dart';
 
-import '../../data/model/upcoming_model.dart';
-
 class UpcomingEntity {
   UpcomingEntity({
     required this.currentPage,
@@ -11,25 +9,22 @@ class UpcomingEntity {
 
   final int currentPage;
   final bool hasNextPage;
-  final List<ResultEntity> results;
+  final List<UpcomingResultEntity> results;
 }
 
-class ResultEntity {
-  ResultEntity({
+class UpcomingResultEntity {
+  UpcomingResultEntity({
     required this.id,
     this.malId,
     required this.episode,
     required this.airingAt,
     required this.title,
-    required this.country,
     required this.image,
     this.description,
     required this.cover,
-    required this.genres,
-    required this.color,
+    this.color,
     this.rating,
     this.releaseDate,
-    required this.type,
   });
 
   final String id;
@@ -37,13 +32,10 @@ class ResultEntity {
   final int episode;
   final int airingAt;
   final TitleEntity title;
-  final Country country;
   final String image;
   final String? description;
   final String cover;
-  final List<Genre> genres;
-  final String color;
+  String? color;
   final int? rating;
   final int? releaseDate;
-  final Type type;
 }

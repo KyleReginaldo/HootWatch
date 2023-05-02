@@ -10,6 +10,10 @@ class ServerFailure extends Failure {
   ServerFailure({required super.msg});
 }
 
+class CacheFailure extends Failure {
+  CacheFailure({required super.msg});
+}
+
 class DefaultFailure extends Failure {
   DefaultFailure({required super.msg});
 }

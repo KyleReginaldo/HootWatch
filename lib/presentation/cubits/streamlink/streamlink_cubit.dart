@@ -13,11 +13,13 @@ class StreamlinkCubit extends Cubit<StreamlinkState> {
 
   final FetchStreamLinks fetchStreamLinks;
 
-  void onFetchStreamLinks(String id) async {
+  void onFetchStreamLinks(String id, {int? episodeNumber}) async {
     emit(StreamlinkLoading());
     final either = await fetchStreamLinks(id);
 
-    either.fold((l) => emit(StreamlinkError(msg: l.msg)),
-        (r) => emit(StreamlinkLoaded(streamLink: r, id: id)));
+    either.fold(
+        (l) => emit(StreamlinkError(msg: l.msg)),
+        (r) => emit(StreamlinkLoaded(
+            streamLink: r, id: id, episodeNumber: episodeNumber ?? 0)));
   }
 }

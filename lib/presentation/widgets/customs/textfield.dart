@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import 'package:yoyo/core/constants/app_theme.dart';
 import 'package:yoyo/core/constants/constant.dart';
 import 'package:yoyo/presentation/widgets/customs/text.dart';
 
@@ -25,6 +24,7 @@ class CustomTextField extends StatelessWidget {
   final Color? fontColor;
   final double? width;
   final String label;
+  final bool? descType;
   const CustomTextField({
     Key? key,
     this.controller,
@@ -45,6 +45,7 @@ class CustomTextField extends StatelessWidget {
     this.fontColor,
     this.width,
     required this.label,
+    this.descType = false,
   }) : super(key: key);
 
   @override
@@ -53,6 +54,7 @@ class CustomTextField extends StatelessWidget {
     return SizedBox(
       width: width,
       child: TextFormField(
+        maxLines: descType ?? false ? null : 1,
         key: formKey,
         initialValue: initialValue,
         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -83,14 +85,17 @@ class CustomTextField extends StatelessWidget {
           fillColor: AppTheme.grey,
           border: OutlineInputBorder(
               borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(radius ?? kMinRadius)),
+              borderRadius:
+                  BorderRadius.circular(radius ?? AppDimens.minRadius)),
           filled: true,
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(radius ?? kMinRadius)),
+              borderRadius:
+                  BorderRadius.circular(radius ?? AppDimens.minRadius)),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(radius ?? kMinRadius)),
+              borderRadius:
+                  BorderRadius.circular(radius ?? AppDimens.minRadius)),
           hintStyle: TextStyle(
             color: AppTheme.greyLight1,
             fontSize: 16.sp,

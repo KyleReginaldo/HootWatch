@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:yoyo/core/error/failure.dart';
+import 'package:yoyo/domain/entity/favorite_entity.dart';
 import 'package:yoyo/domain/entity/info_entity.dart';
 import 'package:yoyo/domain/entity/last_watched_entity.dart';
 import 'package:yoyo/domain/entity/recent_release_entity.dart';
@@ -13,6 +14,9 @@ import 'package:yoyo/domain/entity/upcoming_entity.dart';
 import 'package:yoyo/domain/entity/user_entity.dart';
 
 import '../../core/dtos/auth_dto.dart';
+import '../../core/dtos/update_user_dto.dart';
+import '../entity/popular_entity.dart';
+import '../entity/random_entity.dart';
 
 abstract class Repository {
   Future<Either<Failure, TrendingEntity>> fetchTrendingAnime();
@@ -36,4 +40,23 @@ abstract class Repository {
       {required String userId, required LastWatchedEntity info});
   Future<Either<Failure, List<LastWatchedEntity>>> fetchLastWatched(
       {required String userId});
+  Future<Either<Failure, List<EpisodeEntity>>> fetchEpisodes(
+      {required String id});
+  Future<Either<Failure, RandomEntity>> fetchRandomAnime();
+  User? fetchFbUser();
+  Future<void> addFavorite({
+    required String userId,
+    required FavoriteEntity favorite,
+  });
+  Future<List<FavoriteEntity>> fetchFavorites({required String userId});
+  Future<void> removeFavorite({
+    required String userId,
+    required String animeId,
+  });
+  Future<LastWatchedEntity?> checkLastWatch({
+    required String userId,
+    required String animeId,
+  });
+  Future<void> updateUser({required UpdateUserDto updateUserDto});
+  Future<Either<Failure, PopularEntity>> fetchPopularAnime();
 }

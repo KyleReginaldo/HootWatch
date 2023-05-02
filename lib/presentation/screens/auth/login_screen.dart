@@ -2,13 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:yoyo/core/constants/app_theme.dart';
 import 'package:yoyo/core/dtos/auth_dto.dart';
 import 'package:yoyo/core/router/custom_router.dart';
 import 'package:yoyo/presentation/cubits/auth/authentication/authentication_cubit.dart';
 import 'package:yoyo/presentation/widgets/customs/text.dart';
 import 'package:yoyo/presentation/widgets/customs/textfield.dart';
-import 'package:yoyo/core/constants/string.dart';
 
 import '../../../core/constants/constant.dart';
 
@@ -28,119 +26,123 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Form(
         key: formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              aniflixWord,
-              height: 6.h,
-            ),
-            SizedBox(
-              height: 2.h,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 10.w),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: CustomText(
-                  'Sign In',
-                  size: 16.sp,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 1.h,
-            ),
-            CustomTextField(
-              label: 'Email',
-              controller: email,
-              hint: 'enter your email',
-              width: 80.w,
-              bgColor: AppTheme.grey,
-              validator: (v) {
-                if (v!.isEmpty) {
-                  return 'please provide an email';
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 2.h),
-            CustomTextField(
-              controller: password,
-              hint: 'enter your password',
-              label: 'Password',
-              width: 80.w,
-              bgColor: AppTheme.grey,
-              isObscure: true,
-              validator: (v) {
-                if (v!.isEmpty) {
-                  return 'please enter your password';
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 2.h),
-            BlocConsumer<AuthenticationCubit, AuthenticationState>(
-              listener: (context, state) {
-                if (state is LogInError) {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: CustomText(state.msg)));
-                }
-              },
-              builder: (context, state) {
-                return GestureDetector(
-                  onTap: state is LoggingIn
-                      ? null
-                      : () {
-                          if (formKey.currentState!.validate()) {
-                            context.read<AuthenticationCubit>().onLogin(
-                                    authDto: AuthDto(
-                                  email: email.text,
-                                  password: password.text,
-                                ));
-                          }
-                        },
-                  child: AnimatedContainer(
-                    width: state is LoggingIn ? 6.h : 80.w,
-                    height: 6.h,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: BorderRadius.circular(
-                        state is LoggingIn ? 100 : kMinRadius,
-                      ),
-                    ),
-                    alignment: Alignment.center,
-                    duration: const Duration(milliseconds: 400),
-                    curve: Curves.ease,
-                    child: state is LoggingIn
-                        ? const CircularProgressIndicator(
-                            color: Colors.white,
-                          )
-                        : const CustomText(
-                            'Sign In',
-                            color: Colors.white,
-                          ),
-                  ),
-                );
-              },
-            ),
-            SizedBox(height: 2.h),
-            Row(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const CustomText('Don\'t have an account? '),
-                GestureDetector(
-                  onTap: () {
-                    AutoRouter.of(context).push(const SignupRoute());
-                  },
-                  child: CustomText(
-                    'Signup',
-                    color: Theme.of(context).primaryColor,
+                Image.asset(
+                  anizone,
+                  height: 8.h,
+                ),
+                SizedBox(
+                  height: 2.h,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 10.w),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: CustomText(
+                      'Sign In',
+                      size: 16.sp,
+                    ),
                   ),
+                ),
+                SizedBox(
+                  height: 1.h,
+                ),
+                CustomTextField(
+                  label: 'Email',
+                  controller: email,
+                  hint: 'enter your email',
+                  width: 80.w,
+                  bgColor: AppTheme.grey,
+                  validator: (v) {
+                    if (v!.isEmpty) {
+                      return 'please provide an email';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 2.h),
+                CustomTextField(
+                  controller: password,
+                  hint: 'enter your password',
+                  label: 'Password',
+                  width: 80.w,
+                  bgColor: AppTheme.grey,
+                  isObscure: true,
+                  validator: (v) {
+                    if (v!.isEmpty) {
+                      return 'please enter your password';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 2.h),
+                BlocConsumer<AuthenticationCubit, AuthenticationState>(
+                  listener: (context, state) {
+                    if (state is LogInError) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: CustomText(state.msg)));
+                    }
+                  },
+                  builder: (context, state) {
+                    return GestureDetector(
+                      onTap: state is LoggingIn
+                          ? null
+                          : () {
+                              if (formKey.currentState!.validate()) {
+                                context.read<AuthenticationCubit>().onLogin(
+                                        authDto: AuthDto(
+                                      email: email.text,
+                                      password: password.text,
+                                    ));
+                              }
+                            },
+                      child: AnimatedContainer(
+                        width: state is LoggingIn ? 6.h : 80.w,
+                        height: 6.h,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.circular(
+                            state is LoggingIn ? 100 : AppDimens.minRadius,
+                          ),
+                        ),
+                        alignment: Alignment.center,
+                        duration: const Duration(milliseconds: 400),
+                        curve: Curves.ease,
+                        child: state is LoggingIn
+                            ? const CircularProgressIndicator(
+                                color: Colors.white,
+                              )
+                            : const CustomText(
+                                'Sign In',
+                                color: Colors.white,
+                              ),
+                      ),
+                    );
+                  },
+                ),
+                SizedBox(height: 2.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const CustomText('Don\'t have an account? '),
+                    GestureDetector(
+                      onTap: () {
+                        AutoRouter.of(context).push(const SignupRoute());
+                      },
+                      child: CustomText(
+                        'Signup',
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );

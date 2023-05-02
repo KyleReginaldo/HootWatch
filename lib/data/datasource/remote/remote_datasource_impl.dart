@@ -5,9 +5,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:yoyo/core/dtos/auth_dto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:yoyo/core/dtos/update_user_dto.dart';
 import 'package:yoyo/core/error/exception.dart';
 import 'package:yoyo/data/datasource/remote/remote_datasource.dart';
+import 'package:yoyo/data/model/favorite_model.dart';
 import 'package:yoyo/data/model/info_model.dart';
+import 'package:yoyo/data/model/popular_model.dart';
+import 'package:yoyo/data/model/random_model.dart';
 import 'package:yoyo/data/model/recent_release_model.dart';
 import 'package:yoyo/data/model/search_model.dart';
 import 'package:yoyo/data/model/streamlink_model.dart';
@@ -81,10 +85,21 @@ class RemoteDsatasourceImpl implements RemoteDatasource {
 
   @override
   Future<void> signup({required AuthDto authDto}) async {
-    await auth.createUserWithEmailAndPassword(
+    await auth
+        .createUserWithEmailAndPassword(
       email: authDto.email,
       password: authDto.password,
-    );
+    )
+        .then((value) async {
+      await db.collection('user').doc(value.user?.uid).set({
+        'email': value.user?.email,
+        'username': authDto.username,
+        'imageLink': authDto.imageLink,
+        'isVerified': authDto.isVerified,
+        'password': authDto.password,
+        'uid': value.user?.uid,
+      });
+    });
   }
 
   @override
@@ -93,7 +108,7 @@ class RemoteDsatasourceImpl implements RemoteDatasource {
   @override
   Future<UpcomingModel> fetchUpcomingAnime() async {
     String url =
-        "${MetaAnilist.BASE_URL}/meta/anilist/airing-schedule?perPage=10";
+        "${MetaAnilist.BASE_URL}/meta/anilist/airing-schedule?notYetAired=true";
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       final rawBody = jsonDecode(response.body);
@@ -188,5 +203,112 @@ class RemoteDsatasourceImpl implements RemoteDatasource {
     return querySnap.docs
         .map((e) => LastWatchedModel.fromMap(e.data()))
         .toList();
+  }
+
+  @override
+  Future<List<EpisodeModel>> fetchEpisodes({required String id}) async {
+    List<EpisodeModel> episodes = [];
+    String url = "${MetaAnilist.BASE_URL}/meta/anilist/info/$id";
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      final rawBody = jsonDecode(response.body);
+      rawBody['episodes'].forEach((data) {
+        episodes.add(EpisodeModel.fromMap(data));
+      });
+      return episodes;
+    } else {
+      throw ServerException(msg: 'server is down');
+    }
+  }
+
+  @override
+  Future<RandomModel> fetchRandomAnime() async {
+    String url = "${MetaAnilist.BASE_URL}/meta/anilist/random-anime";
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      final rawBody = jsonDecode(response.body);
+      return RandomModel.fromMap(rawBody);
+    } else {
+      throw ServerException(msg: 'server is down');
+    }
+  }
+
+  @override
+  User? fetchFbUser() {
+    return auth.currentUser;
+  }
+
+  @override
+  Future<void> addFavorite({
+    required String userId,
+    required FavoriteModel favorite,
+  }) async {
+    await db
+        .collection('user')
+        .doc(userId)
+        .collection('favorite')
+        .doc(favorite.id)
+        .set(favorite.toMap());
+  }
+
+  @override
+  Future<List<FavoriteModel>> fetchFavorites({
+    required String userId,
+  }) async {
+    final docRef = db.collection('user').doc(userId).collection('favorite');
+    final querySnap =
+        await docRef.orderBy('uploadedAt', descending: true).get();
+    return querySnap.docs.map((e) => FavoriteModel.fromMap(e.data())).toList();
+  }
+
+  @override
+  Future<void> removeFavorite(
+      {required String userId, required String animeId}) async {
+    await db
+        .collection('user')
+        .doc(userId)
+        .collection('favorite')
+        .doc(animeId)
+        .delete();
+  }
+
+  @override
+  Future<LastWatchedModel?> checkLastWatch(
+      {required String userId, required String animeId}) async {
+    final data = await FirebaseFirestore.instance
+        .collection('user')
+        .doc(userId)
+        .collection('lastWatched')
+        .doc(animeId)
+        .get();
+    if (data.data() != null) {
+      return LastWatchedModel.fromMap(data.data()!);
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  Future<void> updateUser({required UpdateUserDto updateUserDto}) async {
+    await db.collection('user').doc(updateUserDto.uid).update({
+      "username": updateUserDto.username,
+      "bio": updateUserDto.bio,
+      "imageLink": updateUserDto.imageLink,
+    }).then((value) async {
+      await auth.currentUser?.updateDisplayName(updateUserDto.username);
+      await auth.currentUser?.updatePhotoURL(updateUserDto.imageLink);
+    });
+  }
+
+  @override
+  Future<PopularModel> fetchPopularAnime() async {
+    String url = "${MetaAnilist.BASE_URL}/meta/anilist/popular";
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      final rawBody = jsonDecode(response.body);
+      return PopularModel.fromMap(rawBody);
+    } else {
+      throw ServerException(msg: 'server is down');
+    }
   }
 }

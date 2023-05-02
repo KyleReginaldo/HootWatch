@@ -11,6 +11,7 @@ import '../../domain/entity/last_watched_entity.dart';
 import '../../domain/entity/user_entity.dart';
 import '../../presentation/screens/auth/auth_screen.dart';
 import '../../presentation/screens/auth/signup_screen.dart';
+import '../../presentation/screens/extension/account_screen.dart';
 part 'custom_router.gr.dart';
 
 @MaterialAutoRouter(
@@ -41,9 +42,17 @@ part 'custom_router.gr.dart';
       page: LoginScreen,
       transitionsBuilder: TransitionsBuilders.slideLeft,
     ),
+    // CustomRoute(
+    //   page: EditProfileScreen,
+    //   transitionsBuilder: TransitionsBuilders.slideLeft,
+    // ),
+    CustomRoute(
+      page: AccountScreen,
+      transitionsBuilder: TransitionsBuilders.slideLeft,
+    ),
     CustomRoute(
       page: EditProfileScreen,
-      transitionsBuilder: TransitionsBuilders.slideLeft,
+      transitionsBuilder: TransitionsBuilders.slideBottom,
     ),
   ],
 )

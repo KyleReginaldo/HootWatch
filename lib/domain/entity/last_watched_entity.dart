@@ -7,14 +7,20 @@ class LastWatchedEntity {
   final String animeId;
   final List<EpisodeEntity> episodes;
   final String updatedAt;
+  final String title;
+  final int episodeNumber;
   final ContinueAtEntity continueAt;
+  final String duration;
   LastWatchedEntity({
     required this.episodeId,
     required this.image,
     required this.animeId,
     required this.episodes,
     required this.updatedAt,
+    required this.title,
+    required this.episodeNumber,
     required this.continueAt,
+    required this.duration,
   });
 }
 

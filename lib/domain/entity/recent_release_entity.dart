@@ -1,7 +1,5 @@
 import 'package:yoyo/domain/entity/title_entity.dart';
 
-import '../../data/model/recent_release_model.dart';
-
 class RecentReleaseEntity {
   RecentReleaseEntity({
     required this.currentPage,
@@ -15,11 +13,11 @@ class RecentReleaseEntity {
   final bool hasNextPage;
   final int totalPages;
   final int totalResults;
-  final List<ResultEntity> results;
+  final List<RecentResultEntity> results;
 }
 
-class ResultEntity {
-  ResultEntity({
+class RecentResultEntity {
+  RecentResultEntity({
     required this.id,
     required this.malId,
     required this.title,
@@ -30,7 +28,6 @@ class ResultEntity {
     required this.episodeTitle,
     required this.episodeNumber,
     required this.genres,
-    required this.type,
   });
 
   final String id;
@@ -43,5 +40,4 @@ class ResultEntity {
   final String episodeTitle;
   final int episodeNumber;
   final List<String> genres;
-  final Types type;
 }

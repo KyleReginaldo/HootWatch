@@ -1,10 +1,10 @@
+import 'package:fade_shimmer/fade_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:yoyo/core/constants/app_theme.dart';
-import '../../../../core/constants/constant.dart';
+import 'package:yoyo/core/router/custom_router.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yoyo/core/router/custom_router.dart';
 
 import '../../../../core/utils/custom_functions.dart';
 import '../../../cubits/recent/recent_cubit.dart';
@@ -24,11 +24,14 @@ class RecentContainer extends StatelessWidget {
             children: [
               if (state.recent.results.isNotEmpty) SizedBox(height: 2.h),
               if (state.recent.results.isNotEmpty)
-                CustomText(
-                  'Recent',
-                  size: 18.sp,
-                  weight: FontWeight.bold,
-                  color: AppTheme.greyLight3,
+                Padding(
+                  padding: EdgeInsets.only(left: 1.h),
+                  child: CustomText(
+                    'Recently added',
+                    size: 16.sp,
+                    weight: FontWeight.bold,
+                    color: AppTheme.greyLight3,
+                  ),
                 ),
               if (state.recent.results.isNotEmpty) SizedBox(height: 0.5.h),
               SingleChildScrollView(
@@ -36,17 +39,25 @@ class RecentContainer extends StatelessWidget {
                 child: Row(
                   children: state.recent.results.map((e) {
                     return CustomAniContainer(
+                      width: 28.w,
+                      height: 18.h,
                       image: e.image,
-                      padding: EdgeInsets.only(right: 1.h),
+                      padding: EdgeInsets.only(left: 1.h),
                       color: Color(CustomFunctions.convertHexToInt(
-                        e.color ?? '#810CA8',
+                        e.color ?? '#FE0202',
                       )),
                       onTap: () {
-                        AutoRouter.of(context).push(InfoRoute(id: e.id));
+                        AutoRouter.of(context).push(InfoRoute(
+                          id: e.id,
+                          color: Color(CustomFunctions.convertHexToInt(
+                            e.color ?? '#FE0202',
+                          )),
+                        ));
                       },
                       title: e.title.english ??
                           e.title.userPreferred ??
                           e.title.romaji,
+                      size: 13.sp,
                     );
                   }).toList(),
                 ),
@@ -54,30 +65,22 @@ class RecentContainer extends StatelessWidget {
             ],
           );
         } else if (state is RecentLoading) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 2.h),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: List.generate(3, (index) {
-                    return Padding(
-                      padding: EdgeInsets.only(right: 1.h),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppTheme.greyDark1,
-                          borderRadius: BorderRadius.circular(kMinRadius),
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: List.generate(
+                  8,
+                  (index) => Padding(
+                        padding: EdgeInsets.all(1.h),
+                        child: FadeShimmer(
+                          width: 24.w,
+                          height: 16.h,
+                          radius: 8,
+                          highlightColor: AppTheme.black,
+                          baseColor: AppTheme.greyDark2,
                         ),
-                        padding: EdgeInsets.all(2.h),
-                        width: 32.w,
-                        height: 20.h,
-                      ),
-                    );
-                  }),
-                ),
-              ),
-            ],
+                      )),
+            ),
           );
         }
         return const SizedBox.shrink();

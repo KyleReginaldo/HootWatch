@@ -3,6 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:yoyo/domain/entity/info_entity.dart';
 
 class CustomFunctions {
+  CustomFunctions._();
+
+  static DateTime getToday() {
+    return DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+    );
+  }
+
   static int convertHexToInt(String hex) {
     return int.parse(hex.replaceFirst("#", "0xFF"));
   }
@@ -41,5 +51,35 @@ class CustomFunctions {
     }
     micros = (double.parse(parts[parts.length - 1]) * 1000000).round();
     return Duration(hours: hours, minutes: minutes, microseconds: micros);
+  }
+
+  static Future<User?> getCurrentUser() async {
+    return FirebaseAuth.instance.currentUser;
+  }
+
+  static DateTime parseMsToDt(int ms) {
+    return DateTime.fromMillisecondsSinceEpoch(ms);
+  }
+
+  static double getLastWatchedDuration({
+    required Duration durationL,
+    required Duration durationS,
+  }) {
+    final percL = durationL.inMinutes.toDouble();
+    final percS = durationS.inMinutes.toDouble();
+    final total = (percS / percL) * 100;
+    return total / 100;
+  }
+
+  static Future<void> showSnackBar(BuildContext context, String content) async {
+    var colors = Theme.of(context).colorScheme;
+    var mger = ScaffoldMessenger.of(context);
+    SnackBar snackBar = SnackBar(
+      content: Text(content, style: TextStyle(color: colors.onSurfaceVariant)),
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: colors.surfaceVariant,
+    );
+    mger.clearSnackBars();
+    mger.showSnackBar(snackBar);
   }
 }

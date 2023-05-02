@@ -10,6 +10,9 @@ class LastWatchedModel extends LastWatchedEntity {
     required super.image,
     required super.updatedAt,
     required super.continueAt,
+    required super.episodeNumber,
+    required super.title,
+    required super.duration,
   });
 
   factory LastWatchedModel.fromMap(Map<String, dynamic> map) {
@@ -21,6 +24,9 @@ class LastWatchedModel extends LastWatchedEntity {
           map["episodes"].map((x) => EpisodeModel.fromMap(x))),
       updatedAt: map['updatedAt'],
       continueAt: ContinueAtModel.fromMap(map['continueAt']),
+      episodeNumber: map['episodeNumber'],
+      title: map['title'],
+      duration: map['duration'],
     );
   }
   factory LastWatchedModel.fromE(LastWatchedEntity lastWatched) {
@@ -31,6 +37,9 @@ class LastWatchedModel extends LastWatchedEntity {
       episodes: lastWatched.episodes,
       updatedAt: lastWatched.updatedAt,
       continueAt: lastWatched.continueAt,
+      title: lastWatched.title,
+      episodeNumber: lastWatched.episodeNumber,
+      duration: lastWatched.duration,
     );
   }
 
@@ -43,6 +52,9 @@ class LastWatchedModel extends LastWatchedEntity {
           episodes.map((x) => EpisodeModel.fromE(x).toMap())),
       "updatedAt": updatedAt,
       "continueAt": ContinueAtModel.fromE(continueAt).toMap(),
+      "title": title,
+      "episodeNumber": episodeNumber,
+      "duration": duration,
     };
   }
 }

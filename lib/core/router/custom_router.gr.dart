@@ -34,6 +34,7 @@ class _$AppRouter extends RootStackRouter {
           key: args.key,
           id: args.id,
           tab: args.tab,
+          color: args.color,
         ),
         transitionsBuilder: TransitionsBuilders.slideLeft,
         opaque: true,
@@ -60,6 +61,8 @@ class _$AppRouter extends RootStackRouter {
           image: args.image,
           episodes: args.episodes,
           willContinueAt: args.willContinueAt,
+          title: args.title,
+          episodeNumber: args.episodeNumber,
         ),
         transitionsBuilder: TransitionsBuilders.slideLeft,
         opaque: true,
@@ -84,16 +87,24 @@ class _$AppRouter extends RootStackRouter {
         barrierDismissible: false,
       );
     },
+    AccountRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+        routeData: routeData,
+        child: const AccountScreen(),
+        transitionsBuilder: TransitionsBuilders.slideLeft,
+        opaque: true,
+        barrierDismissible: false,
+      );
+    },
     EditProfileRoute.name: (routeData) {
-      final args = routeData.argsAs<EditProfileRouteArgs>(
-          orElse: () => const EditProfileRouteArgs());
+      final args = routeData.argsAs<EditProfileRouteArgs>();
       return CustomPage<dynamic>(
         routeData: routeData,
         child: EditProfileScreen(
           key: args.key,
           user: args.user,
         ),
-        transitionsBuilder: TransitionsBuilders.slideLeft,
+        transitionsBuilder: TransitionsBuilders.slideBottom,
         opaque: true,
         barrierDismissible: false,
       );
@@ -127,6 +138,10 @@ class _$AppRouter extends RootStackRouter {
           path: '/login-screen',
         ),
         RouteConfig(
+          AccountRoute.name,
+          path: '/account-screen',
+        ),
+        RouteConfig(
           EditProfileRoute.name,
           path: '/edit-profile-screen',
         ),
@@ -152,6 +167,7 @@ class InfoRoute extends PageRouteInfo<InfoRouteArgs> {
     Key? key,
     required String id,
     int? tab,
+    Color? color,
   }) : super(
           InfoRoute.name,
           path: '/info-screen',
@@ -159,6 +175,7 @@ class InfoRoute extends PageRouteInfo<InfoRouteArgs> {
             key: key,
             id: id,
             tab: tab,
+            color: color,
           ),
         );
 
@@ -170,6 +187,7 @@ class InfoRouteArgs {
     this.key,
     required this.id,
     this.tab,
+    this.color,
   });
 
   final Key? key;
@@ -178,9 +196,11 @@ class InfoRouteArgs {
 
   final int? tab;
 
+  final Color? color;
+
   @override
   String toString() {
-    return 'InfoRouteArgs{key: $key, id: $id, tab: $tab}';
+    return 'InfoRouteArgs{key: $key, id: $id, tab: $tab, color: $color}';
   }
 }
 
@@ -206,6 +226,8 @@ class StreamingRoute extends PageRouteInfo<StreamingRouteArgs> {
     required String image,
     required List<EpisodeEntity> episodes,
     ContinueAtEntity? willContinueAt,
+    required String title,
+    int? episodeNumber,
   }) : super(
           StreamingRoute.name,
           path: '/streaming-screen',
@@ -216,6 +238,8 @@ class StreamingRoute extends PageRouteInfo<StreamingRouteArgs> {
             image: image,
             episodes: episodes,
             willContinueAt: willContinueAt,
+            title: title,
+            episodeNumber: episodeNumber,
           ),
         );
 
@@ -230,6 +254,8 @@ class StreamingRouteArgs {
     required this.image,
     required this.episodes,
     this.willContinueAt,
+    required this.title,
+    this.episodeNumber,
   });
 
   final Key? key;
@@ -244,9 +270,13 @@ class StreamingRouteArgs {
 
   final ContinueAtEntity? willContinueAt;
 
+  final String title;
+
+  final int? episodeNumber;
+
   @override
   String toString() {
-    return 'StreamingRouteArgs{key: $key, animeId: $animeId, episodeId: $episodeId, image: $image, episodes: $episodes, willContinueAt: $willContinueAt}';
+    return 'StreamingRouteArgs{key: $key, animeId: $animeId, episodeId: $episodeId, image: $image, episodes: $episodes, willContinueAt: $willContinueAt, title: $title, episodeNumber: $episodeNumber}';
   }
 }
 
@@ -275,11 +305,23 @@ class LoginRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [AccountScreen]
+class AccountRoute extends PageRouteInfo<void> {
+  const AccountRoute()
+      : super(
+          AccountRoute.name,
+          path: '/account-screen',
+        );
+
+  static const String name = 'AccountRoute';
+}
+
+/// generated route for
 /// [EditProfileScreen]
 class EditProfileRoute extends PageRouteInfo<EditProfileRouteArgs> {
   EditProfileRoute({
     Key? key,
-    UserEntity? user,
+    required UserEntity user,
   }) : super(
           EditProfileRoute.name,
           path: '/edit-profile-screen',
@@ -295,12 +337,12 @@ class EditProfileRoute extends PageRouteInfo<EditProfileRouteArgs> {
 class EditProfileRouteArgs {
   const EditProfileRouteArgs({
     this.key,
-    this.user,
+    required this.user,
   });
 
   final Key? key;
 
-  final UserEntity? user;
+  final UserEntity user;
 
   @override
   String toString() {
