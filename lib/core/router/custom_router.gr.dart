@@ -18,17 +18,14 @@ class _$AppRouter extends RootStackRouter {
   @override
   final Map<String, PageFactory> pagesMap = {
     AuthRoute.name: (routeData) {
-      return CustomPage<dynamic>(
+      return MaterialPageX<dynamic>(
         routeData: routeData,
         child: const AuthScreen(),
-        transitionsBuilder: TransitionsBuilders.slideLeft,
-        opaque: true,
-        barrierDismissible: false,
       );
     },
     InfoRoute.name: (routeData) {
       final args = routeData.argsAs<InfoRouteArgs>();
-      return CustomPage<dynamic>(
+      return MaterialPageX<dynamic>(
         routeData: routeData,
         child: InfoScreen(
           key: args.key,
@@ -36,23 +33,17 @@ class _$AppRouter extends RootStackRouter {
           tab: args.tab,
           color: args.color,
         ),
-        transitionsBuilder: TransitionsBuilders.slideLeft,
-        opaque: true,
-        barrierDismissible: false,
       );
     },
     MainRoute.name: (routeData) {
-      return CustomPage<dynamic>(
+      return MaterialPageX<dynamic>(
         routeData: routeData,
         child: const MainScreen(),
-        transitionsBuilder: TransitionsBuilders.slideLeft,
-        opaque: true,
-        barrierDismissible: false,
       );
     },
     StreamingRoute.name: (routeData) {
       final args = routeData.argsAs<StreamingRouteArgs>();
-      return CustomPage<dynamic>(
+      return MaterialPageX<dynamic>(
         routeData: routeData,
         child: StreamingScreen(
           key: args.key,
@@ -64,49 +55,34 @@ class _$AppRouter extends RootStackRouter {
           title: args.title,
           episodeNumber: args.episodeNumber,
         ),
-        transitionsBuilder: TransitionsBuilders.slideLeft,
-        opaque: true,
-        barrierDismissible: false,
       );
     },
     SignupRoute.name: (routeData) {
-      return CustomPage<dynamic>(
+      return MaterialPageX<dynamic>(
         routeData: routeData,
         child: const SignupScreen(),
-        transitionsBuilder: TransitionsBuilders.slideLeft,
-        opaque: true,
-        barrierDismissible: false,
       );
     },
     LoginRoute.name: (routeData) {
-      return CustomPage<dynamic>(
+      return MaterialPageX<dynamic>(
         routeData: routeData,
         child: const LoginScreen(),
-        transitionsBuilder: TransitionsBuilders.slideLeft,
-        opaque: true,
-        barrierDismissible: false,
       );
     },
     AccountRoute.name: (routeData) {
-      return CustomPage<dynamic>(
+      return MaterialPageX<dynamic>(
         routeData: routeData,
         child: const AccountScreen(),
-        transitionsBuilder: TransitionsBuilders.slideLeft,
-        opaque: true,
-        barrierDismissible: false,
       );
     },
     EditProfileRoute.name: (routeData) {
       final args = routeData.argsAs<EditProfileRouteArgs>();
-      return CustomPage<dynamic>(
+      return MaterialPageX<dynamic>(
         routeData: routeData,
         child: EditProfileScreen(
           key: args.key,
           user: args.user,
         ),
-        transitionsBuilder: TransitionsBuilders.slideBottom,
-        opaque: true,
-        barrierDismissible: false,
       );
     },
   };

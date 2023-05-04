@@ -238,8 +238,9 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                           ),
                           GestureDetector(
                             onTap: lastwatch != null
-                                ? () {
-                                    AutoRouter.of(context).push(
+                                ? () async {
+                                    var result =
+                                        await AutoRouter.of(context).push<bool>(
                                       StreamingRoute(
                                         animeId: lastwatch.animeId,
                                         episodeId: lastwatch.episodeId,
@@ -250,9 +251,20 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                                         episodeNumber: lastwatch.episodeNumber,
                                       ),
                                     );
+                                    if (context.mounted && (result as bool)) {
+                                      context
+                                          .read<LastwatchCubit>()
+                                          .onCheckLastWatch(
+                                            userId: FirebaseAuth.instance
+                                                    .currentUser?.uid ??
+                                                '',
+                                            animeId: widget.id,
+                                          );
+                                    }
                                   }
-                                : () {
-                                    AutoRouter.of(context).push(
+                                : () async {
+                                    var result =
+                                        await AutoRouter.of(context).push<bool>(
                                       StreamingRoute(
                                         episodeId: info.episodes.first.id,
                                         episodes: info.episodes,
@@ -266,6 +278,16 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                                             info.episodes.first.number,
                                       ),
                                     );
+                                    if (context.mounted && (result as bool)) {
+                                      context
+                                          .read<LastwatchCubit>()
+                                          .onCheckLastWatch(
+                                            userId: FirebaseAuth.instance
+                                                    .currentUser?.uid ??
+                                                '',
+                                            animeId: widget.id,
+                                          );
+                                    }
                                   },
                             child: Container(
                               height: 6.h,

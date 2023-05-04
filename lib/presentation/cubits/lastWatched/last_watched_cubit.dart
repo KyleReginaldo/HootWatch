@@ -22,10 +22,28 @@ class LastWatchedCubit extends Cubit<LastWatchedState> {
     }, (r) => null);
   }
 
-  void onFetchLastWatched({required String userId}) async {
+  Future<bool> onFetchLastWatched(
+      {required String userId, LastWatchedEntity? info}) async {
+    print(
+        '''
+===========================================
+===========================================
+=========onFetchLastWatched called=========
+===========================================
+===========================================
+''');
     emit(LastWatchedLoading());
-    final either = await fetchLastWatched(userId: userId);
-    either.fold((l) => emit(LastWatchedError()),
-        (r) => emit(LastWatchedLoaded(animes: r)));
+    if (info != null) {
+      final either1 = await saveLastWatched(userId: userId, info: info);
+      either1.fold((l) {
+        emit(LastWatchedError());
+      }, (r) => null);
+    }
+    final either2 = await fetchLastWatched(userId: userId);
+
+    either2.fold((l) => emit(LastWatchedError()), (r) {
+      emit(LastWatchedLoaded(animes: r));
+    });
+    return true;
   }
 }

@@ -17,42 +17,36 @@ part 'custom_router.gr.dart';
 @MaterialAutoRouter(
   replaceInRouteName: 'Screen,Route',
   routes: <AutoRoute>[
-    CustomRoute(
+    AutoRoute(
       page: AuthScreen,
       initial: true,
-      transitionsBuilder: TransitionsBuilders.slideLeft,
     ),
-    CustomRoute(
+    AutoRoute(
       page: InfoScreen,
-      transitionsBuilder: TransitionsBuilders.slideLeft,
+      // transitionsBuilder: TransitionsBuilders.slideLeft,
     ),
-    CustomRoute(
+    AutoRoute(
       page: MainScreen,
-      transitionsBuilder: TransitionsBuilders.slideLeft,
     ),
-    CustomRoute(
+    AutoRoute(
       page: StreamingScreen,
-      transitionsBuilder: TransitionsBuilders.slideLeft,
+      // transitionsBuilder: TransitionsBuilders.slideLeft,
     ),
-    CustomRoute(
+    AutoRoute(
       page: SignupScreen,
-      transitionsBuilder: TransitionsBuilders.slideLeft,
+      // transitionsBuilder: TransitionsBuilders.slideLeft,
     ),
-    CustomRoute(
+    AutoRoute(
       page: LoginScreen,
-      transitionsBuilder: TransitionsBuilders.slideLeft,
+      // transitionsBuilder: TransitionsBuilders.slideLeft,
     ),
-    // CustomRoute(
-    //   page: EditProfileScreen,
-    //   transitionsBuilder: TransitionsBuilders.slideLeft,
-    // ),
-    CustomRoute(
+    AutoRoute(
       page: AccountScreen,
-      transitionsBuilder: TransitionsBuilders.slideLeft,
+      // transitionsBuilder: TransitionsBuilders.slideLeft,
     ),
-    CustomRoute(
+    AutoRoute(
       page: EditProfileScreen,
-      transitionsBuilder: TransitionsBuilders.slideBottom,
+      // transitionsBuilder: TransitionsBuilders.slideBottom,
     ),
   ],
 )

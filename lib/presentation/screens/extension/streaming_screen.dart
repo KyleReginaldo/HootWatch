@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
 import 'package:auto_route/auto_route.dart';
+
 import 'package:extended_betterplayer/better_player.dart';
 import 'package:fade_shimmer/fade_shimmer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,9 +19,9 @@ import 'package:yoyo/presentation/cubits/streamlink/streamlink_cubit.dart';
 import 'package:yoyo/presentation/widgets/components/info/episode_container.dart';
 import 'package:yoyo/presentation/widgets/customs/icons/icon_button.dart';
 import 'package:yoyo/presentation/widgets/customs/text.dart';
-
 import '../../../domain/entity/last_watched_entity.dart';
 import '../../cubits/lastWatched/last_watched_cubit.dart';
+import '../../cubits/streamlink/lastwatch_cubit.dart';
 
 class StreamingScreen extends StatefulWidget {
   final String animeId;
@@ -56,6 +58,35 @@ class _StreamingScreenState extends State<StreamingScreen> {
     super.initState();
   }
 
+  // Future<bool?> showMyDialog() {
+  //   return showDialog(
+  //       context: context,
+  //       builder: (_) {
+  //         return AlertDialog(
+  //           title: const CustomText('Go Back'),
+  //           content: const CustomText('Do you want to saved what you left?'),
+  //           actions: [
+  //             TextButton(
+  //               onPressed: () => Navigator.pop(context, true),
+  //               child: const CustomText('No'),
+  //             ),
+  //             TextButton(
+  //               onPressed: () async {
+  //                 context
+  //                     .read<LastWatchedCubit>()
+  //                     .onSaveLastWatched(
+  //                       userId: FirebaseAuth.instance.currentUser?.uid ?? '',
+  //                       info: lastWatched,
+  //                     )
+  //                     .then((value) => context.router.pop<bool>(true));
+  //               },
+  //               child: const CustomText('Yes'),
+  //             ),
+  //           ],
+  //         );
+  //       });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Builder(
@@ -64,12 +95,14 @@ class _StreamingScreenState extends State<StreamingScreen> {
         final givenId = context.select((PlayingCubit pl) => pl.state);
         return WillPopScope(
           onWillPop: () async {
-            context.read<LastWatchedCubit>().onSaveLastWatched(
-                  userId: FirebaseAuth.instance.currentUser?.uid ?? '',
+            context.read<LastWatchedCubit>().onFetchLastWatched(
+                  userId: FirebaseAuth.instance.currentUser?.uid ?? "",
                   info: lastWatched,
                 );
-            context.read<LastWatchedCubit>().onFetchLastWatched(
-                userId: FirebaseAuth.instance.currentUser?.uid ?? "");
+            context.read<LastwatchCubit>().onCheckLastWatch(
+                  userId: FirebaseAuth.instance.currentUser?.uid ?? '',
+                  animeId: widget.animeId,
+                );
             return true;
           },
           child: Scaffold(
@@ -92,8 +125,15 @@ class _StreamingScreenState extends State<StreamingScreen> {
                       ),
                     ),
                     leading: CustomIconButton(
-                      onTap: () {
-                        AutoRouter.of(context).pop();
+                      onTap: () async {
+                        context
+                            .read<LastWatchedCubit>()
+                            .onSaveLastWatched(
+                              userId:
+                                  FirebaseAuth.instance.currentUser?.uid ?? '',
+                              info: lastWatched,
+                            )
+                            .then((value) => context.router.pop<bool>(true));
                       },
                       glow: true,
                       icon: const Icon(
@@ -119,9 +159,12 @@ class _StreamingScreenState extends State<StreamingScreen> {
                                 )
                               : null,
                           controlsConfiguration:
-                              const BetterPlayerControlsConfiguration(
-                            playerTheme: BetterPlayerTheme.material,
-                            skipForwardIcon: Icons.forward,
+                              BetterPlayerControlsConfiguration(
+                            playerTheme: Platform.isAndroid
+                                ? BetterPlayerTheme.material
+                                : Platform.isIOS
+                                    ? BetterPlayerTheme.cupertino
+                                    : null,
                           ),
                           eventListener: (BetterPlayerEvent event) {
                             if (event.betterPlayerEventType ==

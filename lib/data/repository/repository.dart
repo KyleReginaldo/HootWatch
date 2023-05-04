@@ -14,6 +14,7 @@ import 'package:yoyo/data/datasource/local/local_datasource.dart';
 import 'package:yoyo/data/datasource/remote/remote_datasource.dart';
 import 'package:yoyo/data/model/favorite_model.dart';
 import 'package:yoyo/data/model/last_watched_model.dart';
+import 'package:yoyo/data/model/spotlight_model.dart';
 import 'package:yoyo/data/model/user_model.dart';
 import 'package:yoyo/domain/entity/favorite_entity.dart';
 import 'package:yoyo/domain/entity/info_entity.dart';
@@ -21,6 +22,7 @@ import 'package:yoyo/domain/entity/popular_entity.dart';
 import 'package:yoyo/domain/entity/random_entity.dart';
 import 'package:yoyo/domain/entity/recent_release_entity.dart';
 import 'package:yoyo/domain/entity/search_entity.dart';
+import 'package:yoyo/domain/entity/spotlight_entity.dart';
 import 'package:yoyo/domain/entity/streamlink_entity.dart';
 import 'package:yoyo/domain/entity/trending_entity.dart';
 import 'package:yoyo/domain/entity/upcoming_entity.dart';
@@ -332,6 +334,54 @@ class RepositoryImpl implements Repository {
       await local.cachedPopular(popular: await remote.fetchPopularAnime());
       try {
         return Right(await remote.fetchPopularAnime());
+      } on ServerException catch (e) {
+        return Left(ServerFailure(msg: e.msg));
+      }
+    }
+  }
+
+  @override
+  Future<Either<Failure, SpotlightEntity>> fetchSpotlight() async {
+    final upcoming = local.getCachedUpcoming();
+    final trending = local.getCachedTrending();
+    if (trending != null &&
+        trending.date.isAtSameMomentAs(CustomFunctions.getToday()) &&
+        upcoming != null &&
+        upcoming.date.isAtSameMomentAs(CustomFunctions.getToday())) {
+      try {
+        return Right(SpotlightModel(
+          trending: trending.trending,
+          upcoming: upcoming.upcoming,
+        ));
+      } catch (e) {
+        return Left(CacheFailure(msg: '$e'));
+      }
+    } else if ((trending != null &&
+            !trending.date.isAtSameMomentAs(CustomFunctions.getToday())) &&
+        upcoming != null &&
+        upcoming.date.isAtSameMomentAs(CustomFunctions.getToday())) {
+      await local.cachedRandom(random: await remote.fetchRandomAnime());
+      await local.cachedUpcoming(upcoming: await remote.fetchUpcomingAnime());
+      try {
+        return Right(
+          SpotlightModel(
+            trending: await remote.fetchTrendingAnime(),
+            upcoming: await remote.fetchUpcomingAnime(),
+          ),
+        );
+      } on ServerException catch (e) {
+        return Left(ServerFailure(msg: e.msg));
+      }
+    } else {
+      await local.cachedTrending(trending: await remote.fetchTrendingAnime());
+      await local.cachedUpcoming(upcoming: await remote.fetchUpcomingAnime());
+      try {
+        return Right(
+          SpotlightModel(
+            trending: await remote.fetchTrendingAnime(),
+            upcoming: await remote.fetchUpcomingAnime(),
+          ),
+        );
       } on ServerException catch (e) {
         return Left(ServerFailure(msg: e.msg));
       }

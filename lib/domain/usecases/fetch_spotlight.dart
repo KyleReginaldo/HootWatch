@@ -3,15 +3,15 @@ import 'package:dartz/dartz.dart';
 import 'package:yoyo/domain/repository/repository.dart';
 
 import '../../core/error/failure.dart';
-import '../entity/trending_entity.dart';
+import '../entity/spotlight_entity.dart';
 
-class FetchTrendingAnime {
+class FetchSpotlight {
   final Repository repo;
-  FetchTrendingAnime({
+  FetchSpotlight({
     required this.repo,
   });
 
-  Future<Either<Failure, TrendingEntity>> call() async {
-    return await repo.fetchTrendingAnime();
+  Future<Either<Failure, SpotlightEntity>> call() async {
+    return await repo.fetchSpotlight();
   }
 }
