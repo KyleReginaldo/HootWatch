@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fade_shimmer/fade_shimmer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -26,7 +27,7 @@ class LastWatchedContainer extends StatelessWidget {
               if (animes.isNotEmpty) SizedBox(height: 2.h),
               if (animes.isNotEmpty)
                 Padding(
-                  padding: EdgeInsets.only(left: 1.h),
+                  padding: AppDimens.paddingL1,
                   child: CustomText(
                     'Continue to watch',
                     size: 16.sp,
@@ -40,8 +41,8 @@ class LastWatchedContainer extends StatelessWidget {
                 child: Row(
                   children: animes.map((anime) {
                     return GestureDetector(
-                      onTap: () {
-                        AutoRouter.of(context).push(
+                      onTap: () async {
+                        var result = await context.router.push(
                           StreamingRoute(
                             animeId: anime.animeId,
                             episodeId: anime.episodeId,
@@ -52,9 +53,14 @@ class LastWatchedContainer extends StatelessWidget {
                             episodeNumber: anime.episodeNumber,
                           ),
                         );
+                        if (context.mounted && (result != null)) {
+                          context.read<LastWatchedCubit>().onFetchLastWatched(
+                              userId:
+                                  FirebaseAuth.instance.currentUser?.uid ?? "");
+                        }
                       },
                       child: Container(
-                        margin: EdgeInsets.only(left: 1.h),
+                        margin: AppDimens.paddingL1,
                         height: 17.h,
                         width: 42.w,
                         clipBehavior: Clip.hardEdge,
@@ -103,7 +109,7 @@ class LastWatchedContainer extends StatelessWidget {
               children: List.generate(
                   3,
                   (index) => Padding(
-                        padding: EdgeInsets.all(1.h),
+                        padding: AppDimens.padding1,
                         child: FadeShimmer(
                           width: 45.w,
                           height: 16.h,

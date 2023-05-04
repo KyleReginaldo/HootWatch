@@ -173,7 +173,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                       ],
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 1.h),
+                      padding: AppDimens.paddingH1,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -238,8 +238,9 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                           ),
                           GestureDetector(
                             onTap: lastwatch != null
-                                ? () {
-                                    AutoRouter.of(context).push(
+                                ? () async {
+                                    var result =
+                                        await context.router.push<bool>(
                                       StreamingRoute(
                                         animeId: lastwatch.animeId,
                                         episodeId: lastwatch.episodeId,
@@ -250,9 +251,20 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                                         episodeNumber: lastwatch.episodeNumber,
                                       ),
                                     );
+                                    if (context.mounted && (result as bool)) {
+                                      context
+                                          .read<LastwatchCubit>()
+                                          .onCheckLastWatch(
+                                            userId: FirebaseAuth.instance
+                                                    .currentUser?.uid ??
+                                                '',
+                                            animeId: widget.id,
+                                          );
+                                    }
                                   }
-                                : () {
-                                    AutoRouter.of(context).push(
+                                : () async {
+                                    var result =
+                                        await context.router.push<bool>(
                                       StreamingRoute(
                                         episodeId: info.episodes.first.id,
                                         episodes: info.episodes,
@@ -266,11 +278,21 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                                             info.episodes.first.number,
                                       ),
                                     );
+                                    if (context.mounted && (result as bool)) {
+                                      context
+                                          .read<LastwatchCubit>()
+                                          .onCheckLastWatch(
+                                            userId: FirebaseAuth.instance
+                                                    .currentUser?.uid ??
+                                                '',
+                                            animeId: widget.id,
+                                          );
+                                    }
                                   },
                             child: Container(
                               height: 6.h,
                               width: 100.w,
-                              margin: EdgeInsets.only(top: 1.h),
+                              margin: AppDimens.paddingT1,
                               decoration: BoxDecoration(
                                 color: AppTheme.white,
                                 borderRadius:
@@ -305,7 +327,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.white,
+                                color: AppTheme.white,
                               ),
                               moreStyle: TextStyle(
                                 fontSize: 15.sp,
@@ -346,7 +368,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                           maintainState: true,
                           visible: selectedTab == 0,
                           child: Padding(
-                            padding: EdgeInsets.all(1.h),
+                            padding: AppDimens.padding1,
                             child: Column(
                               children: info.episodes.toSet().map((episode) {
                                 return EpisodeContainer(
@@ -375,7 +397,7 @@ class _InfoScreenState extends State<InfoScreen> with TickerProviderStateMixin {
                           maintainState: true,
                           visible: selectedTab == 1,
                           child: Padding(
-                            padding: EdgeInsets.all(1.h),
+                            padding: AppDimens.padding1,
                             child: Wrap(
                               spacing: 2.h,
                               runSpacing: 2.h,

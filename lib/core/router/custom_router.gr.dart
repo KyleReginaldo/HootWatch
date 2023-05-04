@@ -18,12 +18,9 @@ class _$AppRouter extends RootStackRouter {
   @override
   final Map<String, PageFactory> pagesMap = {
     AuthRoute.name: (routeData) {
-      return CustomPage<dynamic>(
+      return MaterialPageX<dynamic>(
         routeData: routeData,
         child: const AuthScreen(),
-        transitionsBuilder: TransitionsBuilders.slideLeft,
-        opaque: true,
-        barrierDismissible: false,
       );
     },
     InfoRoute.name: (routeData) {
@@ -42,12 +39,9 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     MainRoute.name: (routeData) {
-      return CustomPage<dynamic>(
+      return MaterialPageX<dynamic>(
         routeData: routeData,
         child: const MainScreen(),
-        transitionsBuilder: TransitionsBuilders.slideLeft,
-        opaque: true,
-        barrierDismissible: false,
       );
     },
     StreamingRoute.name: (routeData) {

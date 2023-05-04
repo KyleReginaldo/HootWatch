@@ -58,9 +58,6 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (ctx) => sl<TrendingCubit>(),
-        ),
-        BlocProvider(
           create: (ctx) => sl<RecentCubit>(),
         ),
         BlocProvider(
@@ -74,9 +71,6 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (ctx) => sl<AuthenticationCubit>(),
-        ),
-        BlocProvider(
-          create: (ctx) => sl<UpcomingCubit>(),
         ),
         BlocProvider(
           create: (ctx) => sl<UserCubit>(),
@@ -107,6 +101,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (ctx) => sl<PopularCubit>(),
+        ),
+        BlocProvider(
+          create: (ctx) => sl<SpotlightCubit>(),
         ),
         BlocProvider(
           create: (ctx) => IsFavoriteCubit(),

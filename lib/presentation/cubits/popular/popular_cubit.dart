@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:yoyo/domain/entity/popular_entity.dart';
 
-import '../../../domain/repository/fetch_popular_anime.dart';
+import '../../../domain/usecases/fetch_popular_anime.dart';
 
 part 'popular_state.dart';
 

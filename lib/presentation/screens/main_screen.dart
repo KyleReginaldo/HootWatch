@@ -9,6 +9,7 @@ import 'package:yoyo/core/constants/constant.dart';
 import 'package:yoyo/core/constants/svg_icon.dart';
 import 'package:yoyo/presentation/cubits/common/scroll_cubit.dart';
 import 'package:yoyo/presentation/cubits/popular/popular_cubit.dart';
+import 'package:yoyo/presentation/cubits/spotlight/spotlight_cubit.dart';
 import 'package:yoyo/presentation/screens/main/mylist_screen.dart';
 
 import '../../core/global/global.dart';
@@ -32,11 +33,10 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     context.read<RecentCubit>().onFetchRecentAnime();
-    context.read<UpcomingCubit>().onFetchUpcomingAnime();
     context.read<RandomCubit>().onFetchRandomAnime();
     context.read<LastWatchedCubit>().onFetchLastWatched(
         userId: FirebaseAuth.instance.currentUser?.uid ?? "");
-    context.read<TrendingCubit>().onFetchTrendingAnime();
+    context.read<SpotlightCubit>().onFetchSpotlight();
     context.read<CurrentUserCubit>().onFetchFbUser();
     context.read<PopularCubit>().onFetchPopularAnime();
     super.initState();

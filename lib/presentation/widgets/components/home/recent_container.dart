@@ -44,13 +44,13 @@ class RecentContainer extends StatelessWidget {
                       image: e.image,
                       padding: EdgeInsets.only(left: 1.h),
                       color: Color(CustomFunctions.convertHexToInt(
-                        e.color ?? '#FE0202',
+                        e.color ?? '#000000',
                       )),
                       onTap: () {
                         AutoRouter.of(context).push(InfoRoute(
                           id: e.id,
                           color: Color(CustomFunctions.convertHexToInt(
-                            e.color ?? '#FE0202',
+                            e.color ?? '#000000',
                           )),
                         ));
                       },
