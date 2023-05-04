@@ -1,6 +1,6 @@
-Funime
+HootWatch
 
-Funime is a revolutionary anime app designed for fans of Japanese animation. The app offers an extensive library of anime shows and movies that users can stream and download at their convenience. The app has quickly gained popularity among anime fans due to its user-friendly interface, vast selection of anime titles, and community-focused features.
+HootWatch is a revolutionary anime app designed for fans of Japanese animation. The app offers an extensive library of anime shows and movies that users can stream and download at their convenience. The app has quickly gained popularity among anime fans due to its user-friendly interface, vast selection of anime titles, and community-focused features.
 
 One of the key features of Funime is its massive anime library. The app boasts a vast collection of anime shows and movies that range from classic titles to the latest releases. Users can browse through the library and filter content by genre, rating, or release date. The app also features a recommendation engine that suggests titles based on the user's viewing history, making it easy for users to discover new shows.
 
