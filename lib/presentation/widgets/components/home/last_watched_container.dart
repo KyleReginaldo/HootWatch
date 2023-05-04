@@ -39,77 +39,56 @@ class LastWatchedContainer extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: animes.map((anime) {
-                    return SizedBox(
-                      width: 42.w,
-                      height: 20.h,
-                      child: Column(
-                        children: [
-                          Stack(
-                            fit: StackFit.passthrough,
-                            clipBehavior: Clip.none,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  AutoRouter.of(context).push(
-                                    StreamingRoute(
-                                      animeId: anime.animeId,
-                                      episodeId: anime.episodeId,
-                                      image: anime.image,
-                                      episodes: anime.episodes,
-                                      willContinueAt: anime.continueAt,
-                                      title: anime.title,
-                                      episodeNumber: anime.episodeNumber,
-                                    ),
-                                  );
-                                },
-                                child: Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 1.h),
-                                  height: 16.h,
-                                  width: 42.w,
-                                  clipBehavior: Clip.hardEdge,
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColor,
-                                  ),
-                                  child: CachedNetworkImage(
-                                    height: 16.h,
-                                    width: 42.w,
-                                    imageUrl: anime.image,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                left: 0,
-                                right: 0,
-                                child: LinearPercentIndicator(
-                                  animation: true,
-                                  backgroundColor: AppTheme.greyLight2,
-                                  restartAnimation: true,
-                                  animateFromLastPercent: true,
-                                  lineHeight: 5,
-                                  clipLinearGradient: true,
-                                  progressColor: Theme.of(context).primaryColor,
-                                  percent:
-                                      CustomFunctions.getLastWatchedDuration(
-                                    durationS: CustomFunctions.parseDuration(
-                                        anime.continueAt.willContinueAt),
-                                    durationL: CustomFunctions.parseDuration(
-                                        anime.duration),
-                                  ),
-                                ),
-                              ),
-                            ],
+                    return GestureDetector(
+                      onTap: () {
+                        AutoRouter.of(context).push(
+                          StreamingRoute(
+                            animeId: anime.animeId,
+                            episodeId: anime.episodeId,
+                            image: anime.image,
+                            episodes: anime.episodes,
+                            willContinueAt: anime.continueAt,
+                            title: anime.title,
+                            episodeNumber: anime.episodeNumber,
                           ),
-                          CustomText(
-                            anime.title,
-                            size: 13.sp,
-                            weight: FontWeight.w600,
-                            textAlign: TextAlign.center,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
+                        );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(left: 1.h),
+                        height: 17.h,
+                        width: 42.w,
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                          color: AppTheme.grey,
+                          borderRadius:
+                              BorderRadius.circular(AppDimens.minRadius),
+                        ),
+                        child: Column(
+                          children: [
+                            CachedNetworkImage(
+                              height: 16.5.h,
+                              width: 42.w,
+                              imageUrl: anime.image,
+                              fit: BoxFit.cover,
+                            ),
+                            LinearPercentIndicator(
+                              animation: true,
+                              backgroundColor: AppTheme.greyLight2,
+                              restartAnimation: true,
+                              animateFromLastPercent: true,
+                              padding: EdgeInsets.zero,
+                              lineHeight: 0.5.h,
+                              clipLinearGradient: true,
+                              progressColor: Theme.of(context).primaryColor,
+                              percent: CustomFunctions.getLastWatchedDuration(
+                                durationS: CustomFunctions.parseDuration(
+                                    anime.continueAt.willContinueAt),
+                                durationL: CustomFunctions.parseDuration(
+                                    anime.duration),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   }).toList(),

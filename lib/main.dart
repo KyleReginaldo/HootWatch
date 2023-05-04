@@ -13,6 +13,7 @@ import 'package:yoyo/dependency.dart';
 import 'package:yoyo/presentation/cubits/common/carousel_title_cubit.dart';
 import 'package:yoyo/presentation/cubits/common/color_cubit.dart';
 import 'package:yoyo/presentation/cubits/common/scroll_cubit.dart';
+import 'package:yoyo/presentation/cubits/common/theme_picker_cubit.dart';
 import 'package:yoyo/presentation/cubits/favorite/favorite_cubit.dart';
 import 'package:yoyo/presentation/cubits/favorite/is_favorite_cubit.dart';
 import 'package:yoyo/presentation/cubits/popular/popular_cubit.dart';
@@ -140,33 +141,42 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (ctx) => ColorCubit(),
         ),
+        BlocProvider(
+          create: (ctx) => ThemePickerCubit(),
+        ),
       ],
       child: ResponsiveSizer(builder: (p0, p1, p2) {
-        return MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          routerDelegate: appRouter.delegate(),
-          routeInformationParser: appRouter.defaultRouteParser(),
-          title: 'AN1ZONE',
-          theme: ThemeData(
-            platform: TargetPlatform.android,
-            scaffoldBackgroundColor: AppTheme.black,
-            appBarTheme: const AppBarTheme(
-              backgroundColor: Colors.transparent,
-            ),
-            elevatedButtonTheme: const ElevatedButtonThemeData(
-              style: ButtonStyle(
-                iconColor: MaterialStatePropertyAll(AppTheme.systemRed),
+        return Builder(
+          builder: (context) {
+            final themePicked =
+                context.select((ThemePickerCubit theme) => theme.state);
+            return MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              routerDelegate: appRouter.delegate(),
+              routeInformationParser: appRouter.defaultRouteParser(),
+              title: 'HootWatch',
+              theme: ThemeData(
+                scaffoldBackgroundColor: AppTheme.black,
+                appBarTheme: const AppBarTheme(
+                  backgroundColor: Colors.transparent,
+                ),
+                elevatedButtonTheme: ElevatedButtonThemeData(
+                  style: ButtonStyle(
+                    iconColor:
+                        MaterialStatePropertyAll(themePicked.primaryColor),
+                  ),
+                ),
+                progressIndicatorTheme: ProgressIndicatorThemeData(
+                  color: themePicked.primaryColor,
+                ),
+                textTheme: AppTheme.textTheme,
+                brightness: Brightness.dark,
+                useMaterial3: true,
+                primaryColor: themePicked.primaryColor,
+                fontFamily: 'NetflixSans',
               ),
-            ),
-            progressIndicatorTheme: const ProgressIndicatorThemeData(
-              color: AppTheme.systemRed,
-            ),
-            textTheme: AppTheme.textTheme,
-            brightness: Brightness.dark,
-            useMaterial3: true,
-            primaryColor: AppTheme.systemRed,
-            fontFamily: 'NetflixSans',
-          ),
+            );
+          },
         );
       }),
     );

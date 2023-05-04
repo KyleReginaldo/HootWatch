@@ -71,10 +71,9 @@ class CustomAniContainer extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.all(1.h),
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
+                    gradient: LinearGradient(
                       colors: [
-                        AppTheme.systemRed,
-                        // AppTheme.red,
+                        Theme.of(context).primaryColor,
                         AppTheme.black,
                       ],
                       begin: Alignment.topRight,

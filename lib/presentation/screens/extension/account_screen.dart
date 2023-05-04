@@ -5,17 +5,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:yoyo/core/constants/constant.dart';
 import 'package:yoyo/core/constants/svg_icon.dart';
 import 'package:yoyo/core/router/custom_router.dart';
 import 'package:yoyo/core/utils/custom_functions.dart';
+import 'package:yoyo/presentation/cubits/common/theme_picker_cubit.dart';
 import 'package:yoyo/presentation/cubits/favorite/favorite_cubit.dart';
 import 'package:yoyo/presentation/widgets/customs/ani_container.dart';
 import 'package:yoyo/presentation/widgets/customs/button/elevated_icon_button.dart';
 import 'package:yoyo/presentation/widgets/customs/text.dart';
-import 'package:iconify_flutter/icons/mdi.dart';
 
 import '../../cubits/user/current_user/current_user_cubit.dart';
 import '../../cubits/user/user_cubit.dart';
@@ -49,6 +48,8 @@ class _AccountScreenState extends State<AccountScreen> {
       },
       child: Builder(builder: (context) {
         final favState = context.select((FavoriteCubit fav) => fav.state);
+        final themePicked =
+            context.select((ThemePickerCubit theme) => theme.state);
         return Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBar(
@@ -103,15 +104,15 @@ class _AccountScreenState extends State<AccountScreen> {
                             child: ClipOval(
                               child: state.user.imageLink == null
                                   ? Image.asset(
-                                      'assets/image/person.png',
-                                      height: 12.h,
-                                      width: 12.h,
+                                      themePicked.logo,
+                                      height: 10.h,
+                                      width: 10.h,
                                       fit: BoxFit.cover,
                                     )
                                   : CachedNetworkImage(
                                       imageUrl: state.user.imageLink!,
-                                      height: 12.h,
-                                      width: 12.h,
+                                      height: 10.h,
+                                      width: 10.h,
                                       fit: BoxFit.cover,
                                     ),
                             ),
@@ -127,7 +128,7 @@ class _AccountScreenState extends State<AccountScreen> {
                           title: 'Edit Profile',
                           icon: SvgPicture.asset(
                             SvgIcon.edit,
-                            color: AppTheme.white,
+                            color: Theme.of(context).primaryColor,
                           ),
                           bgColor: AppTheme.greyDark2,
                           onTap: () {
@@ -140,14 +141,54 @@ class _AccountScreenState extends State<AccountScreen> {
                         ),
                         CustomElevatedIconButton(
                           onTap: () async {
-                            await FirebaseAuth.instance
-                                .signOut()
-                                .then((value) => AutoRouter.of(context).pop());
+                            showDialog(
+                                context: context,
+                                builder: (_) {
+                                  return AlertDialog(
+                                    title: const CustomText(
+                                      'Logout',
+                                      weight: FontWeight.w600,
+                                    ),
+                                    content: const CustomText(
+                                      'are you sure you want to logout?',
+                                      weight: FontWeight.w400,
+                                      color: AppTheme.greyLight2,
+                                    ),
+                                    actions: [
+                                      CustomElevatedIconButton(
+                                        title: 'Cancel',
+                                        icon: Icon(
+                                          Icons.cancel_rounded,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onError,
+                                        ),
+                                        onTap: () {
+                                          AutoRouter.of(context).pop();
+                                        },
+                                      ),
+                                      CustomElevatedIconButton(
+                                        title: 'Logout',
+                                        icon: const Icon(Icons.logout_rounded),
+                                        onTap: () async {
+                                          await FirebaseAuth.instance
+                                              .signOut()
+                                              .then((value) =>
+                                                  AutoRouter.of(context).pop())
+                                              .then((value) {
+                                            AutoRouter.of(context)
+                                                .popUntilRoot();
+                                          });
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
                           },
                           title: 'Logout',
                           icon: SvgPicture.asset(
                             SvgIcon.logout,
-                            color: AppTheme.white,
+                            color: Theme.of(context).primaryColor,
                           ),
                           bgColor: AppTheme.greyDark2,
                           iconColor: AppTheme.white,
@@ -163,35 +204,36 @@ class _AccountScreenState extends State<AccountScreen> {
                       size: 14.sp,
                       color: AppTheme.greyLight2,
                     ),
-                    CustomText(
-                      'Bio: ${state.user.bio}',
-                      size: 15.sp,
-                      color: AppTheme.systemBlue,
-                      textAlign: TextAlign.center,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.facebook),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Iconify(
-                            Mdi.instagram,
-                            color: AppTheme.greyLight2,
+                    if (state.user.bio != null)
+                      CustomText(
+                        'Bio: ${state.user.bio}',
+                        size: 15.sp,
+                        color: AppTheme.white,
+                        textAlign: TextAlign.center,
+                      ),
+                    SizedBox(height: 2.h),
+                    Wrap(
+                      spacing: 2.h,
+                      runSpacing: 2.h,
+                      children: AppTheme.themes.map((e) {
+                        return InkWell(
+                          onTap: themePicked == e
+                              ? null
+                              : () {
+                                  context.read<ThemePickerCubit>().pickTheme(e);
+                                },
+                          child: Opacity(
+                            opacity: themePicked == e ? 1 : 0.4,
+                            child: Image.asset(
+                              e.logo,
+                              height: 8.h,
+                              width: 8.h,
+                            ),
                           ),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Iconify(
-                            Mdi.twitter,
-                            color: AppTheme.greyLight2,
-                          ),
-                        ),
-                      ],
+                        );
+                      }).toList(),
                     ),
+                    SizedBox(height: 2.h),
                     if (favState is FavoriteLoaded)
                       Align(
                         alignment: Alignment.centerLeft,

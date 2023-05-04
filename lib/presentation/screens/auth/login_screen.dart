@@ -31,13 +31,6 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  anizone,
-                  height: 8.h,
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
                 Padding(
                   padding: EdgeInsets.only(left: 10.w),
                   child: Align(

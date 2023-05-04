@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:yoyo/core/constants/constant.dart';
+import 'package:yoyo/core/model/theme_preference.dart';
 
 class AppTheme {
   AppTheme._();
   static const Color systemRed = Color(0xFFFE0202);
-  static const Color systemBlue = Color(0xFF4B6AEA);
-  static const Color red = Color(0xFFD22F26);
-  static const Color redDark1 = Color(0xFFB1060F);
+  static const Color systemGreen = Color(0xFF54B435);
+  static const Color systemPurple = Color(0xFF7149C6);
+  static const Color systemYellow = Color(0xFFFFD93D);
   static const Color grey = Color(0xFF737373);
   static const Color greyDark1 = Color(0xFF323223);
   static const Color greyDark2 = Color(0xFF191919);
@@ -16,6 +18,13 @@ class AppTheme {
   static const Color greyLight2 = Color(0xFFCBCBCB);
   static const Color greyLight1 = Color(0xFFB2B2B2);
   static Color transparent = Colors.transparent;
+
+  static List<ThemePreferenceModel> themes = [
+    ThemePreferenceModel(logo: hootRed, primaryColor: systemRed),
+    ThemePreferenceModel(logo: hootYellow, primaryColor: systemYellow),
+    ThemePreferenceModel(logo: hootPurple, primaryColor: systemPurple),
+    ThemePreferenceModel(logo: hootGreen, primaryColor: systemGreen),
+  ];
 
   static TextTheme textTheme = const TextTheme(
     displayLarge: TextStyle(

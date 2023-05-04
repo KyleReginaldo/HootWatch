@@ -15,6 +15,7 @@ import '../../core/global/global.dart';
 import '../../core/router/custom_router.dart';
 import '../../domain/entity/search_entity.dart';
 import '../cubits/common/color_cubit.dart';
+import '../cubits/common/theme_picker_cubit.dart';
 import '../cubits/state.dart';
 import '../widgets/components/search/custom_search_delegate.dart';
 import 'main/home_screen.dart';
@@ -49,12 +50,12 @@ class _MainScreenState extends State<MainScreen> {
         final currentUser = context.select((CurrentUserCubit cr) => cr.state);
         final scrolling = context.select((ScrollCubit sc) => sc.state);
         final bgColor = context.select((ColorCubit clr) => clr.state);
-
+        final themePicked =
+            context.select((ThemePickerCubit theme) => theme.state);
         return Scaffold(
           extendBodyBehindAppBar: selectedIndex == 0,
           appBar: AppBar(
             backgroundColor: scrolling ? bgColor.withOpacity(0.6) : null,
-            leading: Image.asset(a17),
             actions: [
               IconButton(
                 onPressed: () async {
@@ -75,18 +76,19 @@ class _MainScreenState extends State<MainScreen> {
                   onTap: () {
                     AutoRouter.of(context).push(const AccountRoute());
                   },
-                  child: ClipOval(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(AppDimens.minRadius),
                     child: currentUser?.photoURL != null
                         ? CachedNetworkImage(
                             imageUrl: currentUser!.photoURL!,
-                            height: 5.h,
-                            width: 5.h,
+                            height: 4.h,
+                            width: 4.h,
                             fit: BoxFit.cover,
                           )
                         : Image.asset(
-                            'assets/image/person.png',
-                            height: 5.h,
-                            width: 5.h,
+                            themePicked.logo,
+                            height: 4.h,
+                            width: 4.h,
                             fit: BoxFit.cover,
                           ),
                   ),
@@ -108,7 +110,9 @@ class _MainScreenState extends State<MainScreen> {
             backgroundColor: AppTheme.transparent,
             elevation: 0,
             currentIndex: selectedIndex,
-            selectedItemColor: AppTheme.greyLight2,
+            selectedFontSize: 13.sp,
+            unselectedFontSize: 12.sp,
+            selectedItemColor: Theme.of(context).primaryColor,
             unselectedItemColor: AppTheme.grey,
             onTap: (value) {
               context.read<BnbCubit>().navigate(value);
@@ -123,7 +127,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 activeIcon: SvgPicture.asset(
                   SvgIcon.home,
-                  color: AppTheme.greyLight2,
+                  color: Theme.of(context).primaryColor,
                 ),
                 label: 'Home',
               ),
@@ -134,7 +138,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 activeIcon: SvgPicture.asset(
                   SvgIcon.play,
-                  color: AppTheme.greyLight2,
+                  color: Theme.of(context).primaryColor,
                 ),
                 label: 'Clips',
               ),
@@ -145,7 +149,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 activeIcon: SvgPicture.asset(
                   SvgIcon.bookmark,
-                  color: AppTheme.greyLight2,
+                  color: Theme.of(context).primaryColor,
                 ),
                 label: 'Bookmark',
               ),

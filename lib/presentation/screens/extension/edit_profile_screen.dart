@@ -18,6 +18,7 @@ import 'package:yoyo/presentation/widgets/customs/button/elevated_button.dart';
 import 'package:yoyo/presentation/widgets/customs/textfield.dart';
 
 import '../../../core/constants/app_theme.dart';
+import '../../cubits/common/theme_picker_cubit.dart';
 import '../../widgets/customs/icons/icon_button.dart';
 import '../../widgets/customs/text.dart';
 
@@ -48,6 +49,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Builder(
       builder: (context) {
         final image = context.select((ImageCubit img) => img.state);
+        final themePicked =
+            context.select((ThemePickerCubit theme) => theme.state);
         return WillPopScope(
           onWillPop: () async {
             context
@@ -90,22 +93,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     width: 12.h,
                                     fit: BoxFit.cover,
                                   )
-                                : ClipOval(
-                                    child: Image.asset(
-                                      'assets/image/person.png',
-                                      height: 12.h,
-                                      width: 12.h,
-                                      fit: BoxFit.cover,
-                                    ),
+                                : Image.asset(
+                                    themePicked.logo,
+                                    height: 12.h,
+                                    width: 12.h,
+                                    fit: BoxFit.cover,
                                   ),
                       ),
                       Positioned(
                         bottom: 0,
                         right: -2.h,
                         child: CustomIconButton(
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.edit,
-                            color: AppTheme.black,
+                            color: Theme.of(context).primaryColor,
                           ),
                           bgColor: AppTheme.white,
                           radius: AppDimens.maxRadius,
@@ -113,6 +114,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             scaffoldKey.currentState?.showBottomSheet(
                               (context) {
                                 return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     ListTile(
                                       onTap: () {

@@ -10,7 +10,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yoyo/core/constants/svg_icon.dart';
 import 'package:yoyo/core/router/custom_router.dart';
 import 'package:yoyo/core/utils/custom_functions.dart';
-import 'package:yoyo/presentation/cubits/common/carousel_title_cubit.dart';
 import 'package:yoyo/presentation/cubits/common/color_cubit.dart';
 import 'package:yoyo/presentation/widgets/customs/button/elevated_icon_button.dart';
 
@@ -27,12 +26,13 @@ class TrendingContainer extends StatelessWidget {
         return BlocConsumer<TrendingCubit, TrendingState>(
           listener: (context, state) {
             if (state is TrendingLoaded) {
-              context.read<CarouselTitleCubit>().changeTitle(
-                  state.trending.results.first.title.english ??
-                      state.trending.results.first.title.userPreferred ??
-                      state.trending.results.first.title.romaji ??
-                      state.trending.results.first.title.native ??
-                      '');
+              context.read<ColorCubit>().pickColor(
+                    Color(
+                      CustomFunctions.convertHexToInt(
+                        state.trending.results.first.color ?? '#FE0202',
+                      ),
+                    ),
+                  );
             }
           },
           builder: (context, state) {
@@ -104,7 +104,7 @@ class TrendingContainer extends StatelessWidget {
                                     title: 'Bookmark',
                                     icon: SvgPicture.asset(
                                       SvgIcon.add,
-                                      color: AppTheme.white,
+                                      color: Theme.of(context).primaryColor,
                                     ),
                                     bgColor: AppTheme.greyDark3,
                                   ),
@@ -113,7 +113,7 @@ class TrendingContainer extends StatelessWidget {
                                     title: 'Info',
                                     icon: SvgPicture.asset(
                                       SvgIcon.info,
-                                      color: AppTheme.white,
+                                      color: Theme.of(context).primaryColor,
                                     ),
                                     bgColor: AppTheme.greyDark3,
                                     onTap: () {

@@ -109,6 +109,8 @@ class _StreamingScreenState extends State<StreamingScreen> {
                   listener: (context, state) {
                     if (state is StreamlinkLoaded) {
                       betterController = BetterPlayerController(
+                        betterPlayerPlaylistConfiguration:
+                            const BetterPlayerPlaylistConfiguration(),
                         BetterPlayerConfiguration(
                           autoPlay: true,
                           startAt: widget.willContinueAt?.id == state.id
@@ -119,22 +121,11 @@ class _StreamingScreenState extends State<StreamingScreen> {
                           controlsConfiguration:
                               const BetterPlayerControlsConfiguration(
                             playerTheme: BetterPlayerTheme.material,
+                            skipForwardIcon: Icons.forward,
                           ),
                           eventListener: (BetterPlayerEvent event) {
                             if (event.betterPlayerEventType ==
                                 BetterPlayerEventType.progress) {
-                              print('''
-=====================================😂😊🤦‍♂️👕😍👌😍🔥👕🤦‍♂️🤦‍♂️=====================================
-                                     ${betterController.isVideoInitialized()}   
-=====================================😂😊🤦‍♂️👕😍👌😍🔥👕🤦‍♂️🤦‍♂️=====================================
-
-''');
-                              print('''
-2=====================================😂😊🤦‍♂️👕😍👌😍🔥👕🤦‍♂️🤦‍♂️=====================================2
-                                     ${betterController.videoPlayerController?.value.duration}   
-2====================================😂😊🤦‍♂️👕😍👌😍🔥👕🤦‍♂️🤦‍♂️=====================================2
-
-''');
                               if (betterController.isVideoInitialized() ??
                                   false) {
                                 lastWatched = LastWatchedEntity(
@@ -209,8 +200,6 @@ class _StreamingScreenState extends State<StreamingScreen> {
                             "1080p": state.streamLink.sources[3].url,
                           },
                         ),
-                        betterPlayerPlaylistConfiguration:
-                            const BetterPlayerPlaylistConfiguration(),
                       );
                     }
                   },
@@ -282,6 +271,14 @@ class _StreamingScreenState extends State<StreamingScreen> {
                     padding: EdgeInsets.only(left: 1.h),
                     child: const CustomText('EPISODES'),
                   ),
+                //   BetterPlayerPlaylist(
+                //   betterPlayerConfiguration: BetterPlayerConfiguration(),
+                //   betterPlayerDataSourceList: widget.episodes.map((e) {
+                //     return BetterPlayerDataSource.network(e.);
+                //   }).toList(),
+                //   betterPlayerPlaylistConfiguration:
+                //       BetterPlayerPlaylistConfiguration(),
+                // ),
                 if (!isFullscreen)
                   Expanded(
                     child: ListView(

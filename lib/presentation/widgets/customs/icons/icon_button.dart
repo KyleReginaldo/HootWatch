@@ -34,7 +34,7 @@ class CustomIconButton extends StatelessWidget {
             boxShadow: (glow ?? false)
                 ? [
                     BoxShadow(
-                      color: bgColor ?? AppTheme.systemRed,
+                      color: bgColor ?? Theme.of(context).primaryColor,
                       offset: const Offset(0, 0),
                       blurRadius: 6,
                       spreadRadius: 0.5,

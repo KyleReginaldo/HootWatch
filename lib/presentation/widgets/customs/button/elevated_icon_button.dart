@@ -36,7 +36,7 @@ class CustomElevatedIconButton extends StatelessWidget {
       ),
       style: ButtonStyle(
         iconColor: MaterialStatePropertyAll(
-          iconColor ?? AppTheme.systemRed,
+          iconColor ?? Theme.of(context).primaryColor,
         ),
         backgroundColor: MaterialStatePropertyAll(
           bgColor ?? AppTheme.black,
