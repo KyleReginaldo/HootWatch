@@ -27,7 +27,7 @@ class LastWatchedContainer extends StatelessWidget {
               if (animes.isNotEmpty) SizedBox(height: 2.h),
               if (animes.isNotEmpty)
                 Padding(
-                  padding: EdgeInsets.only(left: 1.h),
+                  padding: AppDimens.paddingL1,
                   child: CustomText(
                     'Continue to watch',
                     size: 16.sp,
@@ -53,11 +53,6 @@ class LastWatchedContainer extends StatelessWidget {
                             episodeNumber: anime.episodeNumber,
                           ),
                         );
-                        print('''
-=========================================
-              $result
-=========================================
-''');
                         if (context.mounted && (result != null)) {
                           context.read<LastWatchedCubit>().onFetchLastWatched(
                               userId:
@@ -65,7 +60,7 @@ class LastWatchedContainer extends StatelessWidget {
                         }
                       },
                       child: Container(
-                        margin: EdgeInsets.only(left: 1.h),
+                        margin: AppDimens.paddingL1,
                         height: 17.h,
                         width: 42.w,
                         clipBehavior: Clip.hardEdge,
@@ -114,7 +109,7 @@ class LastWatchedContainer extends StatelessWidget {
               children: List.generate(
                   3,
                   (index) => Padding(
-                        padding: EdgeInsets.all(1.h),
+                        padding: AppDimens.padding1,
                         child: FadeShimmer(
                           width: 45.w,
                           height: 16.h,

@@ -1,4 +1,3 @@
-
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -14,6 +13,7 @@ import 'package:yoyo/core/utils/custom_functions.dart';
 import 'package:yoyo/presentation/cubits/common/color_cubit.dart';
 import 'package:yoyo/presentation/widgets/customs/button/elevated_icon_button.dart';
 
+import '../../../../core/constants/app_dimens.dart';
 import '../../../cubits/spotlight/spotlight_cubit.dart';
 
 class SpotlightContainer extends StatelessWidget {
@@ -40,8 +40,8 @@ class SpotlightContainer extends StatelessWidget {
           builder: (context, state) {
             if (state is SpotlightLoaded) {
               return Container(
-                padding: EdgeInsets.only(top: 10.h),
-                margin: EdgeInsets.only(bottom: 2.h),
+                padding: AppDimens.paddingT10,
+                margin: AppDimens.paddingB2,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -64,7 +64,7 @@ class SpotlightContainer extends StatelessWidget {
                   items: [
                     ...state.spotlight.trending.results.map((e) {
                       return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 4.h),
+                        padding: AppDimens.paddingH4,
                         child: Stack(
                           children: [
                             ClipRRect(
@@ -134,7 +134,7 @@ class SpotlightContainer extends StatelessWidget {
                     }).toList(),
                     ...state.spotlight.upcoming.results.map((e) {
                       return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 4.h),
+                        padding: AppDimens.paddingH4,
                         child: Stack(
                           children: [
                             ClipRRect(
@@ -243,7 +243,7 @@ class SpotlightContainer extends StatelessWidget {
                   children: List.generate(
                       3,
                       (index) => Padding(
-                            padding: EdgeInsets.all(1.h),
+                            padding: AppDimens.padding1,
                             child: FadeShimmer(
                               width: 100.w,
                               height: 25.h,

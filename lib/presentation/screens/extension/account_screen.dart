@@ -91,31 +91,66 @@ class _AccountScreenState extends State<AccountScreen> {
                           ),
                         ),
                         Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: Container(
+                            width: 100.w,
+                            height: 30.h,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  AppTheme.black.withOpacity(0),
+                                  AppTheme.black.withOpacity(0.1),
+                                  AppTheme.black.withOpacity(0.2),
+                                  AppTheme.black.withOpacity(0.3),
+                                  AppTheme.black.withOpacity(0.4),
+                                  AppTheme.black.withOpacity(0.5),
+                                  AppTheme.black.withOpacity(0.6),
+                                  AppTheme.black.withOpacity(0.7),
+                                  AppTheme.black.withOpacity(0.8),
+                                  AppTheme.black.withOpacity(0.9),
+                                  AppTheme.black,
+                                ],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
                           bottom: -2.h,
                           child: Container(
-                            decoration: const BoxDecoration(boxShadow: [
-                              BoxShadow(
-                                color: AppTheme.greyLight2,
-                                offset: Offset(0, 0),
-                                blurRadius: 50,
-                                spreadRadius: 1,
+                            height: 12.h,
+                            width: 12.h,
+                            padding: EdgeInsets.all(0.5.h),
+                            clipBehavior: Clip.hardEdge,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  AppTheme.white.withOpacity(0),
+                                  AppTheme.white.withOpacity(0.1),
+                                  AppTheme.white.withOpacity(0.2),
+                                  AppTheme.white.withOpacity(0.3),
+                                  AppTheme.white.withOpacity(0.2),
+                                  AppTheme.white.withOpacity(0.1),
+                                  AppTheme.white.withOpacity(0),
+                                ],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
                               ),
-                            ]),
-                            child: ClipOval(
-                              child: state.user.imageLink == null
-                                  ? Image.asset(
-                                      themePicked.logo,
-                                      height: 10.h,
-                                      width: 10.h,
-                                      fit: BoxFit.cover,
-                                    )
-                                  : CachedNetworkImage(
-                                      imageUrl: state.user.imageLink!,
-                                      height: 10.h,
-                                      width: 10.h,
-                                      fit: BoxFit.cover,
-                                    ),
+                              borderRadius:
+                                  BorderRadius.circular(AppDimens.minRadius),
                             ),
+                            child: state.user.imageLink == null
+                                ? Image.asset(
+                                    themePicked.logo,
+                                    fit: BoxFit.cover,
+                                  )
+                                : CachedNetworkImage(
+                                    imageUrl: state.user.imageLink!,
+                                    fit: BoxFit.cover,
+                                  ),
                           ),
                         ),
                       ],
@@ -238,7 +273,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
-                          padding: EdgeInsets.only(left: 1.h),
+                          padding: AppDimens.paddingL1,
                           child: CustomText(
                             'Favorites',
                             size: 16.sp,
@@ -253,7 +288,7 @@ class _AccountScreenState extends State<AccountScreen> {
                           return Align(
                             alignment: Alignment.centerLeft,
                             child: Padding(
-                              padding: EdgeInsets.only(left: 1.h),
+                              padding: AppDimens.paddingL1,
                               child: SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
@@ -285,7 +320,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             child: Row(
                               children: List.generate(3, (index) {
                                 return Padding(
-                                  padding: EdgeInsets.all(1.h),
+                                  padding: AppDimens.padding1,
                                   child: FadeShimmer(
                                     width: 32.w,
                                     height: 20.h,
@@ -332,7 +367,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     children: List.generate(
                         3,
                         (index) => Padding(
-                              padding: EdgeInsets.all(1.h),
+                              padding: AppDimens.padding1,
                               child: FadeShimmer(
                                 width: 32.w,
                                 height: 20.h,

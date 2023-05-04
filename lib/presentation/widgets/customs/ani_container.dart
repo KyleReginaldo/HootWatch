@@ -69,7 +69,7 @@ class CustomAniContainer extends StatelessWidget {
                 top: 0,
                 right: 0,
                 child: Container(
-                  padding: EdgeInsets.all(1.h),
+                  padding: AppDimens.padding1,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [

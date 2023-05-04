@@ -6,6 +6,7 @@ import 'package:yoyo/core/router/custom_router.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/constants/app_dimens.dart';
 import '../../../../core/utils/custom_functions.dart';
 import '../../../cubits/popular/popular_cubit.dart';
 import '../../customs/ani_container.dart';
@@ -25,7 +26,7 @@ class PopularContainer extends StatelessWidget {
               if (state.popular.results.isNotEmpty) SizedBox(height: 2.h),
               if (state.popular.results.isNotEmpty)
                 Padding(
-                  padding: EdgeInsets.only(left: 1.h),
+                  padding: AppDimens.paddingL1,
                   child: CustomText(
                     'Popular',
                     size: 16.sp,
@@ -42,7 +43,7 @@ class PopularContainer extends StatelessWidget {
                       bannerTitle:
                           (state.popular.results.indexOf(e) + 1).toString(),
                       image: e.image,
-                      padding: EdgeInsets.only(left: 1.h),
+                      padding: AppDimens.paddingL1,
                       color: Color(CustomFunctions.convertHexToInt(
                         e.color ?? '#000000',
                       )),
@@ -70,7 +71,7 @@ class PopularContainer extends StatelessWidget {
               children: List.generate(
                   3,
                   (index) => Padding(
-                        padding: EdgeInsets.all(1.h),
+                        padding: AppDimens.padding1,
                         child: FadeShimmer(
                           width: 32.w,
                           height: 20.h,

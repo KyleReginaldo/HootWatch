@@ -22,7 +22,12 @@ class AppDimens {
   static EdgeInsets paddingT1 = EdgeInsets.only(top: 1.h);
   static EdgeInsets paddingT2 = EdgeInsets.only(top: 2.h);
   static EdgeInsets paddingT4 = EdgeInsets.only(top: 4.h);
+  static EdgeInsets paddingT10 = EdgeInsets.only(top: 10.h);
+
   static EdgeInsets paddingB1 = EdgeInsets.only(bottom: 1.h);
   static EdgeInsets paddingB2 = EdgeInsets.only(bottom: 2.h);
   static EdgeInsets paddingB4 = EdgeInsets.only(bottom: 4.h);
+  static EdgeInsets padding1 = EdgeInsets.all(1.h);
+  static EdgeInsets padding2 = EdgeInsets.all(2.h);
+  static EdgeInsets padding4 = EdgeInsets.all(4.h);
 }

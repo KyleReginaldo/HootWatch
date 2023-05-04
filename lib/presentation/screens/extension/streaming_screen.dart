@@ -49,43 +49,17 @@ class StreamingScreen extends StatefulWidget {
 class _StreamingScreenState extends State<StreamingScreen> {
   late BetterPlayerController betterController;
   late LastWatchedEntity lastWatched;
+
   @override
   void initState() {
-    context.read<StreamlinkCubit>().onFetchStreamLinks(widget.episodeId,
-        episodeNumber: widget.episodeNumber);
+    context.read<StreamlinkCubit>().onFetchStreamLinks(
+          widget.episodeId,
+          episodeNumber: widget.episodeNumber,
+        );
     context.read<PlayingCubit>().setId(widget.episodeId);
 
     super.initState();
   }
-
-  // Future<bool?> showMyDialog() {
-  //   return showDialog(
-  //       context: context,
-  //       builder: (_) {
-  //         return AlertDialog(
-  //           title: const CustomText('Go Back'),
-  //           content: const CustomText('Do you want to saved what you left?'),
-  //           actions: [
-  //             TextButton(
-  //               onPressed: () => Navigator.pop(context, true),
-  //               child: const CustomText('No'),
-  //             ),
-  //             TextButton(
-  //               onPressed: () async {
-  //                 context
-  //                     .read<LastWatchedCubit>()
-  //                     .onSaveLastWatched(
-  //                       userId: FirebaseAuth.instance.currentUser?.uid ?? '',
-  //                       info: lastWatched,
-  //                     )
-  //                     .then((value) => context.router.pop<bool>(true));
-  //               },
-  //               child: const CustomText('Yes'),
-  //             ),
-  //           ],
-  //         );
-  //       });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +84,7 @@ class _StreamingScreenState extends State<StreamingScreen> {
                 ? null
                 : AppBar(
                     title: DefaultTextStyle(
-                      style: TextStyle(
+                      style: const TextStyle().copyWith(
                         fontSize: 14.sp,
                         fontFamily: 'NetflixSans',
                       ),
@@ -133,12 +107,14 @@ class _StreamingScreenState extends State<StreamingScreen> {
                                   FirebaseAuth.instance.currentUser?.uid ?? '',
                               info: lastWatched,
                             )
-                            .then((value) => context.router.pop<bool>(true));
+                            .then((value) {
+                          context.router.pop<bool>(true);
+                        });
                       },
                       glow: true,
                       icon: const Icon(
                         Icons.arrow_back_ios_rounded,
-                        color: Colors.white,
+                        color: AppTheme.white,
                       ),
                     ),
                   ),
@@ -230,7 +206,7 @@ class _StreamingScreenState extends State<StreamingScreen> {
                             }
                           },
                           autoDetectFullscreenDeviceOrientation: true,
-                          // fullScreenByDefault: true,
+                          fullScreenByDefault: true,
                         ),
                         betterPlayerDataSource: BetterPlayerDataSource(
                           BetterPlayerDataSourceType.network,
@@ -264,7 +240,7 @@ class _StreamingScreenState extends State<StreamingScreen> {
                 ),
                 if (!isFullscreen)
                   Padding(
-                    padding: EdgeInsets.only(left: 1.h),
+                    padding: AppDimens.paddingL1,
                     child: CustomText(
                       CustomFunctions.getPlayingEpisode(
                                   givenId ?? '', widget.episodes)
@@ -280,7 +256,7 @@ class _StreamingScreenState extends State<StreamingScreen> {
                         null &&
                     !isFullscreen)
                   Padding(
-                    padding: EdgeInsets.only(left: 1.h),
+                    padding: AppDimens.paddingL1,
                     child: ReadMoreText(
                       CustomFunctions.removeTags(
                           CustomFunctions.getPlayingEpisode(
@@ -311,7 +287,7 @@ class _StreamingScreenState extends State<StreamingScreen> {
                   ),
                 if (!isFullscreen)
                   Padding(
-                    padding: EdgeInsets.only(left: 1.h),
+                    padding: AppDimens.paddingL1,
                     child: const CustomText('EPISODES'),
                   ),
                 //   BetterPlayerPlaylist(

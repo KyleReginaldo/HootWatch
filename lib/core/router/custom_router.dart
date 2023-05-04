@@ -21,32 +21,32 @@ part 'custom_router.gr.dart';
       page: AuthScreen,
       initial: true,
     ),
-    AutoRoute(
+    CustomRoute(
       page: InfoScreen,
-      // transitionsBuilder: TransitionsBuilders.slideLeft,
+      transitionsBuilder: TransitionsBuilders.slideLeft,
     ),
     AutoRoute(
       page: MainScreen,
     ),
-    AutoRoute(
+    CustomRoute(
       page: StreamingScreen,
-      // transitionsBuilder: TransitionsBuilders.slideLeft,
+      transitionsBuilder: TransitionsBuilders.slideLeft,
     ),
-    AutoRoute(
+    CustomRoute(
       page: SignupScreen,
-      // transitionsBuilder: TransitionsBuilders.slideLeft,
+      transitionsBuilder: TransitionsBuilders.slideLeft,
     ),
-    AutoRoute(
+    CustomRoute(
       page: LoginScreen,
-      // transitionsBuilder: TransitionsBuilders.slideLeft,
+      transitionsBuilder: TransitionsBuilders.slideLeft,
     ),
-    AutoRoute(
+    CustomRoute(
       page: AccountScreen,
-      // transitionsBuilder: TransitionsBuilders.slideLeft,
+      transitionsBuilder: TransitionsBuilders.slideLeft,
     ),
-    AutoRoute(
+    CustomRoute(
       page: EditProfileScreen,
-      // transitionsBuilder: TransitionsBuilders.slideBottom,
+      transitionsBuilder: TransitionsBuilders.slideBottom,
     ),
   ],
 )

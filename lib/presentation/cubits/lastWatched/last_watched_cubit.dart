@@ -16,10 +16,11 @@ class LastWatchedCubit extends Cubit<LastWatchedState> {
 
   Future<void> onSaveLastWatched(
       {required String userId, required LastWatchedEntity info}) async {
+    emit(Saving());
     final either = await saveLastWatched(userId: userId, info: info);
     either.fold((l) {
       emit(LastWatchedError());
-    }, (r) => null);
+    }, (r) => emit(Saved()));
   }
 
   Future<bool> onFetchLastWatched(

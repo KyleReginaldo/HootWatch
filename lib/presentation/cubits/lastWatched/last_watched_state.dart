@@ -20,3 +20,7 @@ class LastWatchedLoaded extends LastWatchedState {
 class LastWatchedError extends LastWatchedState {}
 
 class LastWatchedLoading extends LastWatchedState {}
+
+class Saving extends LastWatchedState {}
+
+class Saved extends LastWatchedState {}

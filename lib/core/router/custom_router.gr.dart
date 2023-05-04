@@ -25,7 +25,7 @@ class _$AppRouter extends RootStackRouter {
     },
     InfoRoute.name: (routeData) {
       final args = routeData.argsAs<InfoRouteArgs>();
-      return MaterialPageX<dynamic>(
+      return CustomPage<dynamic>(
         routeData: routeData,
         child: InfoScreen(
           key: args.key,
@@ -33,6 +33,9 @@ class _$AppRouter extends RootStackRouter {
           tab: args.tab,
           color: args.color,
         ),
+        transitionsBuilder: TransitionsBuilders.slideLeft,
+        opaque: true,
+        barrierDismissible: false,
       );
     },
     MainRoute.name: (routeData) {
@@ -43,7 +46,7 @@ class _$AppRouter extends RootStackRouter {
     },
     StreamingRoute.name: (routeData) {
       final args = routeData.argsAs<StreamingRouteArgs>();
-      return MaterialPageX<dynamic>(
+      return CustomPage<dynamic>(
         routeData: routeData,
         child: StreamingScreen(
           key: args.key,
@@ -55,34 +58,49 @@ class _$AppRouter extends RootStackRouter {
           title: args.title,
           episodeNumber: args.episodeNumber,
         ),
+        transitionsBuilder: TransitionsBuilders.slideLeft,
+        opaque: true,
+        barrierDismissible: false,
       );
     },
     SignupRoute.name: (routeData) {
-      return MaterialPageX<dynamic>(
+      return CustomPage<dynamic>(
         routeData: routeData,
         child: const SignupScreen(),
+        transitionsBuilder: TransitionsBuilders.slideLeft,
+        opaque: true,
+        barrierDismissible: false,
       );
     },
     LoginRoute.name: (routeData) {
-      return MaterialPageX<dynamic>(
+      return CustomPage<dynamic>(
         routeData: routeData,
         child: const LoginScreen(),
+        transitionsBuilder: TransitionsBuilders.slideLeft,
+        opaque: true,
+        barrierDismissible: false,
       );
     },
     AccountRoute.name: (routeData) {
-      return MaterialPageX<dynamic>(
+      return CustomPage<dynamic>(
         routeData: routeData,
         child: const AccountScreen(),
+        transitionsBuilder: TransitionsBuilders.slideLeft,
+        opaque: true,
+        barrierDismissible: false,
       );
     },
     EditProfileRoute.name: (routeData) {
       final args = routeData.argsAs<EditProfileRouteArgs>();
-      return MaterialPageX<dynamic>(
+      return CustomPage<dynamic>(
         routeData: routeData,
         child: EditProfileScreen(
           key: args.key,
           user: args.user,
         ),
+        transitionsBuilder: TransitionsBuilders.slideBottom,
+        opaque: true,
+        barrierDismissible: false,
       );
     },
   };
